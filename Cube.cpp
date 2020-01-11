@@ -8,9 +8,10 @@ void Cube::setSide(double sid){
     side = sid;
 };
 
-Cube::Cube(double side_Val,glm::dvec3 ref){
-    side = side_Val;
-    setReference(ref);
+Cube::Cube(int id,glm::dvec3 ref,struct Color color,double side_V,Axes axes_n):Object(id,ref,color)
+{
+    side = side_V;
+    axes = axes_n;
     computePlanes();    
 }
 

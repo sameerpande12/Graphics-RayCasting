@@ -12,17 +12,13 @@ class Cube : public Object{
         
 
     public:
-        Cube(double side ,glm::dvec3 ref);
+        Cube(int id,glm::dvec3 ref,struct Color color,double side,Axes axes);
         double getSide();
         void setSide(double side);
         
         std::vector<Plane> getPlanes();
         void setPlanes(std::vector<Plane> new_planes);
 
-        
-        
-
-        std::vector<Plane> getPlanes();
         void setPlane(Plane p,int i);
 
         Axes getAxes();

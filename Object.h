@@ -20,7 +20,7 @@ class Object{
         double refractiveIndex;
 
     public:
-
+        
         Object(int id,glm::dvec3 reference,struct Color color);
         void setId(int id);
         void setReference(glm::dvec3 ref);

@@ -7,6 +7,10 @@ void Sphere::setRadius(int rad){
     radius =rad;
 }
 
+Sphere::Sphere(int id,glm::dvec3 ref,struct Color color,int radius):Object(id,ref,color){
+    setRadius(radius);
+}
+
 std::vector<glm::dvec3> Sphere::getIntersections(Ray ray){
     std::vector<glm::dvec3> intersections;
     

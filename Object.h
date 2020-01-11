@@ -3,13 +3,9 @@
 #include "GL/glew.h"
 #include <GLFW/glfw3.h>
 #include<iostream>
+#include "helper.h"
 
 
-struct Color{
-    GLubyte red;
-    GLubyte green;
-    GLubyte blue;
-};
 class Object{
 
 

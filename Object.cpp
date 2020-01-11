@@ -29,3 +29,11 @@ struct Color Object::getColor(){
 void Object::setColor(struct Color colour){
     color = colour;
 }
+
+double Object::getRefractiveIndex(){
+    return refractiveIndex;
+}
+
+void Object::setRefractiveIndex(double refrac){
+    refractiveIndex = refrac;
+}

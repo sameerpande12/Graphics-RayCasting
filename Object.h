@@ -17,6 +17,8 @@ class Object{
         int id;
         glm::dvec3 reference;
         struct Color color;
+        double refractiveIndex;
+
     public:
 
         Object(int id,glm::dvec3 reference,struct Color color);
@@ -26,5 +28,8 @@ class Object{
         int getID();
         glm::dvec3 getReference();
         struct Color getColor();
+
+        void setRefractiveIndex(double refractiveIndex);
+        double getRefractiveIndex();
 
 };

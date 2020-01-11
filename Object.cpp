@@ -1,5 +1,11 @@
 #include "Object.h"
 
+Object::Object(int Id,glm::dvec3 ref,struct Color col){
+    id = Id;
+    reference = ref;
+    color = col;
+};
+
 void Object::setId(int Id){
     id = Id;
 }
@@ -8,11 +14,11 @@ int Object::getID(){
     return id;
 }
 
-void Object::setReference(glm::vec3 ref){
+void Object::setReference(glm::dvec3 ref){
     reference = ref;
 }
 
-glm::vec3 Object::getReference(){
+glm::dvec3 Object::getReference(){
     return reference;
 }
 

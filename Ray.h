@@ -4,14 +4,15 @@
 class Ray{
 
     private:
-        glm::vec3 origin;
-        glm::vec3 direction;
+        glm::dvec3 origin;
+        glm::dvec3 direction;
 
     public:
         int id;
-
-        glm::vec3 getOrigin();
-        glm::vec3 getDirection();
-        void setDirection(glm::vec3 dir);
-        void setOrigin(glm::vec3 org);
+        Ray(glm::dvec3 origin,glm::dvec3 direction);
+        glm::dvec3 getOrigin();
+        glm::dvec3 getDirection();
+        void setDirection(glm::dvec3 dir);
+        void setOrigin(glm::dvec3 org);
+        glm::dvec3 scale(double t);
 };

@@ -19,7 +19,7 @@ class Object{
         struct Color color;
     public:
 
-        
+        Object(int id,glm::vec3 reference,struct Color color);
         void setId(int id);
         void setReference(glm::vec3 ref);
         void setColor(struct Color col);

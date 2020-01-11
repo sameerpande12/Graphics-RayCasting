@@ -4,7 +4,7 @@
 #include<vector>
 #include "Axes.h"
 
-class Cube:public Object{
+class Cube : public Object{
     private:
         double side;
         std::vector<Plane> planes;
@@ -12,10 +12,14 @@ class Cube:public Object{
         
 
     public:
+        Cube(double side ,glm::dvec3 ref);
         double getSide();
         void setSide(double side);
         
-        Cube(double side,glm::dvec3 reference, Axes axes);
+        std::vector<Plane> getPlanes();
+        void setPlanes(std::vector<Plane> new_planes);
+
+        
         
 
         std::vector<Plane> getPlanes();
@@ -26,6 +30,8 @@ class Cube:public Object{
 
         void computePlanes();//given side and axes compute the set of planes
          
+        
+
+        
     
-    
-}
+};

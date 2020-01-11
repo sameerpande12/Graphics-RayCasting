@@ -15,16 +15,16 @@ class Object{
 
     private:
         int id;
-        glm::vec3 reference;
+        glm::dvec3 reference;
         struct Color color;
     public:
 
-        Object(int id,glm::vec3 reference,struct Color color);
+        Object(int id,glm::dvec3 reference,struct Color color);
         void setId(int id);
-        void setReference(glm::vec3 ref);
+        void setReference(glm::dvec3 ref);
         void setColor(struct Color col);
         int getID();
-        glm::vec3 getReference();
+        glm::dvec3 getReference();
         struct Color getColor();
 
 };

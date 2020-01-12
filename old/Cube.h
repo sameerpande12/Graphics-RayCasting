@@ -26,7 +26,7 @@ class Cube : public Object{
         void setAxes(Axes axes_);
 
         void computePlanes();//given side and axes compute the set of planes
-         
+        std::vector<glm::dvec3> getIntersectionsAABB(Ray r);
         
 
         

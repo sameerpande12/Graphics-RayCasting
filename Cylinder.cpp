@@ -1,6 +1,8 @@
 #include "Cylinder.h"
 #include "Plane.h"
 #include <glm/glm.hpp>
+#include<limits>
+#define INF std::numeric_limits<double>::infinity();
 
 void Cylinder::setHeight(double h){
     height = h;
@@ -24,7 +26,7 @@ double absolute(double x){
     if(x>0)return x;
     else -x;
 }
-std::vector<glm::dvec3> Cylinder::getIntersections(Ray ray){
+std::pair<double,glm::dvec3> Cylinder::getIntersections(Ray ray){
     //the axis is (0,1,0)
 
     /*intersections with the walls/lateral surface*/
@@ -32,7 +34,9 @@ std::vector<glm::dvec3> Cylinder::getIntersections(Ray ray){
     // (Ox + tdx)^2 + (Oz + tdz)^2 = radius^2
 
 
-    std::vector<glm::dvec3> intersections;
+    // std::vector<glm::dvec3> intersections;
+    double tmin = INF;
+
     double a,b,c;
     glm::dvec3 dir = ray.getDirection();
     glm::dvec3 org = ray.getOrigin();
@@ -47,39 +51,42 @@ std::vector<glm::dvec3> Cylinder::getIntersections(Ray ray){
             glm::dvec3 point = org + roots[i] * dir;
             
             if( absolute(point[1] - reference[1]) <= height/2 ){
-                intersections.push_back(point);
+                // intersections.push_back(ray.scale(roots[i]));
+                if(roots[i] <= tmin)tmin =roots[i];
             }
             
         }
     }
-    if(intersections.size()==2){
-        return intersections;
-    }
+    // if(intersections.size()==2){
+    //     return intersections;
+    // }
     //Computer intersections with base
-    else{
+    // else{
         //y = reference[1]+ height/2
         
-        if(dir[1] == 0.0){
-            return intersections;
-        }
-
-        double heights[2];
-        for(int i =0 ;i<1;i++){
-            double h = height;
-            if(i%2==0)h = -h;
-            double t = reference[1] + h/2 - org[1];
-            t/=dir[1];
-            
-            if(t>=0){
-             if(glm::length( ray.scale(t) - (reference+h/2)) <= radius){
-                intersections.push_back(ray.scale(t));
-             }    
-            }
-        }
-
+    if(dir[1] == 0.0){//do not consider intersections with base 
+        return std::make_pair(tmin,ray.scale(tmin));
     }
-    return intersections;
 
+    double heights[2];
+    for(int i =0 ;i<1;i++){
+        double h = height;
+        if(i%2==0)h = -h;
+        double t = reference[1] + h/2 - org[1];
+        t/=dir[1];
+        
+        if(t>=0){
+            if(glm::length( ray.scale(t) - (reference+h/2)) <= radius){
+                if(t<=tmin )tmin = t;
+                
+                // intersections.push_back(ray.scale(t));
+            }    
+        }
+    }
+
+    // }
+    // return intersections;
+    return std::make_pair(tmin,ray.scale(tmin));
 
 
 }

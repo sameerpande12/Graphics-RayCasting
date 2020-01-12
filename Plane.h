@@ -10,5 +10,5 @@ class Plane{
         //equation of the plane will be glm::dot(r,normal) = d;
         Plane(glm::dvec3 normal,double d);
 
-        std::vector<glm::dvec3> getIntersections(Ray r);
+        std::pair<double,glm::dvec3> getIntersections(Ray r);
 };

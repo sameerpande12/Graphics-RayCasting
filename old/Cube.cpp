@@ -49,3 +49,9 @@ std::vector<Plane> Cube::getPlanes(){
 void Cube::setPlanes(std::vector<Plane> new_planes){
     planes = new_planes;   
 };
+
+std::vector<glm::dvec3> Cube::getIntersectionsAABB(Ray ray){//axis aligned bounded box
+    
+
+};
+

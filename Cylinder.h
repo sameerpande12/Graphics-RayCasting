@@ -1,6 +1,7 @@
 #pragma once
 #include "Object.h"
 #include "Ray.h"
+#include <utility>
 class Cylinder: public Object{
     private:
         
@@ -18,5 +19,5 @@ class Cylinder: public Object{
         
 
 
-        std::vector<glm::dvec3> getIntersections(Ray r);
+        std::pair<double ,glm::dvec3> getIntersections(Ray r);
 };

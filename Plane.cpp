@@ -16,7 +16,8 @@ std::vector<glm::dvec3> Plane::getIntersections(Ray ray){
     }
     else{
         double t = (d - glm::dot(normal,ray.getOrigin())) /normal_dir_dot_product;
-        intersections.push_back(ray.scale(t));
+        if(t>=0)
+            intersections.push_back(ray.scale(t));
     }
     return intersections;
 

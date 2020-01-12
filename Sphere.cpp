@@ -16,14 +16,15 @@ std::vector<glm::dvec3> Sphere::getIntersections(Ray ray){
     
     double a,b,c;
     a = 1.0;
-    b = 2* glm::dot(ray.getDirection(),  ray.getOrigin()- getReference());
-    c = (glm::length(ray.getOrigin()- getReference()));
+    b = 2* glm::dot(ray.getDirection(),  ray.getOrigin()- reference);
+    c = (glm::length(ray.getOrigin()- reference));
     c = c*c - getRadius()*getRadius();
 
     std::vector<double> roots = solveQuadratic(a,b,c);
 
     for(int i =0 ;i<roots.size();i++){
-        intersections.push_back(ray.getOrigin()+ roots[i]*ray.getDirection());
+        if(roots[i]>=0)
+            intersections.push_back(ray.getOrigin()+ roots[i]*ray.getDirection());
     }
     return intersections;    
 }

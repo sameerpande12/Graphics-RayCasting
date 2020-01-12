@@ -3,7 +3,7 @@
 
 class Ray{
 
-    private:
+    protected:
         glm::dvec3 origin;
         glm::dvec3 direction;
 

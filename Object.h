@@ -9,7 +9,7 @@
 class Object{
 
 
-    private:
+    protected:
         int id;
         glm::dvec3 reference;
         struct Color color;

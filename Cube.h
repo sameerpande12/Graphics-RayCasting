@@ -13,6 +13,7 @@ class Cube : public Object{
 
     public:
         Cube(int id,glm::dvec3 ref,struct Color color,double side,Axes axes);
+        Cube(int id,glm::dvec3 ref,struct Color color,double side_V);
         double getSide();
         void setSide(double side);
         

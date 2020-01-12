@@ -15,6 +15,14 @@ Cube::Cube(int id,glm::dvec3 ref,struct Color color,double side_V,Axes axes_n):O
     computePlanes();    
 }
 
+Cube::Cube(int id,glm::dvec3 ref,struct Color color,double side_V):Object(id,ref,color)
+{
+    side = side_V;
+    axes = Axes();
+    axes.setAxes( glm::dvec3(1,0,0),glm::dvec3(0,1,0),glm::dvec3(0,0,1));
+    computePlanes();    
+}
+
 Axes Cube::getAxes(){
     return axes;
 }

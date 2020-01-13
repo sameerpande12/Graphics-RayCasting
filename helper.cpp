@@ -22,7 +22,7 @@ std::vector<double> solveQuadratic(double a, double b, double c){
 }
 
 
-Axes rotate(Axes input,double angle, int axisID){
+Axes rotateAxes(Axes input,double angle, int axisID){
     Axes output = Axes();
     output.x = rotateVector(input.x,angle,0);
     output.y = rotateVector(input.y,angle,1);

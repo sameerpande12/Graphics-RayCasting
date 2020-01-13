@@ -2,6 +2,7 @@
 #include<math.h>
 #include "Axes.h"
 #include<glm/glm.hpp>
+#include "helper.h"
 class Camera{
     private:
         double aspectRatio;
@@ -22,7 +23,8 @@ class Camera{
         glm::dvec3 pixelToWorld(double i,double j); 
 
         void moveCamera(glm::dvec3 displacement);
-
+        
+        void rotateCamera(double angle, int axisID);
 
         // screen follow coordinate system
     /*                 

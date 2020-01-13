@@ -42,3 +42,7 @@ glm::dvec3 Camera::pixelToWorld(double px,double py){
     
     return  cameraToWorld(pixelToCamera(px,py));
 }
+
+void Camera::rotateCamera(double angle,int axisID){
+    axes = rotateAxes(axes,angle,axisID);
+}

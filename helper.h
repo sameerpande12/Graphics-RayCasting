@@ -3,6 +3,7 @@
 #include <vector>
 #include <math.h>
 #include "GL/glew.h"
+#include "Axes.h"
 
 
 struct Color{

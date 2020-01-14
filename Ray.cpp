@@ -34,7 +34,7 @@ glm::dvec3 Ray::getReflectionDirection(glm::dvec3 normal,glm::dvec3 incident){
 Ray Ray::getReflectedRay(glm::dvec3 normal,glm::dvec3 incident,glm::dvec3 point){
     glm::dvec3 dir = getReflectionDirection(normal,incident);
 
-    return  Ray(point,dir);
+    return  Ray(point,dir,mediumRefractiveIndex);
 }
 
 Ray Ray::getReflectedRay(glm::dvec3 normal,Ray incident, glm::dvec3 point){
@@ -62,7 +62,7 @@ glm::dvec3 Ray::getRefractionDirection(glm::dvec3 normal,glm::dvec3 incident, do
 Ray Ray::getRefractedRay(glm::dvec3 normal,glm::dvec3 incident,glm::dvec3 point, double incomingRefractiveIndex,double outgoingRefractiveIndex){
 
     glm::dvec3 dir = getRefractionDirection(normal,incident,incomingRefractiveIndex,outgoingRefractiveIndex);
-    return Ray(point,dir);
+    return Ray(point,dir,outgoingRefractiveIndex);
 };
 
 Ray Ray::getRefractedRay(glm::dvec3 normal,Ray incident,glm::dvec3 point, double incomingRefractiveIndex,double outgoingRefractiveIndex){

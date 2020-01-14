@@ -2,6 +2,7 @@
 #include "Plane.h"
 #include <glm/glm.hpp>
 #include<limits>
+#include <tuple>
 #define INF std::numeric_limits<double>::infinity();
 
 void Cylinder::setHeight(double h){
@@ -18,7 +19,7 @@ void Cylinder::setRadius(double rad){
 double Cylinder::getRadius(){
     return radius;
 }
-Cylinder::Cylinder(int id,glm::dvec3 refer,struct Color col,double h,double refrac,glm::dvec3 ambCoefficient,glm::dvec3 specCoeff,glm::dvec3 diffCoeff,glm::dvec3 specExp):Object(id,refer,color,refrac,ambCoefficient,specCoeff,diffCoeff, specExp){
+Cylinder::Cylinder(int id,glm::dvec3 refer,struct Color col,double h,double refrac,glm::dvec3 ambCoefficient,glm::dvec3 specCoeff,glm::dvec3 diffCoeff,glm::dvec3 specExp,double k_trans,double k_reflec):Object(id,refer,color,refrac,ambCoefficient,specCoeff,diffCoeff, specExp,k_trans,k_reflec){
     setHeight(h);
 };
 
@@ -26,7 +27,15 @@ double absolute(double x){
     if(x>0)return x;
     else -x;
 }
-std::pair<double,glm::dvec3> Cylinder::getIntersections(Ray ray){
+
+bool Cylinder::isInside(glm::dvec3 point){
+    glm::dvec3 reference = getReference();
+    bool tmp1 = (point[1] <= reference[1]+height/2) && ( reference[1]-height/2 <= point[1]);
+    bool tmp2 = ((point[0] - reference[0])*(point[0] - reference[0]) + (point[2] - reference[2])*(point[2] - reference[2]) <= radius*radius)  ;
+    return tmp1&&tmp2;
+};
+
+std::tuple<double,glm::dvec3,glm::dvec3> Cylinder::getClosestIntersection(Ray ray){
     //the axis is (0,1,0)
 
     /*intersections with the walls/lateral surface*/
@@ -46,6 +55,8 @@ std::pair<double,glm::dvec3> Cylinder::getIntersections(Ray ray){
 
     std::vector<double> roots = solveQuadratic(a,b,c);
     
+    bool isLateralIntersection = true;
+
     for(int i = 0;i<roots.size();i++){
         if(roots[i]>=0){
             glm::dvec3 point = org + roots[i] * dir;
@@ -57,6 +68,9 @@ std::pair<double,glm::dvec3> Cylinder::getIntersections(Ray ray){
             
         }
     }
+
+    if(isinf(tmin))isLateralIntersection = false;
+
     // if(intersections.size()==2){
     //     return intersections;
     // }
@@ -64,11 +78,18 @@ std::pair<double,glm::dvec3> Cylinder::getIntersections(Ray ray){
     // else{
         //y = reference[1]+ height/2
         
-    if(dir[1] == 0.0){//do not consider intersections with base 
-        return std::make_pair(tmin,ray.scale(tmin));
+    if(dir[1] == 0.0){//do not consider intersections with base
+        glm::dvec3 intersection = ray.scale(tmin); 
+        glm::dvec3 normal = intersection - reference;
+        reference[1]=0;
+        normal = glm::normalize(normal);
+        if(isInside(ray.getOrigin()))normal = -normal;
+        return std::make_tuple(tmin,intersection, normal);
     }
 
     double heights[2];
+
+    glm::dvec3 normal;
     for(int i =0 ;i<1;i++){
         double h = height;
         if(i%2==0)h = -h;
@@ -77,8 +98,13 @@ std::pair<double,glm::dvec3> Cylinder::getIntersections(Ray ray){
         
         if(t>=0){
             if(glm::length( ray.scale(t) - (reference+h/2)) <= radius){
-                if(t<=tmin )tmin = t;
-                
+                if(t<=tmin ){
+                    tmin = t;
+                    isLateralIntersection = false;
+                    if(h>0)
+                        normal = glm::dvec3(0,1,0);
+                    else normal = glm::dvec3(0,-1,0);
+                }
                 // intersections.push_back(ray.scale(t));
             }    
         }
@@ -86,7 +112,19 @@ std::pair<double,glm::dvec3> Cylinder::getIntersections(Ray ray){
 
     // }
     // return intersections;
-    return std::make_pair(tmin,ray.scale(tmin));
+
+
+    
+    if(isLateralIntersection){
+        glm::dvec3 intersection = ray.scale(tmin);
+        normal = intersection - reference;
+        normal[1] = 0;
+        normal = glm::normalize(normal);
+        if(isInside(ray.getOrigin()))normal = -normal;
+        return std::make_tuple(tmin,intersection,normal);
+    }
+    if(isInside(ray.getOrigin()))normal = -normal;
+    return std::make_tuple(tmin,ray.scale(tmin),normal);
 
 
 }

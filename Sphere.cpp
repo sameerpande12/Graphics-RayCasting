@@ -1,6 +1,7 @@
 #include "Sphere.h"
 #include "helper.h"
 #include<limits>
+#include <tuple>
 #define INF std::numeric_limits<double>::infinity();
 int Sphere::getRadius(){
     return radius;
@@ -9,11 +10,15 @@ void Sphere::setRadius(int rad){
     radius =rad;
 }
 
-Sphere::Sphere(int id,glm::dvec3 ref,struct Color color,int radius,double refrac,glm::dvec3 ambCoefficient,glm::dvec3 specCoeff,glm::dvec3 diffCoeff,glm::dvec3 specExp):Object(id,ref,color,refrac,ambCoefficient,specCoeff,diffCoeff, specExp){
+Sphere::Sphere(int id,glm::dvec3 ref,struct Color color,int radius,double refrac,glm::dvec3 ambCoefficient,glm::dvec3 specCoeff,glm::dvec3 diffCoeff,glm::dvec3 specExp,double k_trans,double k_reflec):Object(id,ref,color,refrac,ambCoefficient,specCoeff,diffCoeff, specExp,k_trans,k_reflec){
     setRadius(radius);
 }
 
-std::pair<double,glm::dvec3>Sphere::getIntersections(Ray ray){
+
+bool Sphere::isInside(glm::dvec3 point){
+    return (glm::length(point - getReference())< radius);
+};
+std::tuple<double,glm::dvec3,glm::dvec3>Sphere::getClosestIntersection(Ray ray){
     // std::vector<glm::dvec3> intersections;
     double tmin = INF;
     double a,b,c;
@@ -30,6 +35,13 @@ std::pair<double,glm::dvec3>Sphere::getIntersections(Ray ray){
             // intersections.push_back(ray.getOrigin()+ roots[i]*ray.getDirection());
         }
     }
-    return std::make_pair(tmin,ray.scale(tmin));    
+
+    glm::dvec3 intersection = ray.scale(tmin);
+    glm::dvec3 normal = glm::normalize(intersection - getReference());
+    if(isInside(ray.getOrigin()))normal = -normal;
+    return std::make_tuple(tmin,intersection,normal);    
 }
 
+glm::dvec3 Sphere::getNormal(glm::dvec3 intersection){
+    return glm::normalize(intersection -  getReference());
+};

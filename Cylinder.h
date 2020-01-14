@@ -15,9 +15,11 @@ class Cylinder: public Object{
         void setRadius(double radius);
         double getRadius();
 
-        Cylinder(int id,glm::dvec3 reference,struct Color color,double height,double refrac,glm::dvec3 ambCoefficient,glm::dvec3 specCoeff,glm::dvec3 diffCoeff,glm::dvec3 specExp);
+        Cylinder(int id,glm::dvec3 reference,struct Color color,double height,double refrac,glm::dvec3 ambCoefficient,glm::dvec3 specCoeff,glm::dvec3 diffCoeff,glm::dvec3 specExp,double k_trans,double k_reflec);
         
 
 
-        std::pair<double ,glm::dvec3> getIntersections(Ray r);
+        std::tuple<double ,glm::dvec3,glm::dvec3> getClosestIntersection(Ray r);
+        glm::dvec3 getNormal(glm::dvec3 intersection);
+         bool isInside(glm::dvec3 point);
 };

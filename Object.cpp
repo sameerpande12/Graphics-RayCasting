@@ -1,6 +1,6 @@
 #include "Object.h"
 #include <cmath>
-Object::Object(int Id,glm::dvec3 ref,struct Color col,double refrac,glm::dvec3 ambCoefficient,glm::dvec3 specCoeff,glm::dvec3 diffCoeff,glm::dvec3 specExp){
+Object::Object(int Id,glm::dvec3 ref,struct Color col,double refrac,glm::dvec3 ambCoefficient,glm::dvec3 specCoeff,glm::dvec3 diffCoeff,glm::dvec3 specExp,double k_trans,double k_reflec){
     id = Id;
     reference = ref;
     color = col;
@@ -9,12 +9,21 @@ Object::Object(int Id,glm::dvec3 ref,struct Color col,double refrac,glm::dvec3 a
     specularExponent = specExp;
     specularCoefficient = specCoeff;
     diffusionCoefficient = diffusionCoefficient;
+    k_transmission = k_trans;
+    k_reflection = k_reflec;
 };
 
-glm::dvec3 Object::getLocalIllumination(std::vector<PointSource> sources,glm::dvec3 normal,glm::dvec3 eye,glm::dvec3 contactPoint,struct Color ambientColor){
-    glm::dvec3 cLocal = glm::dvec3(0,0,0);
-    glm::dvec3 cAmb = glm::dvec3(ambientColor.red,ambientColor.blue,ambientColor.green);
+double Object::getK_Transmission(){
+        return k_transmission;
+};
+double Object::getK_Reflection(){
+        return k_reflection;
+};
 
+glm::dvec3 Object::getLocalIllumination(std::vector<PointSource> sources,glm::dvec3 normal,glm::dvec3 eye,glm::dvec3 contactPoint,glm::dvec3 ambientColor){
+    glm::dvec3 cLocal = glm::dvec3(0,0,0);
+    // glm::dvec3 cAmb = glm::dvec3(ambientColor.red,ambientColor.blue,ambientColor.green);
+    glm::dvec3 cAmb = ambientColor;
     glm::dvec3 cDifEffective = glm::dvec3(0,0,0);
     glm::dvec3 cSpecEfffective = glm::dvec3(0,0,0);
 

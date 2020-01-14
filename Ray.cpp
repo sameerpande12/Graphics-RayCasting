@@ -1,8 +1,9 @@
 #include "Ray.h"
 
-Ray::Ray(glm::dvec3 org,glm::dvec3 dir){
+Ray::Ray(glm::dvec3 org,glm::dvec3 dir,double refrac){
     origin = org;
     direction =dir;
+    mediumRefractiveIndex = refrac;
 }
 
 glm::dvec3 Ray::getDirection(){

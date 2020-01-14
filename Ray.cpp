@@ -26,45 +26,49 @@ glm::dvec3 Ray::scale(double t){
     return origin + t*direction;
 }
 
-glm::dvec3 Ray::getReflectionDirection(glm::dvec3 normal,glm::dvec3 incident){
-    //assumes normal is normalized
-    return incident - 2*( glm::dot(normal,incident))*normal;
-};
-
-Ray Ray::getReflectedRay(glm::dvec3 normal,glm::dvec3 incident,glm::dvec3 point){
-    glm::dvec3 dir = getReflectionDirection(normal,incident);
-
-    return  Ray(point,dir,mediumRefractiveIndex);
+double Ray::getMediumRefractiveIndex(){
+    return mediumRefractiveIndex;
 }
 
-Ray Ray::getReflectedRay(glm::dvec3 normal,Ray incident, glm::dvec3 point){
-    getReflectedRay(normal,incident.getDirection(),point);
-}
+// glm::dvec3 Ray::getReflectionDirection(glm::dvec3 normal,glm::dvec3 incident){
+//     //assumes normal is normalized
+//     return incident - 2*( glm::dot(normal,incident))*normal;
+// };
 
-glm::dvec3 Ray::getRefractionDirection(glm::dvec3 normal,glm::dvec3 incident, double incomingRefractiveIndex,double outgoingRefractiveIndex){
-    glm::dvec3 t;//stands for transmitted
-    glm::dvec3 m;//stands for intermediate ray in plane formed by surface. Also in plane formed by normal and incident ray
+// Ray Ray::getReflectedRay(glm::dvec3 normal,glm::dvec3 incident,glm::dvec3 point,double refractiveIndex){
+//     glm::dvec3 dir = getReflectionDirection(normal,incident);
 
-    double cosAlpha = - glm::dot(normal,incident)/(glm::length(normal) * glm::length(incident));
+//     return  Ray(point,dir,refractiveIndex);
+// }
 
-    double n_relative = outgoingRefractiveIndex/incomingRefractiveIndex;
+// Ray Ray::getReflectedRay(glm::dvec3 normal,Ray incident, glm::dvec3 point){
+//     getReflectedRay(normal,incident.getDirection(),point,incident.getRefractiveIndex());
+// }
 
-    double temp = 1 + n_relative*n_relative * ( cosAlpha*cosAlpha -1);
-    if(temp<0){
-        return getReflectionDirection(normal,incident);
-    }
-    t = -n_relative*incident + normal*( n_relative*cosAlpha - sqrt(temp) );
+// glm::dvec3 Ray::getRefractionDirection(glm::dvec3 normal,glm::dvec3 incident, double incomingRefractiveIndex,double outgoingRefractiveIndex){
+//     glm::dvec3 t;//stands for transmitted
+//     glm::dvec3 m;//stands for intermediate ray in plane formed by surface. Also in plane formed by normal and incident ray
 
-    return t;
+//     double cosAlpha = - glm::dot(normal,incident)/(glm::length(normal) * glm::length(incident));
 
-};
+//     double n_relative = outgoingRefractiveIndex/incomingRefractiveIndex;
 
-Ray Ray::getRefractedRay(glm::dvec3 normal,glm::dvec3 incident,glm::dvec3 point, double incomingRefractiveIndex,double outgoingRefractiveIndex){
+//     double temp = 1 + n_relative*n_relative * ( cosAlpha*cosAlpha -1);
+//     if(temp<0){
+//         return getReflectionDirection(normal,incident);
+//     }
+//     t = -n_relative*incident + normal*( n_relative*cosAlpha - sqrt(temp) );
 
-    glm::dvec3 dir = getRefractionDirection(normal,incident,incomingRefractiveIndex,outgoingRefractiveIndex);
-    return Ray(point,dir,outgoingRefractiveIndex);
-};
+//     return t;
 
-Ray Ray::getRefractedRay(glm::dvec3 normal,Ray incident,glm::dvec3 point, double incomingRefractiveIndex,double outgoingRefractiveIndex){
-    return getRefractedRay(normal,incident.getDirection(),point,incomingRefractiveIndex,outgoingRefractiveIndex);
-}
+// };
+
+// Ray Ray::getRefractedRaySubRoutine(glm::dvec3 normal,glm::dvec3 incident,glm::dvec3 point, double incomingRefractiveIndex,double outgoingRefractiveIndex){
+
+//     glm::dvec3 dir = getRefractionDirection(normal,incident,incomingRefractiveIndex,outgoingRefractiveIndex);
+//     return Ray(point,dir,outgoingRefractiveIndex);
+// };
+
+// Ray Ray::getRefractedRay(glm::dvec3 normal,Ray incident,glm::dvec3 point, double incomingRefractiveIndex,double outgoingRefractiveIndex){
+//     return getRefractedRaySubRoutine(normal,incident.getDirection(),point,incomingRefractiveIndex,outgoingRefractiveIndex);
+// }

@@ -3,6 +3,9 @@
 #include <math.h>
 #include"helper.h"
 #include "Axes.h"
+#include<limits>
+#include <tuple>
+#define INF std::numeric_limits<double>::infinity();
 
 std::vector<double> solveQuadratic(double a, double b, double c){
     std::vector<double>solutions;
@@ -60,4 +63,94 @@ glm::dvec3 rotateVector(glm::dvec3 input,double angle, int axisID){
 
     return rotation * input;
 
+}
+
+glm::dvec3 rayTrace(Ray ray, std::vector<Object> objects, std::vector<PointSource>lightSources,int depth, int maxDepth,glm::dvec3 ambientColor,glm::dvec3 backgroundColor){
+    if(depth > maxDepth)return glm::dvec3(0,0,0);
+
+    int closestIntersectionIndex=-1;
+    double closest_Tval = INF;
+    double inf = INF;
+    glm::dvec3 closestIntersectionPoint = glm::dvec3(inf,inf,inf);
+    std::tuple <double,glm::dvec3,glm::dvec3> intersection;
+    glm::dvec3 normal;
+
+    
+    for(int i =0 ;i<objects.size();i++){
+         intersection = objects[i].getClosestIntersection(ray);
+
+        if(    std::get<0>(intersection) >= 0 && std::get<0>(intersection) < closest_Tval){
+            closest_Tval = std::get<0>(intersection);
+            closestIntersectionPoint = std::get<1>(intersection);
+            normal = std::get<2>(intersection);
+            closestIntersectionIndex = i;
+        }
+    };
+
+    if(closestIntersectionIndex==-1){
+        return backgroundColor;
+    }
+    
+    glm::dvec3 localIllumination = glm::dvec3(0,0,0);
+    for(int i =0;i<objects.size();i++){
+        localIllumination = localIllumination + objects[i].getLocalIllumination(lightSources,normal,ray.getOrigin(),closestIntersectionPoint,ambientColor);
+    }
+
+    double Kr = objects[closestIntersectionIndex].getK_Reflection();
+    Ray reflectedRay = getReflectedRay(normal,ray,closestIntersectionPoint);
+    glm::dvec3 reflectionContribution =  rayTrace(reflectedRay,objects,lightSources,depth+1,maxDepth,ambientColor,backgroundColor);
+
+    double Kt = objects[closestIntersectionIndex].getK_Transmission();
+    Ray refractedRay = getRefractedRay(normal,ray,closestIntersectionPoint,ray.getMediumRefractiveIndex(),objects[closestIntersectionIndex].getRefractiveIndex);
+    glm::dvec3 refractionRayContribution =  rayTrace(refractedRay,objects,lightSources,depth+1,maxDepth,ambientColor,backgroundColor);
+
+    return localIllumination + refractionRayContribution * Kt + reflectionContribution * Kr;
+
+
+};
+
+glm::dvec3 getReflectionDirection(glm::dvec3 normal,glm::dvec3 incident){
+    //assumes normal is normalized
+    return incident - 2*( glm::dot(normal,incident))*normal;
+};
+
+
+
+Ray getReflectedRaySubRoutine(glm::dvec3 normal,glm::dvec3 incident,glm::dvec3 point,double refractiveIndex){
+    glm::dvec3 dir = getReflectionDirection(normal,incident);
+
+    return  Ray(point,dir,refractiveIndex);
+}
+
+Ray getReflectedRay(glm::dvec3 normal,Ray incident, glm::dvec3 point){
+    getReflectedRaySubRoutine(normal,incident.getDirection(),point,incident.getMediumRefractiveIndex());
+}
+
+glm::dvec3 getRefractionDirection(glm::dvec3 normal,glm::dvec3 incident, double incomingRefractiveIndex,double outgoingRefractiveIndex){
+    glm::dvec3 t;//stands for transmitted
+    glm::dvec3 m;//stands for intermediate ray in plane formed by surface. Also in plane formed by normal and incident ray
+
+    double cosAlpha = - glm::dot(normal,incident)/(glm::length(normal) * glm::length(incident));
+
+    double n_relative = outgoingRefractiveIndex/incomingRefractiveIndex;
+
+    double temp = 1 + n_relative*n_relative * ( cosAlpha*cosAlpha -1);
+    if(temp<0){
+        return getReflectionDirection(normal,incident);
+    }
+    t = -n_relative*incident + normal*( n_relative*cosAlpha - sqrt(temp) );
+
+    return t;
+
+};
+
+
+Ray getRefractedRaySubRoutine(glm::dvec3 normal,glm::dvec3 incident,glm::dvec3 point, double incomingRefractiveIndex,double outgoingRefractiveIndex){
+
+    glm::dvec3 dir = getRefractionDirection(normal,incident,incomingRefractiveIndex,outgoingRefractiveIndex);
+    return Ray(point,dir,outgoingRefractiveIndex);
+};
+
+Ray getRefractedRay(glm::dvec3 normal,Ray incident,glm::dvec3 point, double incomingRefractiveIndex,double outgoingRefractiveIndex){
+    return getRefractedRaySubRoutine(normal,incident.getDirection(),point,incomingRefractiveIndex,outgoingRefractiveIndex);
 }

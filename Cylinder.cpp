@@ -18,7 +18,7 @@ void Cylinder::setRadius(double rad){
 double Cylinder::getRadius(){
     return radius;
 }
-Cylinder::Cylinder(int id,glm::dvec3 refer,struct Color col,double h):Object(id,refer,col){
+Cylinder::Cylinder(int id,glm::dvec3 refer,struct Color col,double h,double refrac,glm::dvec3 ambCoefficient,glm::dvec3 specCoeff,glm::dvec3 diffCoeff,glm::dvec3 specExp):Object(id,refer,color,refrac,ambCoefficient,specCoeff,diffCoeff, specExp){
     setHeight(h);
 };
 

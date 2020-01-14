@@ -7,9 +7,9 @@
 
 
 struct Color{
-    GLubyte red;
-    GLubyte green;
-    GLubyte blue;
+    double red;
+    double green;
+    double blue;//all the values wiill be kept within 0 and 1
 };
 std::vector<double> solveQuadratic(double a, double b, double c);
 

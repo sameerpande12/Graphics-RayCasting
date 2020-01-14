@@ -9,7 +9,7 @@ void Box::setSide(double len){
     side = len;
 }
 
-Box::Box(int id, glm::dvec3 ref, struct Color color, glm::dvec3 minimum, glm::dvec3 maximum,double len):Object(id,ref,color){
+Box::Box(int id, glm::dvec3 ref, struct Color color, glm::dvec3 minimum, glm::dvec3 maximum,double len,double refrac,glm::dvec3 ambCoefficient,glm::dvec3 specCoeff,glm::dvec3 diffCoeff,glm::dvec3 specExp):Object(id,ref,color,refrac,ambCoefficient,specCoeff,diffCoeff, specExp){
     side = len;
     minBound = minimum;
     maxBound = maximum; 

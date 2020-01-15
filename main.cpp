@@ -32,11 +32,11 @@ int main(){
     double ambientCoefficient = 0.1;
     PointSource source = PointSource(lightSourceLocation,lightSourceIntensity,attenuation,ambientCoefficient);
 
-    glm::dvec3 snowColor = glm::dvec3(.3,0,0.3);
-    glm::dvec3 location = glm::dvec3(2*R,2*R,-2*R);
-    glm::dvec3 snowSpecColor = glm::dvec3(1,1,1);
-    double snowSpecCoeff = 0.5;
-    double snowdiffCoeff = 0.6;
+    glm::dvec3 snowColor = glm::dvec3(1,0.98,0.98);
+    glm::dvec3 location = glm::dvec3(1.5*R,2*R,-1.5*R);
+    glm::dvec3 snowSpecColor = glm::dvec3(1,0,0);
+    double snowSpecCoeff = 0.35;
+    double snowdiffCoeff = 0.65;
 
     double snowShininess = 0.3;
     
@@ -46,7 +46,7 @@ int main(){
     Sphere* sphere1 = new Sphere(id,location,snowColor,snowRadius,1.1,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec);
     
     id++;
-    Sphere* sphere2 = new Sphere(id,glm::dvec3(3*R,2*R,-2*R),glm::dvec3(0,1,0),R/2,1.1,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec);
+    Sphere* sphere2 = new Sphere(id,glm::dvec3(2.5*R,2*R,-1.5*R),glm::dvec3(0,1,0),R/2,1.1,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec);
 
     std::vector<Object*> objects;
     std::vector<PointSource> lightSources;

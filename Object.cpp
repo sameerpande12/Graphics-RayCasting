@@ -8,7 +8,7 @@ Object::Object(int Id,glm::dvec3 ref,glm::dvec3 col,double refrac,glm::dvec3 spe
     specularCoefficient = specCoeff;
     shininess = specExp;
     specularColor = specColor;
-    diffusionCoefficient = diffusionCoefficient;
+    diffusionCoefficient = diffCoeff;
     k_transmission = k_trans;
     k_reflection = k_reflec;
 };
@@ -19,6 +19,10 @@ double Object::getK_Transmission(){
 double Object::getK_Reflection(){
         return k_reflection;
 };
+
+double Object::getSpecularCoefficient(){return specularCoefficient;};
+double Object::getDiffusionCoefficient(){return diffusionCoefficient;};
+double Object::getShininess(){return shininess;};
 
 glm::dvec3 Object::getLocalIllumination(std::vector<PointSource> sources,glm::dvec3 normal,glm::dvec3 eye,glm::dvec3 contactPoint){
     glm::dvec3 cLocal = glm::dvec3(0,0,0);
@@ -50,7 +54,7 @@ glm::dvec3 Object::getLocalIllumination(std::vector<PointSource> sources,glm::dv
         cSpecEfffective = cSpecEfffective + ndoth_exp * specularColor * sources[i].color;
     }
 
-    cLocal = cSpecEfffective + cDifEffective + cAmbient;
+    cLocal = specularCoefficient* cSpecEfffective + diffusionCoefficient* cDifEffective + cAmbient;
     
     // for(int i = 0;i<sources.size();i++){
     //     glm::dvec3 l = glm::normalize(sources[i].position-contactPoint);
@@ -71,9 +75,9 @@ glm::dvec3 Object::getLocalIllumination(std::vector<PointSource> sources,glm::dv
 
     // cLocal = cSpecEfffective + cDifEffective + ambientCoefficient * cAmbient;
 
-    // for(int i =0 ;i<3;i++){
-    //     if(cLocal[i]>1)cLocal[i]=1;
-    // }
+    for(int i =0 ;i<3;i++){
+        if(cLocal[i]>1)cLocal[i]=1;
+    }
 
     return cLocal;
 

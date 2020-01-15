@@ -26,29 +26,28 @@ int main(){
     Camera camera = Camera(cameraPosition,xyz,width,height,M_PI/2);
 
 
-
-
-    
+    glm::dvec3 lightSourceLocation = glm::dvec3(2*R,2*R,0);
+    glm::dvec3 lightSourceIntensity = glm::dvec3(1,1,1);
+    double attenuation = 0.01;
+    double ambientCoefficient = 0.1;
+    PointSource source = PointSource(lightSourceLocation,lightSourceIntensity,attenuation,ambientCoefficient);
 
     glm::dvec3 snowColor = glm::dvec3(1,0,0);
     glm::dvec3 location = glm::dvec3(2*R,2*R,-2*R);
     glm::dvec3 snowSpecColor = glm::dvec3(0,0,0);
-    double snowSpecCoeff = 0;
+    double snowSpecCoeff = 0.5;
+    double snowdiffCoeff = 0.6;
 
     double snowShininess = 0.3;
-    double snowdiffCoeff = 1;
+    
     double snowKtrans = 0;
     double snowKreflec = 0;
     Sphere* sphere = new Sphere(id,location,snowColor,R,1.1,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec);
     
+    cout<<sphere->getDiffusionCoefficient()<<endl;
+    cout<<sphere->getSpecularCoefficient()<<endl;
     
     
-    glm::dvec3 lightSourceLocation = glm::dvec3(2*R,2*R,0);
-    glm::dvec3 lightSourceIntensity = glm::dvec3(1,1,1);
-    double attenuation = 0.01;
-    double ambientCoefficient = 0.4;
-    PointSource source = PointSource(lightSourceLocation,lightSourceIntensity,attenuation,ambientCoefficient);
-
 
     std::vector<Object*> objects;
     std::vector<PointSource> lightSources;

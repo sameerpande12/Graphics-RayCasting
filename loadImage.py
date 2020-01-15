@@ -6,6 +6,7 @@ with open("image.csv",'r') as f:
 
 data = np.array(data,dtype=np.uint8)
 data = data[0]
+unique_values = np.unique(data)
 
 data = data.reshape(640,640,3)
 

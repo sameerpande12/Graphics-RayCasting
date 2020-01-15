@@ -24,7 +24,7 @@ double Object::getSpecularCoefficient(){return specularCoefficient;};
 double Object::getDiffusionCoefficient(){return diffusionCoefficient;};
 double Object::getShininess(){return shininess;};
 
-glm::dvec3 Object::getLocalIllumination(std::vector<PointSource> sources,glm::dvec3 normal,glm::dvec3 eye,glm::dvec3 contactPoint){
+glm::dvec3 Object::getLocalIllumination(std::vector<PointSource*> sources,glm::dvec3 normal,glm::dvec3 eye,glm::dvec3 contactPoint){
     glm::dvec3 cLocal = glm::dvec3(0,0,0);
     glm::dvec3 cAmbient = glm::dvec3(0,0,0);
     glm::dvec3 cDifEffective = glm::dvec3(0,0,0);
@@ -35,23 +35,23 @@ glm::dvec3 Object::getLocalIllumination(std::vector<PointSource> sources,glm::dv
 
 
     for(int i = 0;i<(int)sources.size();i++){
-        cAmbient = cAmbient +  sources[i].ambientCoefficient * color * sources[i].color;//sources[i].color represents the intensity of light source
+        cAmbient = cAmbient +  sources[i]->ambientCoefficient * color * (sources[i]->color);//sources[i]->color represents the intensity of light source
 
         
-        glm::dvec3 l = glm::normalize(sources[i].position-contactPoint);
+        glm::dvec3 l = glm::normalize(sources[i]->position-contactPoint);
         glm::dvec3 h = glm::normalize(v + l);//assume normal is normalized
 
 
         double ldotn = glm::dot(l,normal);
         if(ldotn<0)ldotn=0;
 
-        cDifEffective = cDifEffective + ldotn * color * sources[i].color;
+        cDifEffective = cDifEffective + ldotn * color * sources[i]->color;
         
         double ndoth = glm::dot(normal,h);
         if(ndoth<0)ndoth = 0;
         double ndoth_exp = pow(ndoth,shininess);
-        double distance = glm::length(contactPoint - sources[i].position);
-        cSpecEfffective = cSpecEfffective + ndoth_exp * specularColor * sources[i].color*(1/(1+sources[i].attenuation *distance*distance ));
+        double distance = glm::length(contactPoint - sources[i]->position);
+        cSpecEfffective = cSpecEfffective + ndoth_exp * specularColor * sources[i]->color*(1/(1+sources[i]->attenuation *distance*distance ));
     }
     // if(id==1)
     //      std::cout<<specularCoefficient<<" "<<cSpecEfffective[0]<<" "<<cSpecEfffective[0]*specularCoefficient<<"\n";
@@ -59,11 +59,11 @@ glm::dvec3 Object::getLocalIllumination(std::vector<PointSource> sources,glm::dv
     cLocal = specularCoefficient* cSpecEfffective + diffusionCoefficient* cDifEffective + cAmbient;
     
     // for(int i = 0;i<sources.size();i++){
-    //     glm::dvec3 l = glm::normalize(sources[i].position-contactPoint);
+    //     glm::dvec3 l = glm::normalize(sources[i]->position-contactPoint);
     //     glm::dvec3 h = glm::normalize(v + l);//assume normal is normalized
 
 
-        // glm::dvec3 cLight = sources[i].color;//cLight definition could be modified to include the effect of distance from source
+        // glm::dvec3 cLight = sources[i]->color;//cLight definition could be modified to include the effect of distance from source
 
         // double ldotn = glm::dot(l,normal);
         // if(ldotn<0)ldotn=0;

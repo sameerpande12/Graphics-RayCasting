@@ -31,7 +31,7 @@ int main(){
     glm::dvec3 lightSourceIntensity1 = glm::dvec3(1,1,1);
     double attenuation1 = 0.001;
     double ambientCoefficient1 = 0.1;
-    PointSource source1 = PointSource(lightSourceLocation1,lightSourceIntensity1,attenuation1,ambientCoefficient1);
+    PointSource* source1 = new PointSource(lightSourceLocation1,lightSourceIntensity1,attenuation1,ambientCoefficient1);
 
 
 
@@ -40,7 +40,7 @@ int main(){
     glm::dvec3 lightSourceIntensity2 = glm::dvec3(1,1,1);
     double attenuation2 = 0.01;
     double ambientCoefficient2 = 0.1;
-    PointSource source2 = PointSource(lightSourceLocation2,lightSourceIntensity2,attenuation2,ambientCoefficient2);
+    PointSource* source2 = new PointSource(lightSourceLocation2,lightSourceIntensity2,attenuation2,ambientCoefficient2);
     
     
 
@@ -48,14 +48,14 @@ int main(){
     glm::dvec3 lightSourceIntensity3 = glm::dvec3(1,1,1);
     double attenuation3 = 0.01;
     double ambientCoefficient3 = 0.1;
-    PointSource source3 = PointSource(lightSourceLocation3,lightSourceIntensity3,attenuation3,ambientCoefficient3);
+    PointSource* source3 = new PointSource(lightSourceLocation3,lightSourceIntensity3,attenuation3,ambientCoefficient3);
 
 
     glm::dvec3 lightSourceLocation4 = glm::dvec3(3.99*R,3.99*R,-3.99*R);
     glm::dvec3 lightSourceIntensity4 = glm::dvec3(1,1,1);
     double attenuation4 = 0.01;
     double ambientCoefficient4 = 0.1;
-    PointSource source4 = PointSource(lightSourceLocation4,lightSourceIntensity4,attenuation4,ambientCoefficient4);
+    PointSource* source4 = new PointSource(lightSourceLocation4,lightSourceIntensity4,attenuation4,ambientCoefficient4);
 
     glm::dvec3 snowColor = glm::dvec3(1,0.98,0.98);
     glm::dvec3 snowSpecColor = glm::dvec3(1,1,1);
@@ -140,7 +140,7 @@ int main(){
     Wall* farWall = new Wall(id,glm::dvec3(0,0,-R*4),farWallColor,farWallParam1,1.1,farWallSpecColor,farWallSpecCoeff,farWallDiffuseCoeff,farWallShininess,farWallKtrans,farWallKreflec);
     id++;
     std::vector<Object*> objects;
-    std::vector<PointSource> lightSources;
+    std::vector<PointSource*> lightSources;
 
     objects.push_back(sphere1);
     objects.push_back(sphere2);

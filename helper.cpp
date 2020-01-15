@@ -64,14 +64,14 @@ glm::dvec3 rotateVector(glm::dvec3 input,double angle, int axisID){
     return rotation * input;
 
 }
-std::vector<bool> isShadow(glm::dvec3 point, std::vector<PointSource> sources,std::vector<Object*>objects){
+std::vector<bool> isShadow(glm::dvec3 point, std::vector<PointSource*> sources,std::vector<Object*>objects){
 
     std::vector<bool> shadowVec;
 
     for(int i =0;i<(int)sources.size();i++){
 
-        double tSource = glm::length(point - sources[i].position);
-        Ray shadowRay = Ray(point, glm::normalize(sources[i].position-point),1);
+        double tSource = glm::length(point - sources[i]->position);
+        Ray shadowRay = Ray(point, glm::normalize(sources[i]->position-point),1);
 
         double tMIN = INF;
         for(int i = 0;i<(int)(objects.size());i++){
@@ -87,7 +87,7 @@ std::vector<bool> isShadow(glm::dvec3 point, std::vector<PointSource> sources,st
     return shadowVec;
 }
 
-glm::dvec3 rayTrace(Ray ray, std::vector<Object*> objects, std::vector<PointSource>lightSources,int depth, int maxDepth,glm::dvec3 backgroundColor){
+glm::dvec3 rayTrace(Ray ray, std::vector<Object*> objects, std::vector<PointSource*>lightSources,int depth, int maxDepth,glm::dvec3 backgroundColor){
     if(depth > maxDepth)return glm::dvec3(0,0,0);
 
     int closestIntersectionIndex=-1;
@@ -116,7 +116,7 @@ glm::dvec3 rayTrace(Ray ray, std::vector<Object*> objects, std::vector<PointSour
     std::vector<bool> shadowVec = isShadow(closestIntersectionPoint,lightSources,objects);
 
 
-    std::vector<PointSource> accessibleSources;
+    std::vector<PointSource*> accessibleSources;
     for(int i =0;i<(int)lightSources.size();i++){
         if( !shadowVec[i])accessibleSources.push_back(lightSources[i]);
     }

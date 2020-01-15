@@ -11,14 +11,15 @@
 #include "omp.h"
 #define cout std::cout
 #define endl std::endl
-
-int image[640][640][3];
+#define WIDTH 512
+#define HEIGHT 512
+int image[HEIGHT][WIDTH][3];
 int main(){
 
     double R = 5;
     Axes xyz = Axes();
-    int width = 640;
-    int height = 640;
+    int width = WIDTH;
+    int height = HEIGHT;
     int id = 1;
 
     xyz.setAxes(glm::dvec3(1,0,0),glm::dvec3(0,1,0),glm::dvec3(0,0,1));

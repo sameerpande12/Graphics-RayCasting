@@ -8,7 +8,7 @@ data = np.array(data,dtype=np.uint8)
 data = data[0]
 unique_values = np.unique(data)
 
-data = data.reshape(640,640,3)
+data = data.reshape(512,512,3)
 
 # for i in range (320):
 #     for j in range (100):

@@ -28,7 +28,7 @@ int main(){
 
     glm::dvec3 lightSourceLocation1 = glm::dvec3(0.01*R,3.99*R,-0.01*R);
     glm::dvec3 lightSourceIntensity1 = glm::dvec3(1,1,1);
-    double attenuation1 = 0.01;
+    double attenuation1 = 0.001;
     double ambientCoefficient1 = 0.1;
     PointSource source1 = PointSource(lightSourceLocation1,lightSourceIntensity1,attenuation1,ambientCoefficient1);
 

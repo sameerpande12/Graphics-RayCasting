@@ -50,8 +50,8 @@ glm::dvec3 Object::getLocalIllumination(std::vector<PointSource> sources,glm::dv
         double ndoth = glm::dot(normal,h);
         if(ndoth<0)ndoth = 0;
         double ndoth_exp = pow(ndoth,shininess);
-
-        cSpecEfffective = cSpecEfffective + ndoth_exp * specularColor * sources[i].color;
+        double distance = glm::length(contactPoint - sources[i].position);
+        cSpecEfffective = cSpecEfffective + ndoth_exp * specularColor * sources[i].color*(1/(1+sources[i].attenuation *distance*distance ));
     }
     // if(id==1)
     //      std::cout<<specularCoefficient<<" "<<cSpecEfffective[0]<<" "<<cSpecEfffective[0]*specularCoefficient<<"\n";

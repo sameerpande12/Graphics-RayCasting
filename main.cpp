@@ -21,8 +21,9 @@ int main(){
 
     xyz.setAxes(glm::dvec3(1,0,0),glm::dvec3(0,1,0),glm::dvec3(0,0,1));
     
-
-    Camera camera = Camera(glm::dvec3(2*R,2*R,0),xyz,width,height,M_PI/2);
+    glm::dvec3 cameraPosition = glm::dvec3(2*R,2*R,0);
+    // cameraPosition = glm::dvec3(0,2*R,0);
+    Camera camera = Camera(cameraPosition,xyz,width,height,M_PI/2);
 
 
 
@@ -42,7 +43,7 @@ int main(){
     
     
     
-    glm::dvec3 lightSourceLocation = glm::dvec3(0,0,0);
+    glm::dvec3 lightSourceLocation = glm::dvec3(2*R,2*R,0);
     glm::dvec3 lightSourceIntensity = glm::dvec3(1,1,1);
     double attenuation = 0.01;
     double ambientCoefficient = 0.4;

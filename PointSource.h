@@ -1,4 +1,4 @@
-#pragma once4
+#pragma once
 
 #include <glm/glm.hpp>
 class PointSource{

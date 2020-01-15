@@ -5,6 +5,7 @@
 #include<iostream>
 #include "helper.h"
 #include "PointSource.h"
+#include "Ray.h"
 
 class Object{
 

@@ -76,7 +76,7 @@ glm::dvec3 rayTrace(Ray ray, std::vector<Object> objects, std::vector<PointSourc
     glm::dvec3 normal;
 
     
-    for(int i =0 ;i<objects.size();i++){
+    for(int i =0 ;i<(int)(objects.size());i++){
          intersection = objects[i].getClosestIntersection(ray);
 
         if(    std::get<0>(intersection) >= 0 && std::get<0>(intersection) < closest_Tval){
@@ -92,7 +92,7 @@ glm::dvec3 rayTrace(Ray ray, std::vector<Object> objects, std::vector<PointSourc
     }
     
     glm::dvec3 localIllumination = glm::dvec3(0,0,0);
-    for(int i =0;i<objects.size();i++){
+    for(int i =0;i<(int)(objects.size());i++){
         localIllumination = localIllumination + objects[i].getLocalIllumination(lightSources,normal,ray.getOrigin(),closestIntersectionPoint);
     }
 
@@ -101,7 +101,7 @@ glm::dvec3 rayTrace(Ray ray, std::vector<Object> objects, std::vector<PointSourc
     glm::dvec3 reflectionContribution =  rayTrace(reflectedRay,objects,lightSources,depth+1,maxDepth,backgroundColor);
 
     double Kt = objects[closestIntersectionIndex].getK_Transmission();
-    Ray refractedRay = getRefractedRay(normal,ray,closestIntersectionPoint,ray.getMediumRefractiveIndex(),objects[closestIntersectionIndex].getRefractiveIndex);
+    Ray refractedRay = getRefractedRay(normal,ray,closestIntersectionPoint,ray.getMediumRefractiveIndex(),objects[closestIntersectionIndex].getRefractiveIndex());
     glm::dvec3 refractionRayContribution =  rayTrace(refractedRay,objects,lightSources,depth+1,maxDepth,backgroundColor);
 
     return localIllumination + refractionRayContribution * Kt + reflectionContribution * Kr;
@@ -123,7 +123,7 @@ Ray getReflectedRaySubRoutine(glm::dvec3 normal,glm::dvec3 incident,glm::dvec3 p
 }
 
 Ray getReflectedRay(glm::dvec3 normal,Ray incident, glm::dvec3 point){
-    getReflectedRaySubRoutine(normal,incident.getDirection(),point,incident.getMediumRefractiveIndex());
+    return getReflectedRaySubRoutine(normal,incident.getDirection(),point,incident.getMediumRefractiveIndex());
 }
 
 glm::dvec3 getRefractionDirection(glm::dvec3 normal,glm::dvec3 incident, double incomingRefractiveIndex,double outgoingRefractiveIndex){

@@ -92,9 +92,9 @@ glm::dvec3 rayTrace(Ray ray, std::vector<Object*> objects, std::vector<PointSour
     }
     
     glm::dvec3 localIllumination = glm::dvec3(0,0,0);
-    for(int i =0;i<(int)(objects.size());i++){
-        localIllumination = localIllumination + objects[i]->getLocalIllumination(lightSources,normal,ray.getOrigin(),closestIntersectionPoint);
-    }
+    // for(int i =0;i<(int)(objects.size());i++){
+    localIllumination = localIllumination + objects[closestIntersectionIndex]->getLocalIllumination(lightSources,normal,ray.getOrigin(),closestIntersectionPoint);
+    
 
     double Kr = objects[closestIntersectionIndex]->getK_Reflection();
     Ray reflectedRay = getReflectedRay(normal,ray,closestIntersectionPoint);

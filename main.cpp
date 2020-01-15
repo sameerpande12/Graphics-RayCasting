@@ -31,14 +31,14 @@ int main(){
     
 
     glm::dvec3 snowColor = glm::dvec3(1,1,1);
-    glm::dvec3 location = glm::dvec3(2*R,2*R,-2*R);
+    glm::dvec3 location = glm::dvec3(3*R,2*R,-2*R);
     glm::dvec3 snowSpecColor = glm::dvec3(0,0,0);
     double snowSpecCoeff = 0;
 
     double snowShininess = 0.3;
     double snowdiffCoeff = 1;
     double snowKtrans = 0;
-    double snowKreflec = 1;
+    double snowKreflec = 0;
     Sphere* sphere = new Sphere(id,location,snowColor,R,1.1,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec);
     
     
@@ -79,6 +79,12 @@ int main(){
         for(int j=0;j<height;j++){
             if (!(i==0 && j==0))myfile<<",";
             myfile<<image[i][j][0]<<","<<image[i][j][1]<<","<<image[i][j][2];
+
+            if(i>0 && j>0){
+                if(image[i][j-1][0]>0.5 && j<320 && image[i][j][0]<0.5){
+                    cout<<i<<" "<<j<<endl;
+                }
+            }
             
         }
     }

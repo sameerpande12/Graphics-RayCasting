@@ -1,4 +1,3 @@
-import pandas as pd 
 import numpy as np 
 import csv 
 
@@ -13,3 +12,4 @@ data = data.reshape(640,640,3)
 from PIL import Image 
 image = Image.fromarray(data,'RGB')
 image.save("ok.png")
+image.show()

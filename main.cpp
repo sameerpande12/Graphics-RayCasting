@@ -10,7 +10,7 @@
 #define cout std::cout
 #define endl std::endl
 
-
+int image[640][640][3];
 int main(){
 
     double R = 5;
@@ -20,16 +20,16 @@ int main(){
     int id = 1;
 
     xyz.setAxes(glm::dvec3(1,0,0),glm::dvec3(0,1,0),glm::dvec3(0,0,1));
-    cout<<1<<endl;
+    
 
-    Camera camera = Camera(glm::dvec3(2*R,2*R,0),xyz,640,640,M_PI/2);
-
-    cout<<1.1<<endl;
+    Camera camera = Camera(glm::dvec3(2*R,2*R,0),xyz,width,height,M_PI/2);
 
 
-    int image[width*height*3];
-    cout<<1.2<<endl;
-    glm::dvec3 snowColor = glm::dvec3(1,0.98,0.98);
+
+
+    
+
+    glm::dvec3 snowColor = glm::dvec3(1,1,1);
     glm::dvec3 location = glm::dvec3(2*R,2*R,-2*R);
     glm::dvec3 snowSpecColor = glm::dvec3(0,0,0);
     double snowSpecCoeff = 0;
@@ -41,8 +41,8 @@ int main(){
     Sphere* sphere = new Sphere(id,location,snowColor,R,1.1,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec);
     
     
-    cout<<2<<endl;
-    glm::dvec3 lightSourceLocation = glm::dvec3(0,1.99*R,-0.01*R);
+    
+    glm::dvec3 lightSourceLocation = glm::dvec3(0,0,0);
     glm::dvec3 lightSourceIntensity = glm::dvec3(1,1,1);
     double attenuation = 0.01;
     double ambientCoefficient = 0.4;
@@ -54,7 +54,7 @@ int main(){
 
     objects.push_back(sphere);
     lightSources.push_back(source);
-    cout<<3<<endl;
+    
     std::ofstream myfile;
     myfile.open("image.csv");
     
@@ -63,15 +63,24 @@ int main(){
             glm::dvec3 rayDir = glm::normalize(camera.pixelToWorld( (double)i,(double)j) - camera.location);
             Ray ray = Ray(camera.location,rayDir,1);
             glm::dvec3 colorObtained = rayTrace(ray,objects,lightSources,1,1,glm::dvec3(0,0,0));
-            image[ i*width*3 + j*3 ]=(int)colorObtained[0]*255;
-            image[i*width*3 + j*3  +1 ]=(int)colorObtained[1]*255;
-            image[i*width*3 + j*3 + 2]=(int)colorObtained[2]*255;
-            myfile<<image[i*width*3 + j*3 ]<<","<<image[i*width*3 + j*3 +1]<<","<<image[i*width*3 + j*3 +2];
-            if( i!=(height-1) || (j!=width-1))myfile<<",";
+            // image[ i*width*3 + j*3 ]=(int)colorObtained[0]*255;
+            // image[i*width*3 + j*3  +1 ]=(int)colorObtained[1]*255;
+            // image[i*width*3 + j*3 + 2]=(int)colorObtained[2]*255;
+            // myfile<<image[i*width*3 + j*3 ]<<","<<image[i*width*3 + j*3 +1]<<","<<image[i*width*3 + j*3 +2];
+            // if( i!=(height-1) || (j!=width-1))myfile<<",";
+            image[i][j][0]=(int) (colorObtained[0]*255);
+            image[i][j][1]=(int) (colorObtained[1]*255);
+            image[i][j][2]=(int) (colorObtained[2]*255);
         }
     }
-    cout<<4<<endl;
-
+    
+    for(int i=0;i<height;i++){
+        for(int j=0;j<height;j++){
+            if (!(i==0 && j==0))myfile<<",";
+            myfile<<image[i][j][0]<<","<<image[i][j][1]<<","<<image[i][j][2];
+            
+        }
+    }
     myfile.close();
     
 }

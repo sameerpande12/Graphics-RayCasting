@@ -1,6 +1,6 @@
 *.o
 *.out
 *.gch
-*.png
+
 *.csv
 exe

@@ -31,7 +31,7 @@ int main(){
     
 
     glm::dvec3 snowColor = glm::dvec3(1,0,0);
-    glm::dvec3 location = glm::dvec3(1*R,1*R,-2*R);
+    glm::dvec3 location = glm::dvec3(2*R,2*R,-2*R);
     glm::dvec3 snowSpecColor = glm::dvec3(0,0,0);
     double snowSpecCoeff = 0;
 

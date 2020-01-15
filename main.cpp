@@ -1,27 +1,30 @@
-#include<iostream>
-#include <limits>
-#include<glm/glm.hpp>
-using namespace std;
-int main(){
-    double t = std::numeric_limits<double>::infinity();
-    cout<< (t==std::numeric_limits<double>::infinity())<<endl;
+// #include <iostream>
+// #include "Ray.h"
+// #include "PointSource.h"
+// #include "Sphere.h"
+// #include "Box.h"
+// #include "Camera.h"
+// #include <glm/glm.hpp>
+// int main(){
 
-    glm::dmat3 v = glm::dmat3(1,2,3,4,5,6,7,8,9);
+//     double R = 5;
+//     Axes xyz = Axes();
+//     int width = 640;
+//     int height = 640;
+//     int id = 1;
 
-    
-    for(int i =0;i<3;i++){
-        for(int j=0;j<3;j++){
-            std::cout<<v[i][j]<<" ";
-        }
-        std::cout<<"\n";
-    }
-    glm::dvec3 x = v* glm::dvec3(1,1,1);
-    for(int i=0;i<3;i++){
-        std::cout<<x[i]<<" ";
-    }
-    std::cout<<"\n";
+//     xyz.setAxes(glm::dvec3(1,0,0),glm::dvec3(0,1,0),glm::dvec3(0,0,1));
 
-    glm::dvec3 myVec = glm::dvec3(t,t,t);
-    for(int i = 0;i<3;i++)std::cout<<myVec[i]<<" ";
-    std::cout<<"\n";
-}
+
+//     Camera camera = Camera(glm::dvec3(2*R,2*R,0),xyz,640,640,M_PI/2);
+
+//     double image[width][height][3];
+
+//     glm::dvec3 whitish = glm::dvec3(0.5,0.5,0.5)
+//     glm::dvec3 location = glm::dvec3(2*R,2*R,-2*R);
+//     glm::dvec3 ambientCoefficient = glm::dvec()
+//     Sphere sphere = Sphere(id,location,whitish,R,1.3,)
+
+
+
+// }

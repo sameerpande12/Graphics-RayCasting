@@ -12,24 +12,24 @@ class Object{
     protected:
         int id;
         glm::dvec3 reference;
-        struct Color color;
+        glm::dvec3 color;
         double refractiveIndex;
-        glm::dvec3 ambientCoefficient;
-        glm::dvec3 specularExponent;
-        glm::dvec3 diffusionCoefficient;
-        glm::dvec3 specularCoefficient;
+        
+        double specularExponent;
+        double diffusionCoefficient;
+        glm::dvec3 specularColor;
         double k_transmission;
         double k_reflection;
 
     public:
         
-        Object(int id,glm::dvec3 reference,struct Color color,double refrac,glm::dvec3 ambCoefficient,glm::dvec3 specCoeff,glm::dvec3 diffCoeff,glm::dvec3 specExp,double k_trans,double k_reflec);
+        Object(int id,glm::dvec3 reference,glm::dvec3 color,double refrac,glm::dvec3 specColor,double diffCoeff,double specExp,double k_trans,double k_reflec);
         void setId(int id);
         void setReference(glm::dvec3 ref);
-        void setColor(struct Color col);
+        void setColor(glm::dvec3 col);
         int getID();
         glm::dvec3 getReference();
-        struct Color getColor();
+        glm::dvec3 getColor();
 
         void setRefractiveIndex(double refractiveIndex);
         double getRefractiveIndex();
@@ -37,7 +37,7 @@ class Object{
         double getK_Transmission();
         double getK_Reflection();
 
-        glm::dvec3 getLocalIllumination(std::vector<PointSource> sources,glm::dvec3 normal,glm::dvec3 eye,glm::dvec3 contactPoint,glm::dvec3 ambientColor);
+        glm::dvec3 getLocalIllumination(std::vector<PointSource> sources,glm::dvec3 normal,glm::dvec3 eye,glm::dvec3 contactPoint);
 
         virtual std::tuple<double,glm::dvec3,glm::dvec3> getClosestIntersection(Ray ray)=0;//returns t_val, intersection_point, normal_vector at that point
         virtual bool isInside(glm::dvec3 point);//make sure not to use for points which are doubtful to be on the surface

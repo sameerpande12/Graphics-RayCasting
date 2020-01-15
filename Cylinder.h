@@ -15,7 +15,7 @@ class Cylinder: public Object{
         void setRadius(double radius);
         double getRadius();
 
-        Cylinder(int id,glm::dvec3 reference,struct Color color,double height,double refrac,glm::dvec3 ambCoefficient,glm::dvec3 specCoeff,glm::dvec3 diffCoeff,glm::dvec3 specExp,double k_trans,double k_reflec);
+        Cylinder(int id,glm::dvec3 reference,glm::dvec3 color,double height,double refrac,glm::dvec3 specColor,double diffCoeff,double specExp,double k_trans,double k_reflec);
         
 
 

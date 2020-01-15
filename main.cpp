@@ -32,27 +32,27 @@ int main(){
     double ambientCoefficient = 0.1;
     PointSource source = PointSource(lightSourceLocation,lightSourceIntensity,attenuation,ambientCoefficient);
 
-    glm::dvec3 snowColor = glm::dvec3(1,0,0);
+    glm::dvec3 snowColor = glm::dvec3(.9,0.9,0.9);
     glm::dvec3 location = glm::dvec3(2*R,2*R,-2*R);
-    glm::dvec3 snowSpecColor = glm::dvec3(0,0,0);
+    glm::dvec3 snowSpecColor = glm::dvec3(1,1,1);
     double snowSpecCoeff = 0.5;
     double snowdiffCoeff = 0.6;
 
     double snowShininess = 0.3;
     
     double snowKtrans = 0;
-    double snowKreflec = 0;
-    Sphere* sphere = new Sphere(id,location,snowColor,R,1.1,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec);
+    double snowKreflec = 1;
+    double snowRadius = R/2;
+    Sphere* sphere1 = new Sphere(id,location,snowColor,snowRadius,1.1,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec);
     
-    cout<<sphere->getDiffusionCoefficient()<<endl;
-    cout<<sphere->getSpecularCoefficient()<<endl;
-    
-    
+    id++;
+    Sphere* sphere2 = new Sphere(id,glm::dvec3(2.5*R,2*R,-0.9*R),glm::dvec3(0,1,0),R/2,1.1,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec);
 
     std::vector<Object*> objects;
     std::vector<PointSource> lightSources;
 
-    objects.push_back(sphere);
+    objects.push_back(sphere1);
+    objects.push_back(sphere2);
     lightSources.push_back(source);
     
     std::ofstream myfile;

@@ -8,6 +8,7 @@
 #include <glm/glm.hpp>
 #include <fstream>
 #include "Wall.h"
+#include "omp.h"
 #define cout std::cout
 #define endl std::endl
 
@@ -157,22 +158,27 @@ int main(){
     
     std::ofstream myfile;
     myfile.open("image.csv");
-    
-    for(int i = 0;i<height;i++){
-        for(int j=0;j<width;j++){
-            glm::dvec3 rayDir = glm::normalize(camera.pixelToWorld( (double)j,(double)i) - camera.location);
-            Ray ray = Ray(camera.location,rayDir,1);
-            glm::dvec3 colorObtained = rayTrace(ray,objects,lightSources,1,1,glm::dvec3(0,0,0));
-            // image[ i*width*3 + j*3 ]=(int)colorObtained[0]*255;
-            // image[i*width*3 + j*3  +1 ]=(int)colorObtained[1]*255;
-            // image[i*width*3 + j*3 + 2]=(int)colorObtained[2]*255;
-            // myfile<<image[i*width*3 + j*3 ]<<","<<image[i*width*3 + j*3 +1]<<","<<image[i*width*3 + j*3 +2];
-            // if( i!=(height-1) || (j!=width-1))myfile<<",";
-            image[i][j][0]=(int) (colorObtained[0]*255);
-            image[i][j][1]=(int) (colorObtained[1]*255);
-            image[i][j][2]=(int) (colorObtained[2]*255);
+    double start = omp_get_wtime();
+    #pragma omp parallel
+    {   
+        #pragma omp for
+        for(int iter = 0;iter<height*width;iter++){
+                int i,j;
+                i = iter/width;
+                j = iter%width;
+        
+                glm::dvec3 rayDir = glm::normalize(camera.pixelToWorld( (double)j,(double)i) - camera.location);
+                Ray ray = Ray(camera.location,rayDir,1);
+                glm::dvec3 colorObtained = rayTrace(ray,objects,lightSources,1,4,glm::dvec3(0,0,0));
+        
+                image[i][j][0]=(int) (colorObtained[0]*255);
+                image[i][j][1]=(int) (colorObtained[1]*255);
+                image[i][j][2]=(int) (colorObtained[2]*255);
+        
         }
     }
+    double end = omp_get_wtime();
+    cout<<end-start<<endl;
     
     for(int i=0;i<height;i++){
         for(int j=0;j<height;j++){

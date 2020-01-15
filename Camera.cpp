@@ -20,8 +20,8 @@ glm::dvec3 Camera::cameraToWorld(glm::dvec3 input){
         }
     }
 
-    for(int i=0;i<3;i++)output[i] += location[i];
-
+    output = output + location;
+    
 
     return output;
 }
@@ -31,6 +31,7 @@ glm::dvec3 Camera::pixelToCamera(double px,double py){
     
     double pixelCamerax = (2* (px+0.5)/width - 1)  * aspectRatio * tan(fov/2);
     double pixelCameray = (2* (py + 0.5)/height - 1) * tan(fov/2);
+    pixelCameray = -pixelCameray;
 
     return glm::dvec3( pixelCamerax,pixelCameray,-1);
 

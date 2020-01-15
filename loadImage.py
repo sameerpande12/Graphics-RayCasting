@@ -9,6 +9,12 @@ data = data[0]
 
 data = data.reshape(640,640,3)
 
+# for i in range (320):
+#     for j in range (100):
+#         data[i][j][0]=255
+#         data[i][j][1]=0
+#         data[i][j][2]=0
+
 from PIL import Image 
 image = Image.fromarray(data,'RGB')
 image.save("ok.png")

@@ -6,7 +6,7 @@ Object::Object(int Id,glm::dvec3 ref,glm::dvec3 col,double refrac,glm::dvec3 spe
     color = col;
     refractiveIndex = refrac;
     specularCoefficient = specCoeff;
-    specularExponent = specExp;
+    shininess = specExp;
     specularColor = specColor;
     diffusionCoefficient = diffusionCoefficient;
     k_transmission = k_trans;
@@ -45,7 +45,7 @@ glm::dvec3 Object::getLocalIllumination(std::vector<PointSource> sources,glm::dv
         
         double ndoth = glm::dot(normal,h);
         if(ndoth<0)ndoth = 0;
-        double ndoth_exp = pow(ndoth,specularExponent);
+        double ndoth_exp = pow(ndoth,shininess);
 
         cSpecEfffective = cSpecEfffective + ndoth_exp * specularColor * sources[i].color;
     }

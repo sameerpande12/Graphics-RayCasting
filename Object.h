@@ -15,7 +15,7 @@ class Object{
         glm::dvec3 color;
         double refractiveIndex;
         double specularCoefficient;
-        double specularExponent;
+        double shininess;
         double diffusionCoefficient;
         glm::dvec3 specularColor;
         double k_transmission;

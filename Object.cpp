@@ -53,6 +53,8 @@ glm::dvec3 Object::getLocalIllumination(std::vector<PointSource> sources,glm::dv
 
         cSpecEfffective = cSpecEfffective + ndoth_exp * specularColor * sources[i].color;
     }
+    if(id==1)
+         std::cout<<specularCoefficient<<" "<<cSpecEfffective[0]<<" "<<cSpecEfffective[0]*specularCoefficient<<"\n";
 
     cLocal = specularCoefficient* cSpecEfffective + diffusionCoefficient* cDifEffective + cAmbient;
     

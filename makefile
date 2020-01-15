@@ -2,9 +2,9 @@ OS := $(shell uname)
 CFLAGS = -lglut -lglfw -Wall -lGL -ldl -lGLEW
 
 exe: main.o 
-	g++ main.o Camera.o Box.o Cylinder.o Sphere.o Object.o helper.o Axes.o Ray.o PointSource.o  $(CFLAGS) -o exe
+	g++ main.o Camera.o Box.o Wall.o Cylinder.o Sphere.o Object.o helper.o Axes.o Ray.o PointSource.o  $(CFLAGS) -o exe
 
-main.o: main.cpp Camera.o Box.o Cylinder.o Sphere.o Object.o helper.o Axes.o Ray.o PointSource.o 
+main.o: main.cpp Camera.o Box.o Wall.o Cylinder.o Sphere.o Object.o helper.o Axes.o Ray.o PointSource.o 
 	g++  $(CFLAGS) -c main.cpp 
 
 Camera.o: Camera.cpp Camera.h Ray.o helper.o Axes.o 
@@ -12,6 +12,9 @@ Camera.o: Camera.cpp Camera.h Ray.o helper.o Axes.o
 
 Box.o: Box.cpp Box.h Object.o helper.o Axes.o Ray.o PointSource.o
 	g++ $(CFLAGS) -c Box.cpp 
+
+Wall.o: Wall.cpp Wall.h Object.o helper.o Axes.o Ray.o PointSource.o
+	g++ $(CFLAGS) -c Wall.cpp
 
 Cylinder.o: Cylinder.cpp Cylinder.h Object.o helper.o Axes.o Ray.o PointSource.o
 	g++ $(CFLAGS) -c Cylinder.cpp

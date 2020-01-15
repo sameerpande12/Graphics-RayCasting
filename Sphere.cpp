@@ -36,6 +36,8 @@ std::tuple<double,glm::dvec3,glm::dvec3>Sphere::getClosestIntersection(Ray ray){
         }
     }
 
+    if(tmin > 0.0001)tmin-=0.0001;    
+
     glm::dvec3 intersection = ray.scale(tmin);
     glm::dvec3 normal = glm::normalize(intersection - getReference());
     if(isInside(ray.getOrigin()))normal = -normal;

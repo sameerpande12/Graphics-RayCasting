@@ -32,7 +32,7 @@ int main(){
     double ambientCoefficient = 0.1;
     PointSource source = PointSource(lightSourceLocation,lightSourceIntensity,attenuation,ambientCoefficient);
 
-    glm::dvec3 snowColor = glm::dvec3(.9,0.9,0.9);
+    glm::dvec3 snowColor = glm::dvec3(.3,0,0.3);
     glm::dvec3 location = glm::dvec3(2*R,2*R,-2*R);
     glm::dvec3 snowSpecColor = glm::dvec3(1,1,1);
     double snowSpecCoeff = 0.5;
@@ -41,12 +41,12 @@ int main(){
     double snowShininess = 0.3;
     
     double snowKtrans = 0;
-    double snowKreflec = 1;
+    double snowKreflec = 0.1;
     double snowRadius = R/2;
     Sphere* sphere1 = new Sphere(id,location,snowColor,snowRadius,1.1,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec);
     
     id++;
-    Sphere* sphere2 = new Sphere(id,glm::dvec3(2.5*R,2*R,-0.9*R),glm::dvec3(0,1,0),R/2,1.1,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec);
+    Sphere* sphere2 = new Sphere(id,glm::dvec3(3*R,2*R,-2*R),glm::dvec3(0,1,0),R/2,1.1,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec);
 
     std::vector<Object*> objects;
     std::vector<PointSource> lightSources;
@@ -62,7 +62,7 @@ int main(){
         for(int j=0;j<width;j++){
             glm::dvec3 rayDir = glm::normalize(camera.pixelToWorld( (double)j,(double)i) - camera.location);
             Ray ray = Ray(camera.location,rayDir,1);
-            glm::dvec3 colorObtained = rayTrace(ray,objects,lightSources,1,1,glm::dvec3(0,0,0));
+            glm::dvec3 colorObtained = rayTrace(ray,objects,lightSources,1,4,glm::dvec3(0,0,0));
             // image[ i*width*3 + j*3 ]=(int)colorObtained[0]*255;
             // image[i*width*3 + j*3  +1 ]=(int)colorObtained[1]*255;
             // image[i*width*3 + j*3 + 2]=(int)colorObtained[2]*255;

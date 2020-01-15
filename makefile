@@ -35,4 +35,4 @@ PointSource.o: PointSource.cpp PointSource.h
 	g++ $(CFLAGS) -c PointSource.cpp
 
 clean:
-	rm *.o exe a.out
+	rm *.o exe

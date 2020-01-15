@@ -29,7 +29,7 @@ std::tuple<double,glm::dvec3,glm::dvec3>Sphere::getClosestIntersection(Ray ray){
 
     std::vector<double> roots = solveQuadratic(a,b,c);
 
-    for(int i =0 ;i<roots.size();i++){
+    for(int i =0 ;i<(int)roots.size();i++){
         if(roots[i]>=0 && roots[i]<=tmin ){
             tmin = roots[i];
             // intersections.push_back(ray.getOrigin()+ roots[i]*ray.getDirection());

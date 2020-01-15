@@ -55,7 +55,7 @@ std::tuple<double,glm::dvec3,glm::dvec3> Box::getClosestIntersection(Ray ray){
             }
         }
     }
-    glm::dvec3 normal;
+    
     if(indexVal==0)normal = glm::dvec3(1,0,0);
     if(indexVal==1)normal = glm::dvec3(0,1,0);
     else normal = glm::dvec3(0,0,1);

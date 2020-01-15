@@ -6,6 +6,8 @@
 #include "Camera.h"
 #include "Object.h"
 #include <glm/glm.hpp>
+#include <fstream>
+
 int main(){
 
     double R = 5;
@@ -30,7 +32,7 @@ int main(){
     double snowdiffCoeff = 1;
     double snowKtrans = 0;
     double snowKreflec = 1;
-    Sphere sphere = Sphere(id,location,snowColor,R,1.1,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec);
+    Sphere* sphere = new Sphere(id,location,snowColor,R,1.1,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec);
 
     glm::dvec3 lightSourceLocation = glm::dvec3(0,1.99*R,-0.01*R);
     glm::dvec3 lightSourceIntensity = glm::dvec3(1,1,1);
@@ -39,22 +41,29 @@ int main(){
     PointSource source = PointSource(lightSourceLocation,lightSourceIntensity,attenuation,ambientCoefficient);
 
 
-    std::vector<Object> objects;
+    std::vector<Object*> objects;
     std::vector<PointSource> lightSources;
 
     objects.push_back(sphere);
     lightSources.push_back(source);
 
+    std::ofstream myfile;
+    myfile.open("image.csv");
+    
     for(int i = 0;i<width;i++){
         for(int j=0;j<height;j++){
             glm::dvec3 rayDir = glm::normalize(camera.pixelToWorld( (double)i,(double)j) - camera.location);
             Ray ray = Ray(camera.location,rayDir,1);
             glm::dvec3 colorObtained = rayTrace(ray,objects,lightSources,1,1,glm::dvec3(0,0,0));
-
-
+            image[i][j][0]=(int)colorObtained[0]*255;
+            image[i][j][1]=(int)colorObtained[1]*255;
+            image[i][j][2]=(int)colorObtained[2]*255;
+            myfile<<image[i][j][0]<<"\n"<<image[i][j][1]<<"\n"<<image[i][j][2]<<"\n";
         }
     }
 
+    
+    
 }
 
 

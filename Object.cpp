@@ -30,7 +30,7 @@ glm::dvec3 Object::getLocalIllumination(std::vector<PointSource> sources,glm::dv
     
 
 
-    for(int i = 0;i<sources.size();i++){
+    for(int i = 0;i<(int)sources.size();i++){
         cAmbient = cAmbient +  sources[i].ambientCoefficient * color * sources[i].color;//sources[i].color represents the intensity of light source
 
         

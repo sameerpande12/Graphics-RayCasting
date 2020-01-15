@@ -1,5 +1,4 @@
 #include "Cylinder.h"
-#include "Plane.h"
 #include <glm/glm.hpp>
 #include<limits>
 #include <tuple>
@@ -25,7 +24,7 @@ Cylinder::Cylinder(int id,glm::dvec3 refer,glm::dvec3 col,double h,double refrac
 
 double absolute(double x){
     if(x>0)return x;
-    else -x;
+    return -x;
 }
 
 bool Cylinder::isInside(glm::dvec3 point){
@@ -57,7 +56,7 @@ std::tuple<double,glm::dvec3,glm::dvec3> Cylinder::getClosestIntersection(Ray ra
     
     bool isLateralIntersection = true;
 
-    for(int i = 0;i<roots.size();i++){
+    for(int i = 0;i<(int)roots.size();i++){
         if(roots[i]>=0){
             glm::dvec3 point = org + roots[i] * dir;
             
@@ -86,8 +85,6 @@ std::tuple<double,glm::dvec3,glm::dvec3> Cylinder::getClosestIntersection(Ray ra
         if(isInside(ray.getOrigin()))normal = -normal;
         return std::make_tuple(tmin,intersection, normal);
     }
-
-    double heights[2];
 
     glm::dvec3 normal;
     for(int i =0 ;i<1;i++){

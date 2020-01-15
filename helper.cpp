@@ -6,7 +6,7 @@
 #include<limits>
 #include <tuple>
 #define INF std::numeric_limits<double>::infinity();
-
+class Object;
 std::vector<double> solveQuadratic(double a, double b, double c){
     std::vector<double>solutions;
 
@@ -65,7 +65,7 @@ glm::dvec3 rotateVector(glm::dvec3 input,double angle, int axisID){
 
 }
 
-glm::dvec3 rayTrace(Ray ray, std::vector<Object> objects, std::vector<PointSource>lightSources,int depth, int maxDepth,glm::dvec3 backgroundColor){
+glm::dvec3 rayTrace(Ray ray, std::vector<Object*> objects, std::vector<PointSource>lightSources,int depth, int maxDepth,glm::dvec3 backgroundColor){
     if(depth > maxDepth)return glm::dvec3(0,0,0);
 
     int closestIntersectionIndex=-1;
@@ -77,7 +77,7 @@ glm::dvec3 rayTrace(Ray ray, std::vector<Object> objects, std::vector<PointSourc
 
     
     for(int i =0 ;i<(int)(objects.size());i++){
-         intersection = objects[i].getClosestIntersection(ray);
+         intersection = objects[i]->getClosestIntersection(ray);
 
         if(    std::get<0>(intersection) >= 0 && std::get<0>(intersection) < closest_Tval){
             closest_Tval = std::get<0>(intersection);
@@ -93,15 +93,15 @@ glm::dvec3 rayTrace(Ray ray, std::vector<Object> objects, std::vector<PointSourc
     
     glm::dvec3 localIllumination = glm::dvec3(0,0,0);
     for(int i =0;i<(int)(objects.size());i++){
-        localIllumination = localIllumination + objects[i].getLocalIllumination(lightSources,normal,ray.getOrigin(),closestIntersectionPoint);
+        localIllumination = localIllumination + objects[i]->getLocalIllumination(lightSources,normal,ray.getOrigin(),closestIntersectionPoint);
     }
 
-    double Kr = objects[closestIntersectionIndex].getK_Reflection();
+    double Kr = objects[closestIntersectionIndex]->getK_Reflection();
     Ray reflectedRay = getReflectedRay(normal,ray,closestIntersectionPoint);
     glm::dvec3 reflectionContribution =  rayTrace(reflectedRay,objects,lightSources,depth+1,maxDepth,backgroundColor);
 
-    double Kt = objects[closestIntersectionIndex].getK_Transmission();
-    Ray refractedRay = getRefractedRay(normal,ray,closestIntersectionPoint,ray.getMediumRefractiveIndex(),objects[closestIntersectionIndex].getRefractiveIndex());
+    double Kt = objects[closestIntersectionIndex]->getK_Transmission();
+    Ray refractedRay = getRefractedRay(normal,ray,closestIntersectionPoint,ray.getMediumRefractiveIndex(),objects[closestIntersectionIndex]->getRefractiveIndex());
     glm::dvec3 refractionRayContribution =  rayTrace(refractedRay,objects,lightSources,depth+1,maxDepth,backgroundColor);
 
     return localIllumination + refractionRayContribution * Kt + reflectionContribution * Kr;

@@ -10,7 +10,7 @@ class Box: public Object{
         
     public:
         
-        Box(int id, glm::dvec3 ref, glm::dvec3 color, glm::dvec3 min, glm::dvec3 max, double side,double refrac,glm::dvec3 specColor,double diffCoeff,double specExp,double k_trans,double k_reflec);
+        Box(int id, glm::dvec3 ref, glm::dvec3 color, glm::dvec3 min, glm::dvec3 max, double side,double refrac,glm::dvec3 specColor,double specCoeff,double diffCoeff,double specExp,double k_trans,double k_reflec);
         double getSide();
         void setSide(double len);
 

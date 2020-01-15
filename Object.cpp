@@ -1,11 +1,11 @@
 #include "Object.h"
 #include <cmath>
-Object::Object(int Id,glm::dvec3 ref,glm::dvec3 col,double refrac,glm::dvec3 specColor,double diffCoeff,double specExp,double k_trans,double k_reflec){
+Object::Object(int Id,glm::dvec3 ref,glm::dvec3 col,double refrac,glm::dvec3 specColor,double specCoeff,double diffCoeff,double specExp,double k_trans,double k_reflec){
     id = Id;
     reference = ref;
     color = col;
     refractiveIndex = refrac;
-    
+    specularCoefficient = specCoeff;
     specularExponent = specExp;
     specularColor = specColor;
     diffusionCoefficient = diffusionCoefficient;

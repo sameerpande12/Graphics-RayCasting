@@ -14,7 +14,7 @@ class Object{
         glm::dvec3 reference;
         glm::dvec3 color;
         double refractiveIndex;
-        
+        double specularCoefficient;
         double specularExponent;
         double diffusionCoefficient;
         glm::dvec3 specularColor;
@@ -23,7 +23,7 @@ class Object{
 
     public:
         
-        Object(int id,glm::dvec3 reference,glm::dvec3 color,double refrac,glm::dvec3 specColor,double diffCoeff,double specExp,double k_trans,double k_reflec);
+        Object(int id,glm::dvec3 reference,glm::dvec3 color,double refrac,glm::dvec3 specColor,double specCoeff,double diffCoeff,double specExp,double k_trans,double k_reflec);
         void setId(int id);
         void setReference(glm::dvec3 ref);
         void setColor(glm::dvec3 col);

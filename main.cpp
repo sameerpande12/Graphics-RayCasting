@@ -7,6 +7,7 @@
 #include "Object.h"
 #include <glm/glm.hpp>
 #include <fstream>
+#include "Wall.h"
 #define cout std::cout
 #define endl std::endl
 
@@ -21,7 +22,7 @@ int main(){
 
     xyz.setAxes(glm::dvec3(1,0,0),glm::dvec3(0,1,0),glm::dvec3(0,0,1));
     
-    glm::dvec3 cameraPosition = glm::dvec3(2*R,2*R,0);
+    glm::dvec3 cameraPosition = glm::dvec3(2*R,2*R,0.5*R);
     // cameraPosition = glm::dvec3(0,2*R,0);
     Camera camera = Camera(cameraPosition,xyz,width,height,M_PI/2);
 
@@ -33,26 +34,41 @@ int main(){
     PointSource source = PointSource(lightSourceLocation,lightSourceIntensity,attenuation,ambientCoefficient);
 
     glm::dvec3 snowColor = glm::dvec3(1,0.98,0.98);
-    glm::dvec3 location = glm::dvec3(1.5*R,2*R,-1.5*R);
-    glm::dvec3 snowSpecColor = glm::dvec3(1,0,0);
+    
+    glm::dvec3 snowSpecColor = glm::dvec3(1,1,1);
     double snowSpecCoeff = 0.35;
     double snowdiffCoeff = 0.65;
 
-    double snowShininess = 0.3;
+    double snowShininess = 0;
     
     double snowKtrans = 0;
-    double snowKreflec = 0.1;
-    double snowRadius = R/2;
-    Sphere* sphere1 = new Sphere(id,location,snowColor,snowRadius,1.1,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec);
-    
+    double snowKreflec = 0;
+
+
+
+    double radius1 = R;
+    glm::dvec3 location1 = glm::dvec3(2*R,R,-2*R);
+    Sphere* sphere1 = new Sphere(id,location1,snowColor,radius1,1.1,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec);
     id++;
-    Sphere* sphere2 = new Sphere(id,glm::dvec3(2.5*R,2*R,-1.5*R),glm::dvec3(0,1,0),R/2,1.1,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec);
+
+
+    glm::dvec3 location2 = glm::dvec3(2*R,2.25*R,-2*R);
+    double radius2 = R/2;
+    Sphere* sphere2 = new Sphere(id,location2,snowColor,radius2,1.1,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec);
+    id++;
+
+    
+    glm::dvec3 location3 = glm::dvec3(2*R,2.7*R,-2*R);
+    double radius3 = R/4;
+    Sphere* sphere3 = new Sphere(id,location3,snowColor,radius3,1.1,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec);
+    id++;
 
     std::vector<Object*> objects;
     std::vector<PointSource> lightSources;
 
     objects.push_back(sphere1);
     objects.push_back(sphere2);
+    objects.push_back(sphere3);
     lightSources.push_back(source);
     
     std::ofstream myfile;

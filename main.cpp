@@ -24,7 +24,7 @@ int main(){
 
     xyz.setAxes(glm::dvec3(1,0,0),glm::dvec3(0,1,0),glm::dvec3(0,0,1));
     
-    glm::dvec3 cameraPosition = glm::dvec3(2*R,2*R,0.5*R);
+    glm::dvec3 cameraPosition = glm::dvec3(2*R,2*R,2*R);
     Camera camera = Camera(cameraPosition,xyz,width,height,M_PI/2);
 
 
@@ -57,6 +57,72 @@ int main(){
     double attenuation4 = 0.01;
     double ambientCoefficient4 = 0.1;
     PointSource* source4 = new PointSource(lightSourceLocation4,lightSourceIntensity4,attenuation4,ambientCoefficient4);
+    std::vector<Object*> shinyBalls;
+    double circleRadius = 1.5*R;
+    double kt_1 = 0.3;
+    double kr_1 = 0.6;
+
+    double kt_2 = 0;
+    double kr_2 = 0.9;
+
+    double diffCoeff1 = 0.025;
+    double specCoeff1 = 0.075;
+
+    double diffCoeff2 = 0.025;
+    double specCoeff2 = 0.075;
+
+    double shininess1 = 0.8;
+    double shininess2 = 0.8;
+
+    for(int i =0 ;i<6;i++){
+        double angle1 = i * M_PI/3;
+        double angle2 = angle1 + M_PI/6;
+        
+        glm::dvec3 loc1 = glm::dvec3( 2*R + circleRadius*cos(angle1), R/4, -2*R - circleRadius*sin(angle1));
+        glm::dvec3 loc2 = glm::dvec3(2*R + circleRadius*cos(angle2),R/4, -2*R - circleRadius*sin(angle2));
+
+        int id1 = 2*i;
+        int id2 = 2*i+1;
+
+        glm::dvec3 color1;
+        glm::dvec3 specColor1;
+
+        glm::dvec3 color2;
+        glm::dvec3 specColor2;
+
+        if(id1%3==0){
+           specColor1 = glm::dvec3(0,1,1);
+           color1 = specColor1;
+        }
+        else if(id1%3==1){
+            specColor1 = glm::dvec3(1,165/255,0);
+            color1 = specColor1;
+        }
+        else{
+            specColor1 = glm::dvec3(1,0,1);
+            color1 = specColor1;
+        }
+
+
+        if(id2%3==0){
+           specColor2 = glm::dvec3(0,1,1);
+           color2 = specColor2;
+        }
+        else if(id2%3==1){
+            specColor2 = glm::dvec3(1,165/255,0);
+            color2 = specColor2;
+        }
+        else{
+            specColor2 = glm::dvec3(1,0,1);
+            color2 = specColor2;
+        }
+
+        shinyBalls.push_back( new Sphere(id,loc1,color1,R/4,1.5,specColor1,specCoeff1,diffCoeff1,shininess1,kt_1,kr_1));
+        id++;
+
+        shinyBalls.push_back( new Sphere(id,loc2,color2,R/4,1.5,specColor2,specCoeff2,diffCoeff2,shininess2,kt_2,kr_2));
+        id++;
+    }
 
     glm::dvec3 snowColor = glm::dvec3(1,0.98,0.98);
     glm::dvec3 snowSpecColor = glm::dvec3(1,1,1);
@@ -152,6 +218,8 @@ int main(){
     objects.push_back(ceilWall);
     objects.push_back(bottomWall);
 
+    for(int i =0;i<12;i++)objects.push_back(shinyBalls[i]);
+
     lightSources.push_back(source1);
     lightSources.push_back(source2);
     lightSources.push_back(source3);
@@ -162,7 +230,7 @@ int main(){
     double start = omp_get_wtime();
     // #pragma omp parallel
     // {   
-        // #pragma omp for
+        #pragma omp parallel for
         for(int iter = 0;iter<height*width;iter++){
                 int i,j;
                 i = iter/width;
@@ -170,7 +238,7 @@ int main(){
         
                 glm::dvec3 rayDir = glm::normalize(camera.pixelToWorld( (double)j,(double)i) - camera.location);
                 Ray ray = Ray(camera.location,rayDir,1);
-                glm::dvec3 colorObtained = rayTrace(ray,objects,lightSources,1,4,glm::dvec3(0,0,0));
+                glm::dvec3 colorObtained = rayTrace(ray,objects,lightSources,1,1,glm::dvec3(0,0,0));
         
                 image[i][j][0]=(int) (colorObtained[0]*255);
                 image[i][j][1]=(int) (colorObtained[1]*255);

@@ -21,7 +21,7 @@ int main(){
     int width = WIDTH;
     int height = HEIGHT;
     int id = 1;
-
+    omp_set_num_threads(8);
     xyz.setAxes(glm::dvec3(1,0,0),glm::dvec3(0,1,0),glm::dvec3(0,0,1));
     
     glm::dvec3 cameraPosition = glm::dvec3(2*R,2*R,2*R);
@@ -59,11 +59,11 @@ int main(){
     PointSource* source4 = new PointSource(lightSourceLocation4,lightSourceIntensity4,attenuation4,ambientCoefficient4);
     std::vector<Object*> shinyBalls;
     double circleRadius = 1.5*R;
-    double kt_1 = 0.3;
-    double kr_1 = 0.6;
+    double kt_1 = 0.5;
+    double kr_1 = 0;
 
-    double kt_2 = 0;
-    double kr_2 = 0.9;
+    double kt_2 = 0.5;
+    double kr_2 = 0;
 
     double diffCoeff1 = 0.025;
     double specCoeff1 = 0.075;
@@ -131,8 +131,8 @@ int main(){
 
     double snowShininess = 0;
     
-    double snowKtrans = 0;
-    double snowKreflec = 0;
+    double snowKtrans = 0.01;
+    double snowKreflec = 0.09;
 
 
 
@@ -163,11 +163,11 @@ int main(){
     double sideWallShininess = 0;
 
     glm::dvec4 sideWallParam1 = glm::dvec4(1,0,0,0);
-    Wall* leftWall = new Wall(id,glm::dvec3(0,0,0),sideWallColor,sideWallParam1,1.1,sideWallSpecColor,sideWallSpecCoeff,sideWallDiffuseCoeff,sideWallShininess,sideWallKtrans,sideWallKreflec);
+    Wall* leftWall = new Wall(id,glm::dvec3(0,0,-4*R),glm::dvec3(0,4*R,0),glm::dvec3(0,0,0),sideWallColor,sideWallParam1,1.1,sideWallSpecColor,sideWallSpecCoeff,sideWallDiffuseCoeff,sideWallShininess,sideWallKtrans,sideWallKreflec);
     id++;
 
     glm::dvec4 sideWallParam2 = glm::dvec4(1,0,0,4*R);
-    Wall* rightWall = new Wall(id,glm::dvec3(4*R,0,0),sideWallColor,sideWallParam2,1.1,sideWallSpecColor,sideWallSpecCoeff,sideWallDiffuseCoeff,sideWallShininess,sideWallKtrans,sideWallKreflec);
+    Wall* rightWall = new Wall(id,glm::dvec3(0,0,-4*R),glm::dvec3(0,4*R,0),glm::dvec3(4*R,0,0),sideWallColor,sideWallParam2,1.1,sideWallSpecColor,sideWallSpecCoeff,sideWallDiffuseCoeff,sideWallShininess,sideWallKtrans,sideWallKreflec);
     id++;
 
 
@@ -180,7 +180,7 @@ int main(){
     double ceilWallShininess = 0;
 
     glm::dvec4 ceilWallParam1 = glm::dvec4(0,1,0,4*R);
-    Wall* ceilWall = new Wall(id,glm::dvec3(0,2*R,0),ceilWallColor,ceilWallParam1,1.1,ceilWallSpecColor,ceilWallSpecCoeff,ceilWallDiffuseCoeff,ceilWallShininess,ceilWallKtrans,ceilWallKreflec);
+    Wall* ceilWall = new Wall(id,glm::dvec3(0,4*R,-4*R),glm::dvec3(4*R,4*R,0),glm::dvec3(0,2*R,0),ceilWallColor,ceilWallParam1,1.1,ceilWallSpecColor,ceilWallSpecCoeff,ceilWallDiffuseCoeff,ceilWallShininess,ceilWallKtrans,ceilWallKreflec);
     id++;
 
     glm::dvec3 bottomWallColor = glm::dvec3(1,1,1);
@@ -192,7 +192,7 @@ int main(){
     double bottomWallShininess = 0;
 
     glm::dvec4 bottomWallParam1 = glm::dvec4(0,1,0,0);
-    Wall* bottomWall = new Wall(id,glm::dvec3(0,0,0),bottomWallColor,bottomWallParam1,1.1,bottomWallSpecColor,bottomWallSpecCoeff,bottomWallDiffuseCoeff,bottomWallShininess,bottomWallKtrans,bottomWallKreflec);
+    Wall* bottomWall = new Wall(id,glm::dvec3(0,4*R,-4*R),glm::dvec3(4*R,4*R,0),glm::dvec3(0,0,0),bottomWallColor,bottomWallParam1,1.1,bottomWallSpecColor,bottomWallSpecCoeff,bottomWallDiffuseCoeff,bottomWallShininess,bottomWallKtrans,bottomWallKreflec);
     id++;
 
     glm::dvec3 farWallColor = glm::dvec3(0,0,0);
@@ -204,7 +204,7 @@ int main(){
     double farWallShininess = 0.5;
 
     glm::dvec4 farWallParam1 = glm::dvec4(0,0,1,-4*R);
-    Wall* farWall = new Wall(id,glm::dvec3(0,0,-R*4),farWallColor,farWallParam1,1.1,farWallSpecColor,farWallSpecCoeff,farWallDiffuseCoeff,farWallShininess,farWallKtrans,farWallKreflec);
+    Wall* farWall = new Wall(id,glm::dvec3(0,0,-4*R),glm::dvec3(4*R,4*R,-4*R),glm::dvec3(0,0,-R*4),farWallColor,farWallParam1,1.1,farWallSpecColor,farWallSpecCoeff,farWallDiffuseCoeff,farWallShininess,farWallKtrans,farWallKreflec);
     id++;
     std::vector<Object*> objects;
     std::vector<PointSource*> lightSources;
@@ -230,7 +230,7 @@ int main(){
     double start = omp_get_wtime();
     // #pragma omp parallel
     // {   
-        #pragma omp parallel for
+        // #pragma omp parallel for
         for(int iter = 0;iter<height*width;iter++){
                 int i,j;
                 i = iter/width;

@@ -132,10 +132,12 @@ glm::dvec3 rayTrace(Ray ray, std::vector<Object*> &objects, std::vector<PointSou
         Ray reflectedRay = getReflectedRay(normal,ray,closestIntersectionPoint);
         reflectionContribution =  rayTrace(reflectedRay,objects,lightSources,depth+1,maxDepth,backgroundColor);
     }
-    
+
     double Kt = objects[closestIntersectionIndex]->getK_Transmission();
     glm::dvec3 refractionRayContribution = glm::dvec3(0,0,0);
     if(Kt!=0){
+        closest_Tval = closest_Tval + 2* 0.0001;
+        closestIntersectionPoint = ray.scale(closest_Tval);
         Ray refractedRay = getRefractedRay(normal,ray,closestIntersectionPoint,ray.getMediumRefractiveIndex(),objects[closestIntersectionIndex]->getRefractiveIndex());
         refractionRayContribution =  rayTrace(refractedRay,objects,lightSources,depth+1,maxDepth,backgroundColor);
     }

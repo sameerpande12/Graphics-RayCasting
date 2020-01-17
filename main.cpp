@@ -238,7 +238,7 @@ int main(){
         
                 glm::dvec3 rayDir = glm::normalize(camera.pixelToWorld( (double)j,(double)i) - camera.location);
                 Ray ray = Ray(camera.location,rayDir,1);
-                glm::dvec3 colorObtained = rayTrace(ray,objects,lightSources,1,1,glm::dvec3(0,0,0));
+                glm::dvec3 colorObtained = rayTrace(ray,objects,lightSources,1,4,glm::dvec3(0,0,0));
         
                 image[i][j][0]=(int) (colorObtained[0]*255);
                 image[i][j][1]=(int) (colorObtained[1]*255);

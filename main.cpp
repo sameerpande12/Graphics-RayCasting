@@ -160,9 +160,9 @@ int main(){
     std::ofstream myfile;
     myfile.open("image.csv");
     double start = omp_get_wtime();
-    #pragma omp parallel
-    {   
-        #pragma omp for
+    // #pragma omp parallel
+    // {   
+        // #pragma omp for
         for(int iter = 0;iter<height*width;iter++){
                 int i,j;
                 i = iter/width;
@@ -177,7 +177,7 @@ int main(){
                 image[i][j][2]=(int) (colorObtained[2]*255);
         
         }
-    }
+    // }
     double end = omp_get_wtime();
     cout<<end-start<<endl;
     

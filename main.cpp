@@ -26,6 +26,18 @@ static void error_callback(int error, const char* description)
 {
     fprintf(stderr, "Error: %s\n", description);
 }
+void printAxes(Axes ax){
+    
+    for(int i = 0;i<3;i++){
+        glm::dvec3 axis = ax.getAxis(i);
+        cout<<"(";
+        for(int j=0;j<3;j++){
+            cout<<axis[j];
+            if(j<2)cout<<",";
+        }
+        cout<<") ";
+    }
+}
 
 int main(int argc,char*argv[]){
 
@@ -228,14 +240,27 @@ int main(int argc,char*argv[]){
     double sideWallKreflec = 0.1;
     double sideWallShininess = 0;
 
-    glm::dvec4 sideWallParam1 = glm::dvec4(1,0,0,0);
-    Wall* leftWall = new Wall(id,glm::dvec3(0,0,-4*R),glm::dvec3(0,4*R,0),glm::dvec3(0,0,0),sideWallColor,sideWallParam1,1.1,sideWallSpecColor,sideWallSpecCoeff,sideWallDiffuseCoeff,sideWallShininess,sideWallKtrans,sideWallKreflec,1,false);
+    std::vector<glm::dvec3> cornersLeft;
+    cornersLeft.push_back(glm::dvec3(0,0,0));
+    cornersLeft.push_back(glm::dvec3(0,4*R,0));
+    cornersLeft.push_back(glm::dvec3(0,4*R,-4*R));
+    cornersLeft.push_back(glm::dvec3(0,0,-4*R));
+
+    Wall* leftWall = new Wall(id,cornersLeft,cornersLeft[0],sideWallColor,1.1,sideWallSpecColor,sideWallSpecCoeff,sideWallDiffuseCoeff,sideWallShininess,sideWallKtrans,sideWallKreflec,1,true);
     id++;
 
-    glm::dvec4 sideWallParam2 = glm::dvec4(1,0,0,4*R);
-    Wall* rightWall = new Wall(id,glm::dvec3(0,0,-4*R),glm::dvec3(0,4*R,0),glm::dvec3(4*R,0,0),sideWallColor,sideWallParam2,1.1,sideWallSpecColor,sideWallSpecCoeff,sideWallDiffuseCoeff,sideWallShininess,sideWallKtrans,sideWallKreflec,1,false);
+
+
+    std::vector<glm::dvec3> cornersRight;
+    cornersRight.push_back(glm::dvec3(4*R,0,0));
+    cornersRight.push_back(glm::dvec3(4*R,4*R,0));
+    cornersRight.push_back(glm::dvec3(4*R,4*R,-4*R));
+    cornersRight.push_back(glm::dvec3(4*R,0,-4*R));
+    
+    Wall* rightWall = new Wall(id,cornersRight,cornersRight[0],sideWallColor,1.1,sideWallSpecColor,sideWallSpecCoeff,sideWallDiffuseCoeff,sideWallShininess,sideWallKtrans,sideWallKreflec,1,true);
     id++;
 
+    
 
     glm::dvec3 ceilWallColor = glm::dvec3(0,1,0);
     glm::dvec3 ceilWallSpecColor = glm::dvec3(0,1,0);
@@ -245,8 +270,14 @@ int main(int argc,char*argv[]){
     double ceilWallKreflec = 0.1;
     double ceilWallShininess = 0;
 
-    glm::dvec4 ceilWallParam1 = glm::dvec4(0,1,0,4*R);
-    Wall* ceilWall = new Wall(id,glm::dvec3(0,4*R,-4*R),glm::dvec3(4*R,4*R,0),glm::dvec3(0,2*R,0),ceilWallColor,ceilWallParam1,1.1,ceilWallSpecColor,ceilWallSpecCoeff,ceilWallDiffuseCoeff,ceilWallShininess,ceilWallKtrans,ceilWallKreflec,1,false);
+
+    std::vector<glm::dvec3> cornersCeil;
+    cornersCeil.push_back(glm::dvec3(0,4*R,0));
+    cornersCeil.push_back(glm::dvec3(4*R,4*R,0));
+    cornersCeil.push_back(glm::dvec3(4*R,4*R,-4*R));
+    cornersCeil.push_back(glm::dvec3(0,4*R,-4*R));
+    
+    Wall* ceilWall = new Wall(id,cornersCeil,cornersCeil[0],ceilWallColor,1.1,ceilWallSpecColor,ceilWallSpecCoeff,ceilWallDiffuseCoeff,ceilWallShininess,ceilWallKtrans,ceilWallKreflec,1,true);
     id++;
 
     glm::dvec3 bottomWallColor = glm::dvec3(1,1,1);
@@ -257,8 +288,15 @@ int main(int argc,char*argv[]){
     double bottomWallKreflec = 0.1;
     double bottomWallShininess = 0;
 
-    glm::dvec4 bottomWallParam1 = glm::dvec4(0,1,0,0);
-    Wall* bottomWall = new Wall(id,glm::dvec3(0,4*R,-4*R),glm::dvec3(4*R,4*R,0),glm::dvec3(0,0,0),bottomWallColor,bottomWallParam1,1.1,bottomWallSpecColor,bottomWallSpecCoeff,bottomWallDiffuseCoeff,bottomWallShininess,bottomWallKtrans,bottomWallKreflec,1,false);
+
+    
+    std::vector<glm::dvec3> cornersBottom;
+    cornersBottom.push_back(glm::dvec3(0,0,0));
+    cornersBottom.push_back(glm::dvec3(4*R,0,0));
+    cornersBottom.push_back(glm::dvec3(4*R,0,-4*R));
+    cornersBottom.push_back(glm::dvec3(0,0,-4*R));
+
+    Wall* bottomWall = new Wall(id,cornersBottom,cornersBottom[0],bottomWallColor,1.1,bottomWallSpecColor,bottomWallSpecCoeff,bottomWallDiffuseCoeff,bottomWallShininess,bottomWallKtrans,bottomWallKreflec,1,true);
     id++;
 
     glm::dvec3 farWallColor = glm::dvec3(0,0,0);
@@ -269,8 +307,14 @@ int main(int argc,char*argv[]){
     double farWallKreflec = 0.1;
     double farWallShininess = 0.5;
 
-    glm::dvec4 farWallParam1 = glm::dvec4(0,0,1,-4*R);
-    Wall* farWall = new Wall(id,glm::dvec3(0,0,-4*R),glm::dvec3(4*R,4*R,-4*R),glm::dvec3(0,0,-R*4),farWallColor,farWallParam1,1.1,farWallSpecColor,farWallSpecCoeff,farWallDiffuseCoeff,farWallShininess,farWallKtrans,farWallKreflec,1,false);
+
+    std::vector<glm::dvec3> cornersFar;
+    cornersFar.push_back(glm::dvec3(0,0,-4*R));
+    cornersFar.push_back(glm::dvec3(4*R,0,-4*R));
+    cornersFar.push_back(glm::dvec3(4*R,4*R,-4*R));
+    cornersFar.push_back(glm::dvec3(0,4*R,-4*R));
+    
+    Wall* farWall = new Wall(id,cornersFar,cornersFar[0],farWallColor,1.1,farWallSpecColor,farWallSpecCoeff,farWallDiffuseCoeff,farWallShininess,farWallKtrans,farWallKreflec,1,true);
     id++;
     std::vector<Object*> objects;
     std::vector<PointSource*> lightSources;
@@ -343,6 +387,15 @@ void keyCallback(GLFWwindow* window,int key, int scancode,int action,int mods){
             newPos[1] = shinyBalls[i]->getReference()[1];
             shinyBalls[i]->setReference(  newPos );
         }
+    }
+    else if( (key==GLFW_KEY_UP || key==GLFW_KEY_DOWN) && action==GLFW_PRESS && toggleValue == 1 ){
+        double angle = M_PI_4/3;//15 degrees
+        if(key==GLFW_KEY_DOWN)angle = -angle;
+        
+        camera.axes = rotateAxes(camera.axes,angle,0);
+        cout<<"New camera axes are-> ";
+        printAxes(camera.axes);
+        cout<<'\n';
     }    
 }
 

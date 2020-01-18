@@ -27,9 +27,9 @@ std::vector<double> solveQuadratic(double a, double b, double c){
 
 Axes rotateAxes(Axes input,double angle, int axisID){
     Axes output = Axes();
-    output.x = rotateVector(input.x,angle,0);
-    output.y = rotateVector(input.y,angle,1);
-    output.z = rotateVector(input.z,angle,2);
+    output.x = rotateVector(input.x,angle,axisID);
+    output.y = rotateVector(input.y,angle,axisID);
+    output.z = rotateVector(input.z,angle,axisID);
     return output;
     
 };

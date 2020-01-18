@@ -134,14 +134,14 @@ int main(){
     // double snowKtrans = 0.01;
     // double snowKreflec = 0.09;
 
-    glm::dvec3 snowColor = glm::dvec3(1,0.98,0.98);
+    glm::dvec3 snowColor = glm::dvec3(0,0,0);
     glm::dvec3 snowSpecColor = glm::dvec3(0,0,0);
     double snowSpecCoeff = 0.;
     double snowdiffCoeff = 0.;
 
     double snowShininess = 0;
     
-    double snowKtrans = 0;
+    double snowKtrans = 1;
     double snowKreflec = 0;
 
     
@@ -151,19 +151,19 @@ int main(){
     glm::dvec3 location1 = glm::dvec3(2*R,R,-2*R);
     Sphere* sphere1 = new Sphere(id,location1,snowColor,radius1,snowRefractiveIndex,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec,0);
     id++;
-    cout<<"Sphere 1 id:"<<sphere1->getID()<<" kt:"<<sphere1->getK_Transmission()<<"\n";
+    cout<<"Sphere 1 id:"<<sphere1->getID()<<" kt:"<<sphere1->getK_Transmission()<<"\n\n";
 
 
-    glm::dvec3 location2 = glm::dvec3(2*R,2.25*R,-2*R);
-    double radius2 = R/2;
-    Sphere* sphere2 = new Sphere(id,location2,snowColor,radius2,snowRefractiveIndex,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec,0);
-    id++;
+    // glm::dvec3 location2 = glm::dvec3(2*R,2.25*R,-2*R);
+    // double radius2 = R/2;
+    // Sphere* sphere2 = new Sphere(id,location2,snowColor,radius2,snowRefractiveIndex,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec,0);
+    // id++;
 
     
-    glm::dvec3 location3 = glm::dvec3(2*R,2.7*R,-2*R);
-    double radius3 = R/4;
-    Sphere* sphere3 = new Sphere(id,location3,snowColor,radius3,snowRefractiveIndex,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec,0);
-    id++;
+    // glm::dvec3 location3 = glm::dvec3(2*R,2.7*R,-2*R);
+    // double radius3 = R/4;
+    // Sphere* sphere3 = new Sphere(id,location3,snowColor,radius3,snowRefractiveIndex,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec,0);
+    // id++;
 
 
     glm::dvec3 sideWallColor = glm::dvec3(1,0,0);
@@ -222,8 +222,8 @@ int main(){
     std::vector<PointSource*> lightSources;
 
     objects.push_back(sphere1);
-    objects.push_back(sphere2);
-    objects.push_back(sphere3);
+    // objects.push_back(sphere2);
+    // objects.push_back(sphere3);
     objects.push_back(farWall);
     objects.push_back(leftWall);
     objects.push_back(rightWall);

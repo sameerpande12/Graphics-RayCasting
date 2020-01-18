@@ -113,25 +113,23 @@ glm::dvec3 rayTrace(Ray ray, std::vector<Object*> &objects, std::vector<PointSou
         return backgroundColor;
     }
 
-    std::vector<bool> shadowVec = isShadow(closestIntersectionPoint,lightSources,objects);
+    // std::vector<bool> shadowVec = isShadow(closestIntersectionPoint,lightSources,objects);
 
 
-    std::vector<PointSource*> accessibleSources;
-    for(int i =0;i<(int)lightSources.size();i++){
-        if( !shadowVec[i])accessibleSources.push_back(lightSources[i]);
-    }
+    // std::vector<PointSource*> accessibleSources;
+    // for(int i =0;i<(int)lightSources.size();i++){
+    //     if( !shadowVec[i])accessibleSources.push_back(lightSources[i]);
+    // }
     
     glm::dvec3 localIllumination = glm::dvec3(0,0,0);
     
-    localIllumination = localIllumination + objects[closestIntersectionIndex]->getLocalIllumination(accessibleSources,normal,ray.getOrigin(),closestIntersectionPoint);
-    // localIllumination = localIllumination + objects[closestIntersectionIndex]->getLocalIllumination(lightSources,normal,ray.getOrigin(),closestIntersectionPoint);
+    // localIllumination = localIllumination + objects[closestIntersectionIndex]->getLocalIllumination(accessibleSources,normal,ray.getOrigin(),closestIntersectionPoint);
+    localIllumination = localIllumination + objects[closestIntersectionIndex]->getLocalIllumination(lightSources,normal,ray.getOrigin(),closestIntersectionPoint);
 
     double Kr = objects[closestIntersectionIndex]->getK_Reflection();
     glm::dvec3 reflectionContribution = glm::dvec3(0,0,0);
     if(Kr!=0){
-        // if(objects[closestIntersectionIndex]->getType()==0){
-        //     std::cout<<Kr<<" <- Kr"<<std::endl;
-        // }
+        
         Ray reflectedRay = getReflectedRay(normal,ray,closestIntersectionPoint);
         reflectionContribution =  rayTrace(reflectedRay,objects,lightSources,depth+1,maxDepth,backgroundColor);
     }
@@ -144,20 +142,19 @@ glm::dvec3 rayTrace(Ray ray, std::vector<Object*> &objects, std::vector<PointSou
     // bool tmp = objects[closestIntersectionIndex]->isInside(closestIntersectionPoint);
     // std::cout<<"Intersection Point -> ("<<closestIntersectionPoint[0]<<","<<closestIntersectionPoint[1]<<","<<closestIntersectionPoint[2]<<") isInside "<<tmp<<"\n";
     if(Kt!=0){
-        // if(objects[closestIntersectionIndex]->getType()==0){
-        //     std::cout<<Kt<<" <- Kt"<<std::endl;
-        // }
-        closest_Tval = closest_Tval + 2* 0.001;
+        
+        closest_Tval = closest_Tval + 2* 0.0001;
         closestIntersectionPoint = ray.scale(closest_Tval);
         // tmp = objects[closestIntersectionIndex]->isInside(closestIntersectionPoint);
         // std::cout<<"Refracted Intersection Point -> ("<<closestIntersectionPoint[0]<<","<<closestIntersectionPoint[1]<<","<<closestIntersectionPoint[2]<<") isInside "<<tmp<<"\n";
         bool isInsideObject = (ray.getMediumRefractiveIndex()==objects[closestIntersectionIndex]->getRefractiveIndex()); 
         // std::cout<<"Incoming ray direction: "<<ray.getDirection()[0]<<" "<<ray.getDirection()[1]<<" "<<ray.getDirection()[2]<<"\n";
         
-        if(objects[closestIntersectionIndex]->getType()==0){
-            normal = glm::normalize(closestIntersectionPoint - objects[closestIntersectionIndex]->getReference());
-            if(isInsideObject)normal = -normal;
-        }
+        // if(objects[closestIntersectionIndex]->getType()==0){
+        //     normal = glm::normalize(closestIntersectionPoint - objects[closestIntersectionIndex]->getReference());
+        //     if(isInsideObject)normal = -normal;
+        //  CAUSED ERRORS !-> because we took care of inverting the normal if ray origin is inside the sphere itself. If we reinvert we nullify the effect
+        // }
         // std::cout<<"normal direction: "<<normal[0]<<" "<<normal[1]<<" "<<normal[2]<<"\n";
         if(!isInsideObject){
             Ray refractedRay = getRefractedRay(normal,ray,closestIntersectionPoint,ray.getMediumRefractiveIndex(),objects[closestIntersectionIndex]->getRefractiveIndex());
@@ -205,10 +202,12 @@ Ray getRefractedRay(glm::dvec3 normal,Ray incident,glm::dvec3 point, double inco
     double n = incomingRefractiveIndex/outgoingRefractiveIndex;
 
     double cosAlpha =  glm::dot( -normal,v);//assuming all the directions are unit vectors
+    // std::cout<<"Cos Alpha "<<cosAlpha<<"\n";
     double discriminant = 1 + (cosAlpha*cosAlpha -1)/(n*n);
     if(discriminant<0){
         //you will have to reduce the t_value
         point = point - 0.0002 *(incident.getDirection());//make sure you take away the point out before reflection;
+        // std::cout<<"TOTAL INTERNAL REFLECTION"<<"\n";
         return getReflectedRay(normal,incident,point);//this also keeps the ray in the same medium it came from
     }
     

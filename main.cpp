@@ -59,111 +59,102 @@ int main(){
     PointSource* source4 = new PointSource(lightSourceLocation4,lightSourceIntensity4,attenuation4,ambientCoefficient4);
     std::vector<Object*> shinyBalls;
     double circleRadius = 1.5*R;
-    // double kt_1 = 1;
-    // double kr_1 = 0;
+    double kt_1 = .6;
+    double kr_1 = .3;
 
-    // double kt_2 = 1;
-    // double kr_2 = 0;
+    double kt_2 = 0;
+    double kr_2 = 0.9;
 
-    // double diffCoeff1 = 0.025;
-    // double specCoeff1 = 0.075;
+    double diffCoeff1 = 0.025;
+    double specCoeff1 = 0.075;
 
-    // double diffCoeff2 = 0.025;
-    // double specCoeff2 = 0.075;
+    double diffCoeff2 = 0.025;
+    double specCoeff2 = 0.075;
 
-    // double shininess1 = 0.8;
-    // double shininess2 = 0.8;
+    double shininess1 = 0.8;
+    double shininess2 = 0.8;
 
-    // for(int i =0 ;i<6;i++){
-    //     double angle1 = i * M_PI/3;
-    //     double angle2 = angle1 + M_PI/6;
+    for(int i =0 ;i<6;i++){
+        double angle1 = i * M_PI/3;
+        double angle2 = angle1 + M_PI/6;
         
-    //     glm::dvec3 loc1 = glm::dvec3( 2*R + circleRadius*cos(angle1), R/4, -2*R - circleRadius*sin(angle1));
-    //     glm::dvec3 loc2 = glm::dvec3(2*R + circleRadius*cos(angle2),R/4, -2*R - circleRadius*sin(angle2));
+        glm::dvec3 loc1 = glm::dvec3( 2*R + circleRadius*cos(angle1), R/4, -2*R - circleRadius*sin(angle1));
+        glm::dvec3 loc2 = glm::dvec3(2*R + circleRadius*cos(angle2),R/4, -2*R - circleRadius*sin(angle2));
 
-    //     int id1 = 2*i;
-    //     int id2 = 2*i+1;
+        int id1 = 2*i;
+        int id2 = 2*i+1;
 
-    //     glm::dvec3 color1;
-    //     glm::dvec3 specColor1;
+        glm::dvec3 color1;
+        glm::dvec3 specColor1;
 
-    //     glm::dvec3 color2;
-    //     glm::dvec3 specColor2;
+        glm::dvec3 color2;
+        glm::dvec3 specColor2;
 
-    //     if(id1%3==0){
-    //        specColor1 = glm::dvec3(0,1,1);
-    //        color1 = specColor1;
-    //     }
-    //     else if(id1%3==1){
-    //         specColor1 = glm::dvec3(1,165/255,0);
-    //         color1 = specColor1;
-    //     }
-    //     else{
-    //         specColor1 = glm::dvec3(1,0,1);
-    //         color1 = specColor1;
-    //     }
+        if(id1%3==0){
+           specColor1 = glm::dvec3(0,1,1);
+           color1 = specColor1;
+        }
+        else if(id1%3==1){
+            specColor1 = glm::dvec3(1,165/255,0);
+            color1 = specColor1;
+        }
+        else{
+            specColor1 = glm::dvec3(1,0,1);
+            color1 = specColor1;
+        }
 
 
-    //     if(id2%3==0){
-    //        specColor2 = glm::dvec3(0,1,1);
-    //        color2 = specColor2;
-    //     }
-    //     else if(id2%3==1){
-    //         specColor2 = glm::dvec3(1,165/255,0);
-    //         color2 = specColor2;
-    //     }
-    //     else{
-    //         specColor2 = glm::dvec3(1,0,1);
-    //         color2 = specColor2;
-    //     }
+        if(id2%3==0){
+           specColor2 = glm::dvec3(0,1,1);
+           color2 = specColor2;
+        }
+        else if(id2%3==1){
+            specColor2 = glm::dvec3(1,165/255,0);
+            color2 = specColor2;
+        }
+        else{
+            specColor2 = glm::dvec3(1,0,1);
+            color2 = specColor2;
+        }
 
-    //     shinyBalls.push_back( new Sphere(id,loc1,color1,R/4,1.5,specColor1,specCoeff1,diffCoeff1,shininess1,kt_1,kr_1,0));
-    //     id++;
+        shinyBalls.push_back( new Sphere(id,loc1,color1,R/4,1.5,specColor1,specCoeff1,diffCoeff1,shininess1,kt_1,kr_1,0));
+        id++;
 
-    //     shinyBalls.push_back( new Sphere(id,loc2,color2,R/4,1.5,specColor2,specCoeff2,diffCoeff2,shininess2,kt_2,kr_2,0));
-    //     id++;
-    // }
+        shinyBalls.push_back( new Sphere(id,loc2,color2,R/4,1.5,specColor2,specCoeff2,diffCoeff2,shininess2,kt_2,kr_2,0));
+        id++;
+    }
 
-    // glm::dvec3 snowColor = glm::dvec3(1,0.98,0.98);
-    // glm::dvec3 snowSpecColor = glm::dvec3(1,1,1);
-    // double snowSpecCoeff = 0.035;
-    // double snowdiffCoeff = 0.065;
-
-    // double snowShininess = 0;
-    
-    // double snowKtrans = 0.01;
-    // double snowKreflec = 0.09;
-
-    glm::dvec3 snowColor = glm::dvec3(0,0,0);
-    glm::dvec3 snowSpecColor = glm::dvec3(0,0,0);
-    double snowSpecCoeff = 0.;
-    double snowdiffCoeff = 0.;
+    glm::dvec3 snowColor = glm::dvec3(1,0.98,0.98);
+    glm::dvec3 snowSpecColor = glm::dvec3(1,1,1);
+    double snowSpecCoeff = 0.035;
+    double snowdiffCoeff = 0.065;
 
     double snowShininess = 0;
     
-    double snowKtrans = 1;
-    double snowKreflec = 0;
+    double snowKtrans = 0.0;
+    double snowKreflec = 0.09;
+
 
     
-    double snowRefractiveIndex = 1;
+    double snowRefractiveIndex = 1.2;
 
     double radius1 = R;
     glm::dvec3 location1 = glm::dvec3(2*R,R,-2*R);
     Sphere* sphere1 = new Sphere(id,location1,snowColor,radius1,snowRefractiveIndex,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec,0);
     id++;
-    cout<<"Sphere 1 id:"<<sphere1->getID()<<" kt:"<<sphere1->getK_Transmission()<<"\n\n";
+    // cout<<"Sphere 1 id:"<<sphere1->getID()<<" kt:"<<sphere1->getK_Transmission()<<"\n\n";
 
 
-    // glm::dvec3 location2 = glm::dvec3(2*R,2.25*R,-2*R);
-    // double radius2 = R/2;
-    // Sphere* sphere2 = new Sphere(id,location2,snowColor,radius2,snowRefractiveIndex,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec,0);
-    // id++;
+    glm::dvec3 location2 = glm::dvec3(2*R,2.25*R,-2*R);
+    double radius2 = R/2;
+    Sphere* sphere2 = new Sphere(id,location2,snowColor,radius2,snowRefractiveIndex,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec,0);
+    id++;
 
     
-    // glm::dvec3 location3 = glm::dvec3(2*R,2.7*R,-2*R);
-    // double radius3 = R/4;
-    // Sphere* sphere3 = new Sphere(id,location3,snowColor,radius3,snowRefractiveIndex,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec,0);
-    // id++;
+    glm::dvec3 location3 = glm::dvec3(2*R,2.7*R,-2*R);
+    double radius3 = R/4;
+    Sphere* sphere3 = new Sphere(id,location3,snowColor,radius3,snowRefractiveIndex,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec,0);
+    id++;
 
 
     glm::dvec3 sideWallColor = glm::dvec3(1,0,0);
@@ -222,15 +213,14 @@ int main(){
     std::vector<PointSource*> lightSources;
 
     objects.push_back(sphere1);
-    // objects.push_back(sphere2);
-    // objects.push_back(sphere3);
+    objects.push_back(sphere2);
+    objects.push_back(sphere3);
     objects.push_back(farWall);
     objects.push_back(leftWall);
     objects.push_back(rightWall);
     objects.push_back(ceilWall);
     objects.push_back(bottomWall);
-
-    // for(int i =0;i<12;i++)objects.push_back(shinyBalls[i]);
+    for(int i =0;i<12;i++)objects.push_back(shinyBalls[i]);
 
     lightSources.push_back(source1);
     lightSources.push_back(source2);
@@ -246,8 +236,7 @@ int main(){
                 int i,j;
                 i = iter/width;
                 j = iter%width;
-                // j = 276;
-                // i = 350;
+                
         
                 glm::dvec3 rayDir = glm::normalize(camera.pixelToWorld( (double)j,(double)i) - camera.location);
                 Ray ray = Ray(camera.location,rayDir,1);

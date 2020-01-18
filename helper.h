@@ -28,3 +28,8 @@ Ray getReflectedRay(glm::dvec3 normal,Ray incident,glm::dvec3 point);
 Ray getRefractedRay(glm::dvec3 normal,Ray incident,glm::dvec3 point, double incomingRefractiveIndex,double outgoingRefractiveIndex);
 
 std::vector<bool> isShadow(glm::dvec3 point, std::vector<PointSource> &sources,std::vector<Object*>&objects);
+
+void printAxes(Axes ax);
+
+
+void printVector(glm::dvec3 vec);

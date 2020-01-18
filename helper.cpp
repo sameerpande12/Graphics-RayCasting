@@ -7,6 +7,23 @@
 #include <tuple>
 #define INF std::numeric_limits<double>::infinity();
 class Object;
+void printAxes(Axes ax){
+    
+    for(int i = 0;i<3;i++){
+        glm::dvec3 axis = ax.getAxis(i);
+        std::cout<<"(";
+        for(int j=0;j<3;j++){
+            std::cout<<axis[j];
+            if(j<2)std::cout<<",";
+        }
+        std::cout<<") ";
+    }
+    std::cout<<std::endl;
+}
+
+void printVector(glm::dvec3 vec){
+    std::cout<<"("<<vec[0]<<","<<vec[1]<<","<<vec[2]<<")\n";
+}
 std::vector<double> solveQuadratic(double a, double b, double c){
     std::vector<double>solutions;
 

@@ -11,12 +11,15 @@
 #include "omp.h"
 #include "OpenGLdraw.h"
 #include "scene.h"
+#include "GLFW/glfw3.h"
+#include "GL/glew.h"
+
 #define cout std::cout
 #define endl std::endl
 
 void keyCallback(GLFWwindow* window,int key, int scancode,int action,int mods);
 
-#define QUIT(m,v)      { fprintf(stderr, "%s:%s\n", m, v); exit(1); }
+
 Camera* camera;
 int toggleValue = 0;
 std::vector<Sphere*> shinyBalls;
@@ -28,34 +31,13 @@ std::vector<PointSource*> lightSources;
 double R = 5;
 double circleRadius = 1.5*R;
 glm::dvec3 centreOfRoom = glm::dvec3(2*R,2*R,-2*R);
+
+#define QUIT(m,v)      { fprintf(stderr, "%s:%s\n", m, v); exit(1); }
 static void error_callback(int error, const char* description)
 {
     fprintf(stderr, "Error: %s\n", description);
 }
-void printAxes(Axes ax){
-    
-    for(int i = 0;i<3;i++){
-        glm::dvec3 axis = ax.getAxis(i);
-        cout<<"(";
-        for(int j=0;j<3;j++){
-            cout<<axis[j];
-            if(j<2)cout<<",";
-        }
-        cout<<") ";
-    }
-    cout<<endl;
-}
-void printVector(glm::dvec3 vec){
-    cout<<"("<<vec[0]<<","<<vec[1]<<","<<vec[2]<<")\n";
-}
-
-
-int main(int argc,char*argv[]){
-
-    int WIDTH = std::stoi(argv[1]);//requested WIDTH
-    int HEIGHT = std::stoi(argv[2]);//requested HEIGHT
-    
-
+void initializeGlfwGLEW(GLFWwindow ** window,int WIDTH,int HEIGHT){
     if (!glfwInit())
         QUIT("gWindow_GLFW", "Could not Initialize GLFW");
 
@@ -72,13 +54,13 @@ int main(int argc,char*argv[]){
     #endif
    }
 
-    GLFWwindow *window = glfwCreateWindow(WIDTH, HEIGHT, "main", NULL, NULL);
+    *window = glfwCreateWindow(WIDTH, HEIGHT, "main", NULL, NULL);
     if (!window) {
         glfwTerminate();
         QUIT("gWindow_GLFW", "Could not create Window");
     }
 
-    glfwMakeContextCurrent(window);
+    glfwMakeContextCurrent(*window);
 
     if ( GLEW_OK != glewInit() ) {
         glfwTerminate();
@@ -86,11 +68,23 @@ int main(int argc,char*argv[]){
     }
 
     glfwSwapInterval(1);
-    glfwSetKeyCallback(window,keyCallback);
+    
+    glEnable(GL_TEXTURE_2D);
+
+}
+
+int main(int argc,char*argv[]){
+
+    int WIDTH = std::stoi(argv[1]);//requested WIDTH
+    int HEIGHT = std::stoi(argv[2]);//requested HEIGHT
+    
+
+    GLFWwindow * window;
+    initializeGlfwGLEW(& window, WIDTH, HEIGHT);
 
     int width,height;
     glfwGetFramebufferSize(window, &width, &height);//save the alloted width and height
-    glEnable(GL_TEXTURE_2D);
+    glfwSetKeyCallback(window,keyCallback);
     OpenGLdraw opengl;
     opengl.init(width, height);
    
@@ -143,8 +137,10 @@ int main(int argc,char*argv[]){
 }
 
 void keyCallback(GLFWwindow* window,int key, int scancode,int action,int mods){
-
-    if(key == GLFW_KEY_T && action == GLFW_PRESS){
+    if(key==GLFW_KEY_ESCAPE && action == GLFW_PRESS){
+        glfwSetWindowShouldClose(window,true);
+    }
+    else if(key == GLFW_KEY_T && action == GLFW_PRESS){
         toggleValue = (toggleValue+1)%3;
         cout<<"Key t is pressed. t ="<<toggleValue<<endl;
 

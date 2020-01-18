@@ -2,10 +2,13 @@ OS := $(shell uname)
 CFLAGS = -lglut -lglfw -Wall -lGL -ldl -lGLEW -fopenmp
 
 exe: main.o 
-	g++ main.o Camera.o Box.o Wall.o Cylinder.o Sphere.o Object.o helper.o Axes.o Ray.o PointSource.o  $(CFLAGS) -o exe
+	g++ main.o OpenGLdraw.o Camera.o Box.o Wall.o Cylinder.o Sphere.o Object.o helper.o Axes.o Ray.o PointSource.o  $(CFLAGS) -o exe
 
-main.o: main.cpp Camera.o Box.o Wall.o Cylinder.o Sphere.o Object.o helper.o Axes.o Ray.o PointSource.o 
+main.o: main.cpp OpenGLdraw.o Camera.o Box.o Wall.o Cylinder.o Sphere.o Object.o helper.o Axes.o Ray.o PointSource.o 
 	g++  $(CFLAGS) -c main.cpp 
+
+OpenGLdraw.o: OpenGLdraw.cpp OpenGLdraw.h 
+	g++ $(CFLAGS) -c OpenGLdraw.cpp
 
 Camera.o: Camera.cpp Camera.h Ray.o helper.o Axes.o 
 	g++ $(CFLAGS) -c Camera.cpp

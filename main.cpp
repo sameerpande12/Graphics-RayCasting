@@ -9,24 +9,73 @@
 #include <fstream>
 #include "Wall.h"
 #include "omp.h"
+#include "OpenGLdraw.h"
 #define cout std::cout
 #define endl std::endl
-#define WIDTH 512
-#define HEIGHT 512
 
-int main(){
+#define QUIT(m,v)      { fprintf(stderr, "%s:%s\n", m, v); exit(1); }
 
 
-    int*** image = new int**[HEIGHT];
-    for(int i=0;i<HEIGHT;i++)image[i] = new int*[WIDTH];
-    for(int i =0;i<HEIGHT;i++){
-        for(int j=0;j<WIDTH;j++)
-            image[i][j]=new int[3];
+static void error_callback(int error, const char* description)
+{
+    fprintf(stderr, "Error: %s\n", description);
+}
+
+int main(int argc,char*argv[]){
+
+    // int WIDTH = std::stoi(argv[1]);//requested WIDTH
+    // int HEIGHT = std::stoi(argv[2]);//requested HEIGHT
+    int WIDTH=512;
+    int HEIGHT=512;
+
+    if (!glfwInit())
+        QUIT("gWindow_GLFW", "Could not Initialize GLFW");
+
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+
+    glfwSetErrorCallback(error_callback);
+
+    bool coreProfile = true;
+    if(coreProfile) {
+       glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    #ifdef __APPLE__ 
+       glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    #endif
+   }
+
+    GLFWwindow *window = glfwCreateWindow(WIDTH, HEIGHT, "main", NULL, NULL);
+    if (!window) {
+        glfwTerminate();
+        QUIT("gWindow_GLFW", "Could not create Window");
     }
+
+    glfwMakeContextCurrent(window);
+
+    if ( GLEW_OK != glewInit() ) {
+        glfwTerminate();
+        QUIT("gWindow_GLFW","glewInit failed");
+    }
+
+    glfwSwapInterval(1);
+
+    int width,height;
+    glfwGetFramebufferSize(window, &width, &height);//save the alloted width and height
+    glEnable(GL_TEXTURE_2D);
+    OpenGLdraw opengl;
+    opengl.init(width, height);
+   
+
+    
+    GLubyte image[height*width*3];
+    // for(int i=0;i<height;i++)image[i] = new GLubyte*[width];
+    // for(int i =0;i<height;i++){
+    //     for(int j=0;j<width;j++)
+    //         image[i][j]=new GLubyte[3];
+    // }
     double R = 5;
     Axes xyz = Axes();
-    int width = WIDTH;
-    int height = HEIGHT;
+    
     int id = 1;
     omp_set_num_threads(8);
     xyz.setAxes(glm::dvec3(1,0,0),glm::dvec3(0,1,0),glm::dvec3(0,0,1));
@@ -81,7 +130,7 @@ int main(){
     double shininess1 = 0.8;
     double shininess2 = 0.8;
 
-    for(int i =0 ;i<6;i++){
+    for(int i =0 ;i<1;i++){
         double angle1 = i * M_PI/3;
         double angle2 = angle1 + M_PI/6;
         
@@ -227,17 +276,15 @@ int main(){
     objects.push_back(rightWall);
     objects.push_back(ceilWall);
     objects.push_back(bottomWall);
-    for(int i =0;i<12;i++)objects.push_back(shinyBalls[i]);
+    for(int i =0;i<(int)(shinyBalls.size());i++)objects.push_back(shinyBalls[i]);
 
     lightSources.push_back(source1);
     lightSources.push_back(source2);
     lightSources.push_back(source3);
     lightSources.push_back(source4);
-    
-    std::ofstream myfile;
-    myfile.open("image.csv");
-    double start = omp_get_wtime();
-       
+    // std::ofstream myfile;
+    // myfile.open("images.csv");
+    while(!glfwWindowShouldClose(window)){   
         #pragma omp parallel for
         for(int iter = 0;iter<height*width;iter++){
                 int i,j;
@@ -249,23 +296,32 @@ int main(){
                 Ray ray = Ray(camera.location,rayDir,1);
                 glm::dvec3 colorObtained = rayTrace(ray,objects,lightSources,1,4,glm::dvec3(0,0,0));
         
-                image[i][j][0]=(int) (colorObtained[0]*255);
-                image[i][j][1]=(int) (colorObtained[1]*255);
-                image[i][j][2]=(int) (colorObtained[2]*255);
+                image[iter*3]=(GLubyte) (colorObtained[0]*255);
+                image[iter*3+1]=(GLubyte) (colorObtained[1]*255);
+                image[iter*3+2]=(GLubyte) (colorObtained[2]*255);
+                // if(iter==0)myfile<<",";
+                // myfile<<image[iter*3]<<","<<image[iter*3+1]<<","<<image[iter*3+2];
         
         }
-    
-    double end = omp_get_wtime();
-    cout<<end-start<<endl;
-    
-    for(int i=0;i<height;i++){
-        for(int j=0;j<height;j++){
-            if (!(i==0 && j==0))myfile<<",";
-            myfile<<image[i][j][0]<<","<<image[i][j][1]<<","<<image[i][j][2];
-            
-        }
+        glClearColor(0.5,1,1,0);
+        glClear(GL_COLOR_BUFFER_BIT);
+        opengl.draw(image,width,height,0,0);
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+        // break;
     }
-    myfile.close();
+    
+    // double end = omp_get_wtime();
+    // cout<<end-start<<endl;
+    
+    // for(int i=0;i<height;i++){
+    //     for(int j=0;j<width;j++){
+    //         if (!(i==0 && j==0))myfile<<",";
+    //         myfile<<image[i][j][0]<<","<<image[i][j][1]<<","<<image[i][j][2];
+            
+    //     }
+    // }
+    // myfile.close();
     
 }
 

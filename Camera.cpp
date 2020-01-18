@@ -31,7 +31,7 @@ glm::dvec3 Camera::pixelToCamera(double px,double py){
     
     double pixelCamerax = (2* (px+0.5)/width - 1)  * aspectRatio * tan(fov/2);
     double pixelCameray = (2* (py + 0.5)/height - 1) * tan(fov/2);
-    pixelCameray = -pixelCameray;
+    // pixelCameray = -pixelCameray;
 
     return glm::dvec3( pixelCamerax,pixelCameray,-1);
 

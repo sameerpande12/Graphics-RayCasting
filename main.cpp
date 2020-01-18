@@ -134,14 +134,14 @@ int main(){
     // double snowKtrans = 0.01;
     // double snowKreflec = 0.09;
 
-    glm::dvec3 snowColor = glm::dvec3(0,0,0);
+    glm::dvec3 snowColor = glm::dvec3(1,0.98,0.98);
     glm::dvec3 snowSpecColor = glm::dvec3(0,0,0);
     double snowSpecCoeff = 0.;
     double snowdiffCoeff = 0.;
 
     double snowShininess = 0;
     
-    double snowKtrans = 1;
+    double snowKtrans = 0;
     double snowKreflec = 0;
 
     
@@ -154,16 +154,16 @@ int main(){
     cout<<"Sphere 1 id:"<<sphere1->getID()<<" kt:"<<sphere1->getK_Transmission()<<"\n";
 
 
-    // glm::dvec3 location2 = glm::dvec3(2*R,2.25*R,-2*R);
-    // double radius2 = R/2;
-    // Sphere* sphere2 = new Sphere(id,location2,snowColor,radius2,snowRefractiveIndex,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec,0);
-    // id++;
+    glm::dvec3 location2 = glm::dvec3(2*R,2.25*R,-2*R);
+    double radius2 = R/2;
+    Sphere* sphere2 = new Sphere(id,location2,snowColor,radius2,snowRefractiveIndex,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec,0);
+    id++;
 
     
-    // glm::dvec3 location3 = glm::dvec3(2*R,2.7*R,-2*R);
-    // double radius3 = R/4;
-    // Sphere* sphere3 = new Sphere(id,location3,snowColor,radius3,snowRefractiveIndex,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec,0);
-    // id++;
+    glm::dvec3 location3 = glm::dvec3(2*R,2.7*R,-2*R);
+    double radius3 = R/4;
+    Sphere* sphere3 = new Sphere(id,location3,snowColor,radius3,snowRefractiveIndex,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec,0);
+    id++;
 
 
     glm::dvec3 sideWallColor = glm::dvec3(1,0,0);
@@ -222,8 +222,8 @@ int main(){
     std::vector<PointSource*> lightSources;
 
     objects.push_back(sphere1);
-    // objects.push_back(sphere2);
-    // objects.push_back(sphere3);
+    objects.push_back(sphere2);
+    objects.push_back(sphere3);
     objects.push_back(farWall);
     objects.push_back(leftWall);
     objects.push_back(rightWall);
@@ -241,13 +241,13 @@ int main(){
     myfile.open("image.csv");
     double start = omp_get_wtime();
        
-        // #pragma omp parallel for
-        // for(int iter = 0;iter<height*width;iter++){
+        #pragma omp parallel for
+        for(int iter = 0;iter<height*width;iter++){
                 int i,j;
-                // i = iter/width;
-                // j = iter%width;
-                j = 276;
-                i = 350;
+                i = iter/width;
+                j = iter%width;
+                // j = 276;
+                // i = 350;
         
                 glm::dvec3 rayDir = glm::normalize(camera.pixelToWorld( (double)j,(double)i) - camera.location);
                 Ray ray = Ray(camera.location,rayDir,1);
@@ -257,7 +257,7 @@ int main(){
                 image[i][j][1]=(int) (colorObtained[1]*255);
                 image[i][j][2]=(int) (colorObtained[2]*255);
         
-        // }
+        }
     
     double end = omp_get_wtime();
     cout<<end-start<<endl;

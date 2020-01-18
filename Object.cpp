@@ -1,6 +1,6 @@
 #include "Object.h"
 #include <cmath>
-Object::Object(int Id,glm::dvec3 ref,glm::dvec3 col,double refrac,glm::dvec3 specColor,double specCoeff,double diffCoeff,double specExp,double k_trans,double k_reflec,int typ){
+Object::Object(int Id,glm::dvec3 ref,glm::dvec3 col,double refrac,glm::dvec3 specColor,double specCoeff,double diffCoeff,double specExp,double k_trans,double k_reflec,int typ,bool isVi){
     id = Id;
     type = typ;
     reference = ref;
@@ -12,9 +12,13 @@ Object::Object(int Id,glm::dvec3 ref,glm::dvec3 col,double refrac,glm::dvec3 spe
     diffusionCoefficient = diffCoeff;
     k_transmission = k_trans;
     k_reflection = k_reflec;
+    visible=isVi;
 };
 int Object::getType(){
     return type;
+}
+bool Object::isVisible(){
+    return visible;
 }
 double Object::getK_Transmission(){
         return k_transmission;

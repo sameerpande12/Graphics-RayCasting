@@ -2,7 +2,7 @@
 #include <glm/glm.hpp>
 #include<tuple>
 #define INF std::numeric_limits<double>::infinity();
-Wall::Wall(int id,glm::dvec3 minBou, glm::dvec3 maxBou,glm::dvec3 ref,glm::dvec3 color,glm::dvec4 params,double refrac,glm::dvec3 specColor,double specCoeff,double diffCoeff,double specExp,double k_trans,double k_reflec,int type):Object(id,ref,color,refrac,specColor,specCoeff,diffCoeff, specExp,k_trans,k_reflec,type){
+Wall::Wall(int id,glm::dvec3 minBou, glm::dvec3 maxBou,glm::dvec3 ref,glm::dvec3 color,glm::dvec4 params,double refrac,glm::dvec3 specColor,double specCoeff,double diffCoeff,double specExp,double k_trans,double k_reflec,int type,bool visible):Object(id,ref,color,refrac,specColor,specCoeff,diffCoeff, specExp,k_trans,k_reflec,type,visible){
     setParameters(params);
     if(params[0]==0 && params[1]==0){
         normalDir = 2;

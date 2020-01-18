@@ -99,6 +99,7 @@ glm::dvec3 rayTrace(Ray ray, std::vector<Object*> &objects, std::vector<PointSou
 
     
     for(int i =0 ;i<(int)(objects.size());i++){
+        if(depth==1 && !objects[i]->isVisible()){continue;}
          intersection = objects[i]->getClosestIntersection(ray);
 
         if(    std::get<0>(intersection) >= 0 && std::get<0>(intersection) < closest_Tval){

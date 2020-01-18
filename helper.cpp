@@ -139,6 +139,7 @@ glm::dvec3 rayTrace(Ray ray, std::vector<Object*> &objects, std::vector<PointSou
     double Kt = objects[closestIntersectionIndex]->getK_Transmission();
     glm::dvec3 refractionRayContribution = glm::dvec3(0,0,0);
     
+    std::cout<<"Object number: "<<objects[closestIntersectionIndex]->getID()<<" Kt:"<<Kt<<std::endl;
     if(Kt!=0){
         // if(objects[closestIntersectionIndex]->getType()==0){
         //     std::cout<<Kt<<" <- Kt"<<std::endl;
@@ -158,8 +159,11 @@ glm::dvec3 rayTrace(Ray ray, std::vector<Object*> &objects, std::vector<PointSou
         else{ 
             Ray refractedRay = getRefractedRay(normal,ray,closestIntersectionPoint,ray.getMediumRefractiveIndex(),1);
             refractionRayContribution =  rayTrace(refractedRay,objects,lightSources,depth+1,maxDepth,backgroundColor);
+            
         }
+        std::cout<<refractionRayContribution[0]<<" "<<refractionRayContribution[1]<<" "<<refractionRayContribution[2]<<"\n";
     }
+    
     return localIllumination + refractionRayContribution * Kt + reflectionContribution * Kr;
 
 

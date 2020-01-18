@@ -20,6 +20,8 @@ void Wall::updatePoints(std::vector<glm::dvec3>cornerPoints){
     yLength = glm::length(cornerPoints[3]-cornerPoints[0]); 
 
 }
+
+std::vector<glm::dvec3> Wall::getPoints(){return points;}
 void Wall::setParameters(glm::dvec4 params){
     parameters = params;
 }

@@ -19,4 +19,5 @@ class Wall:public Object{
         bool isInside(glm::dvec3 point);
         void updatePoints(std::vector<glm::dvec3>cornerPoints);
         bool isInsideGivenOnPlane(glm::dvec3 point);
+        std::vector<glm::dvec3>getPoints();
 };

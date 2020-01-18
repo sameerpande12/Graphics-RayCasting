@@ -19,6 +19,11 @@ void keyCallback(GLFWwindow* window,int key, int scancode,int action,int mods);
 Camera camera;
 int toggleValue = 0;
 std::vector<Object*> shinyBalls;
+std::vector<Wall*> walls;
+std::vector<Object*> snowSpheres;
+std::vector<Object*> objects;
+std::vector<PointSource*> lightSources;
+
 double R = 5;
 double circleRadius = 1.5*R;
 glm::dvec3 centreOfRoom = glm::dvec3(2*R,2*R,-2*R);
@@ -94,8 +99,8 @@ int main(int argc,char*argv[]){
     // omp_set_num_threads(8);
     xyz.setAxes(glm::dvec3(1,0,0),glm::dvec3(0,1,0),glm::dvec3(0,0,1));
     
-    glm::dvec3 cameraPosition = glm::dvec3(2*R,2*R,2*R);
-    // camera = Camera(cameraPosition,xyz,width,height,M_PI/2);
+    glm::dvec3 cameraPosition = glm::dvec3(2*R,2*R,4*R);
+    
     camera.location = cameraPosition;
     camera.axes = xyz;
     camera.width = width;
@@ -316,19 +321,20 @@ int main(int argc,char*argv[]){
     
     Wall* farWall = new Wall(id,cornersFar,cornersFar[0],farWallColor,1.1,farWallSpecColor,farWallSpecCoeff,farWallDiffuseCoeff,farWallShininess,farWallKtrans,farWallKreflec,1,true);
     id++;
-    std::vector<Object*> objects;
-    std::vector<PointSource*> lightSources;
+    
 
-    objects.push_back(sphere1);
-    objects.push_back(sphere2);
-    objects.push_back(sphere3);
-    objects.push_back(farWall);
-    objects.push_back(leftWall);
-    objects.push_back(rightWall);
-    objects.push_back(ceilWall);
-    objects.push_back(bottomWall);
+    snowSpheres.push_back(sphere1);
+    snowSpheres.push_back(sphere2);
+    snowSpheres.push_back(sphere3);
+    walls.push_back(farWall);
+    walls.push_back(leftWall);
+    walls.push_back(rightWall);
+    walls.push_back(ceilWall);
+    walls.push_back(bottomWall);
+
     for(int i =0;i<(int)(shinyBalls.size());i++)objects.push_back(shinyBalls[i]);
-
+    for(int i = 0;i<(int)(walls.size());i++)objects.push_back(walls[i]);
+    for(int i =0;i<(int)snowSpheres.size();i++)objects.push_back(snowSpheres[i]);
     lightSources.push_back(source1);
     lightSources.push_back(source2);
     lightSources.push_back(source3);
@@ -336,6 +342,7 @@ int main(int argc,char*argv[]){
     
     while(!glfwWindowShouldClose(window)){   
         glfwPollEvents();//added to avoid glfw from thinking that window is not responding
+        
         #pragma omp parallel for
         for(int iter = 0;iter<height*width;iter++){
                 int i,j;
@@ -372,12 +379,115 @@ void keyCallback(GLFWwindow* window,int key, int scancode,int action,int mods){
         cout<<"Key t is pressed. t ="<<toggleValue<<endl;
 
     }
-    else if( (key==GLFW_KEY_LEFT || key==GLFW_KEY_RIGHT) && action==GLFW_PRESS && toggleValue == 0 ){
+    else if(toggleValue == 0){//rotate entire scene
+        if( (key==GLFW_KEY_UP || key==GLFW_KEY_DOWN) && action==GLFW_PRESS ){
+            double angle = M_PI_4/3;//15 degrees
+            if(key==GLFW_KEY_UP)angle = -angle;
+            
+            // camera.axes = rotateAxes(camera.axes,angle,0);
+            // cout<<"New camera axes are-> ";
+            // printAxes(camera.axes);
+            // cout<<'\n';
+
+            for(int i = 0;i<(int)shinyBalls.size();i++){//rotate about x axis
+                glm::dvec3 relativePosition = shinyBalls[i]->getReference() - centreOfRoom;
+                double newY = cos(angle)* relativePosition[1] - sin(angle)*relativePosition[2];
+                double newZ = cos(angle)* relativePosition[2] + sin(angle)*relativePosition[1];
+                
+                glm::dvec3 newPos = centreOfRoom + glm::dvec3(0,newY,newZ);
+                newPos[0] = shinyBalls[i]->getReference()[0];
+                shinyBalls[i]->setReference(  newPos );
+            }
+
+
+            for(int i = 0;i<(int)walls.size();i++){
+                std::vector<glm::dvec3>cornerPoints = walls[i]->getPoints();
+
+                for(int j = 0;j<(int)cornerPoints.size();j++){//rotate about x axis
+                    glm::dvec3 relativePosition = cornerPoints[j] - centreOfRoom;
+                    double newY = cos(angle)* relativePosition[1] - sin(angle)*relativePosition[2];
+                    double newZ = cos(angle)* relativePosition[2] + sin(angle)*relativePosition[1];
+                    glm::dvec3 newPos = centreOfRoom + glm::dvec3(0,newY,newZ);
+                    newPos[0] = cornerPoints[j][0];
+                    cornerPoints[j]=newPos;
+                }
+                walls[i]->updatePoints(cornerPoints);
+
+            }
+
+
+            for(int i = 0;i<(int)snowSpheres.size();i++){//rotate about x axis
+                glm::dvec3 relativePosition = snowSpheres[i]->getReference() - centreOfRoom;
+                double newY = cos(angle)* relativePosition[1] - sin(angle)*relativePosition[2];
+                double newZ = cos(angle)* relativePosition[2] + sin(angle)*relativePosition[1];
+                
+                glm::dvec3 newPos = centreOfRoom + glm::dvec3(0,newY,newZ);
+                newPos[0] = snowSpheres[i]->getReference()[0];
+                snowSpheres[i]->setReference(  newPos );
+            }
+
+            for(int i = 0;i<(int)lightSources.size();i++){
+                //rotate about x axis
+                glm::dvec3 relativePosition = lightSources[i]->position - centreOfRoom;
+                double newY = cos(angle)* relativePosition[1] - sin(angle)*relativePosition[2];
+                double newZ = cos(angle)* relativePosition[2] + sin(angle)*relativePosition[1];
+                
+                glm::dvec3 newPos = centreOfRoom + glm::dvec3(0,newY,newZ);
+                newPos[0] = lightSources[i]->position[0];
+                lightSources[i]->position = newPos;
+            }
+
+
+
+
+        }
+        else if((key==GLFW_KEY_LEFT || key==GLFW_KEY_RIGHT) && action==GLFW_PRESS){
+            double angle = M_PI_4/3;
+            if(key==GLFW_KEY_RIGHT)angle = -angle;
+            for(int i = 0;i<(int)shinyBalls.size();i++){
+                glm::dvec3 relativePosition = shinyBalls[i]->getReference() - centreOfRoom;
+                double newX = cos(angle)* relativePosition[0] - sin(angle)*relativePosition[2];
+                double newZ = cos(angle)* relativePosition[2] + sin(angle)*relativePosition[0];
+                
+                glm::dvec3 newPos = centreOfRoom + glm::dvec3(newX,0,newZ);
+                newPos[1] = shinyBalls[i]->getReference()[1];
+                shinyBalls[i]->setReference(  newPos );
+            }
+
+            for(int i = 0;i<(int)lightSources.size();i++){
+                glm::dvec3 relativePosition = lightSources[i]->position - centreOfRoom;
+                double newX = cos(angle)* relativePosition[0] - sin(angle)*relativePosition[2];
+                double newZ = cos(angle)* relativePosition[2] + sin(angle)*relativePosition[0];
+                
+                glm::dvec3 newPos = centreOfRoom + glm::dvec3(newX,0,newZ);
+                newPos[1] = lightSources[i]->position[1];
+                lightSources[i]->position = newPos;
+            }
+
+            for(int i = 0;i<(int)walls.size();i++){
+                std::vector<glm::dvec3>cornerPoints = walls[i]->getPoints();
+
+                for(int j = 0;j<(int)cornerPoints.size();j++){
+                    glm::dvec3 relativePosition = cornerPoints[j] - centreOfRoom;
+                    double newX = cos(angle)* relativePosition[0] - sin(angle)*relativePosition[2];
+                    double newZ = cos(angle)* relativePosition[2] + sin(angle)*relativePosition[0];
+                    glm::dvec3 newPos = centreOfRoom + glm::dvec3(newX,0,newZ);
+                    newPos[1] = cornerPoints[j][1];
+                    cornerPoints[j]=newPos;
+                }
+                walls[i]->updatePoints(cornerPoints);
+
+            }
+        }
+        
+    }
+    else if(toggleValue == 1){//rotate only shiny balls
+      if( (key==GLFW_KEY_LEFT || key==GLFW_KEY_RIGHT) && action==GLFW_PRESS){//rotate the shiny balls
 
         
         // (cos(a) + i sin(a))*(x + iz) = (cos(a)*x - sin(a)z)+i(cos(a)*z + sin(a)*x);
         double angle =  M_PI_4/3;//15 degrees
-        if(key==GLFW_KEY_LEFT)angle = -angle; 
+        if(key==GLFW_KEY_RIGHT)angle = -angle; 
         for(int i = 0;i<(int)shinyBalls.size();i++){
             glm::dvec3 relativePosition = shinyBalls[i]->getReference() - centreOfRoom;
             double newX = cos(angle)* relativePosition[0] - sin(angle)*relativePosition[2];
@@ -387,16 +497,8 @@ void keyCallback(GLFWwindow* window,int key, int scancode,int action,int mods){
             newPos[1] = shinyBalls[i]->getReference()[1];
             shinyBalls[i]->setReference(  newPos );
         }
-    }
-    else if( (key==GLFW_KEY_UP || key==GLFW_KEY_DOWN) && action==GLFW_PRESS && toggleValue == 1 ){
-        double angle = M_PI_4/3;//15 degrees
-        if(key==GLFW_KEY_DOWN)angle = -angle;
-        
-        camera.axes = rotateAxes(camera.axes,angle,0);
-        cout<<"New camera axes are-> ";
-        printAxes(camera.axes);
-        cout<<'\n';
-    }    
+     }
+    }   
 }
 
 // }

@@ -23,10 +23,9 @@ static void error_callback(int error, const char* description)
 
 int main(int argc,char*argv[]){
 
-    // int WIDTH = std::stoi(argv[1]);//requested WIDTH
-    // int HEIGHT = std::stoi(argv[2]);//requested HEIGHT
-    int WIDTH=512;
-    int HEIGHT=512;
+    int WIDTH = std::stoi(argv[1]);//requested WIDTH
+    int HEIGHT = std::stoi(argv[2]);//requested HEIGHT
+    
 
     if (!glfwInit())
         QUIT("gWindow_GLFW", "Could not Initialize GLFW");
@@ -282,8 +281,7 @@ int main(int argc,char*argv[]){
     lightSources.push_back(source2);
     lightSources.push_back(source3);
     lightSources.push_back(source4);
-    // std::ofstream myfile;
-    // myfile.open("images.csv");
+    
     while(!glfwWindowShouldClose(window)){   
         #pragma omp parallel for
         for(int iter = 0;iter<height*width;iter++){
@@ -299,8 +297,7 @@ int main(int argc,char*argv[]){
                 image[iter*3]=(GLubyte) (colorObtained[0]*255);
                 image[iter*3+1]=(GLubyte) (colorObtained[1]*255);
                 image[iter*3+2]=(GLubyte) (colorObtained[2]*255);
-                // if(iter==0)myfile<<",";
-                // myfile<<image[iter*3]<<","<<image[iter*3+1]<<","<<image[iter*3+2];
+                
         
         }
         glClearColor(0.5,1,1,0);
@@ -308,20 +305,10 @@ int main(int argc,char*argv[]){
         opengl.draw(image,width,height,0,0);
         glfwSwapBuffers(window);
         glfwPollEvents();
-        // break;
+        
     }
     
-    // double end = omp_get_wtime();
-    // cout<<end-start<<endl;
     
-    // for(int i=0;i<height;i++){
-    //     for(int j=0;j<width;j++){
-    //         if (!(i==0 && j==0))myfile<<",";
-    //         myfile<<image[i][j][0]<<","<<image[i][j][1]<<","<<image[i][j][2];
-            
-    //     }
-    // }
-    // myfile.close();
     
 }
 

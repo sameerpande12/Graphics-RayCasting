@@ -1,3 +1,2 @@
 make
-./exe
-python loadImage.py
+./exe $1 $2

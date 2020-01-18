@@ -113,33 +113,52 @@ glm::dvec3 rayTrace(Ray ray, std::vector<Object*> &objects, std::vector<PointSou
         return backgroundColor;
     }
 
-    std::vector<bool> shadowVec = isShadow(closestIntersectionPoint,lightSources,objects);
+    // std::vector<bool> shadowVec = isShadow(closestIntersectionPoint,lightSources,objects);
 
 
-    std::vector<PointSource*> accessibleSources;
-    for(int i =0;i<(int)lightSources.size();i++){
-        if( !shadowVec[i])accessibleSources.push_back(lightSources[i]);
-    }
+    // std::vector<PointSource*> accessibleSources;
+    // for(int i =0;i<(int)lightSources.size();i++){
+    //     if( !shadowVec[i])accessibleSources.push_back(lightSources[i]);
+    // }
     
     glm::dvec3 localIllumination = glm::dvec3(0,0,0);
     // for(int i =0;i<(int)(objects.size());i++){
-    localIllumination = localIllumination + objects[closestIntersectionIndex]->getLocalIllumination(accessibleSources,normal,ray.getOrigin(),closestIntersectionPoint);
-    
+    // localIllumination = localIllumination + objects[closestIntersectionIndex]->getLocalIllumination(accessibleSources,normal,ray.getOrigin(),closestIntersectionPoint);
+    localIllumination = localIllumination + objects[closestIntersectionIndex]->getLocalIllumination(lightSources,normal,ray.getOrigin(),closestIntersectionPoint);
 
     double Kr = objects[closestIntersectionIndex]->getK_Reflection();
     glm::dvec3 reflectionContribution = glm::dvec3(0,0,0);
     if(Kr!=0){
+        // if(objects[closestIntersectionIndex]->getType()==0){
+        //     std::cout<<Kr<<" <- Kr"<<std::endl;
+        // }
         Ray reflectedRay = getReflectedRay(normal,ray,closestIntersectionPoint);
         reflectionContribution =  rayTrace(reflectedRay,objects,lightSources,depth+1,maxDepth,backgroundColor);
     }
 
     double Kt = objects[closestIntersectionIndex]->getK_Transmission();
     glm::dvec3 refractionRayContribution = glm::dvec3(0,0,0);
+    
     if(Kt!=0){
-        closest_Tval = closest_Tval + 2* 0.0001;
+        // if(objects[closestIntersectionIndex]->getType()==0){
+        //     std::cout<<Kt<<" <- Kt"<<std::endl;
+        // }
+        closest_Tval = closest_Tval + 2* 0.001;
         closestIntersectionPoint = ray.scale(closest_Tval);
-        Ray refractedRay = getRefractedRay(normal,ray,closestIntersectionPoint,ray.getMediumRefractiveIndex(),objects[closestIntersectionIndex]->getRefractiveIndex());
-        refractionRayContribution =  rayTrace(refractedRay,objects,lightSources,depth+1,maxDepth,backgroundColor);
+        bool isInsideObject = (ray.getMediumRefractiveIndex()==objects[closestIntersectionIndex]->getRefractiveIndex()); 
+        if(objects[closestIntersectionIndex]->getType()==0){
+            normal = glm::normalize(closestIntersectionPoint - objects[closestIntersectionIndex]->getReference());
+            if(isInsideObject)normal = -normal;
+        }
+
+        if(!isInsideObject){
+            Ray refractedRay = getRefractedRay(normal,ray,closestIntersectionPoint,ray.getMediumRefractiveIndex(),objects[closestIntersectionIndex]->getRefractiveIndex());
+            refractionRayContribution =  rayTrace(refractedRay,objects,lightSources,depth+1,maxDepth,backgroundColor);
+        }
+        else{ 
+            Ray refractedRay = getRefractedRay(normal,ray,closestIntersectionPoint,ray.getMediumRefractiveIndex(),1);
+            refractionRayContribution =  rayTrace(refractedRay,objects,lightSources,depth+1,maxDepth,backgroundColor);
+        }
     }
     return localIllumination + refractionRayContribution * Kt + reflectionContribution * Kr;
 

@@ -59,10 +59,10 @@ int main(){
     PointSource* source4 = new PointSource(lightSourceLocation4,lightSourceIntensity4,attenuation4,ambientCoefficient4);
     std::vector<Object*> shinyBalls;
     double circleRadius = 1.5*R;
-    double kt_1 = 0.5;
+    double kt_1 = 1;
     double kr_1 = 0;
 
-    double kt_2 = 0.5;
+    double kt_2 = 1;
     double kr_2 = 0;
 
     double diffCoeff1 = 0.025;
@@ -117,40 +117,51 @@ int main(){
             color2 = specColor2;
         }
 
-        shinyBalls.push_back( new Sphere(id,loc1,color1,R/4,1.5,specColor1,specCoeff1,diffCoeff1,shininess1,kt_1,kr_1));
+        shinyBalls.push_back( new Sphere(id,loc1,color1,R/4,1.5,specColor1,specCoeff1,diffCoeff1,shininess1,kt_1,kr_1,0));
         id++;
 
-        shinyBalls.push_back( new Sphere(id,loc2,color2,R/4,1.5,specColor2,specCoeff2,diffCoeff2,shininess2,kt_2,kr_2));
+        shinyBalls.push_back( new Sphere(id,loc2,color2,R/4,1.5,specColor2,specCoeff2,diffCoeff2,shininess2,kt_2,kr_2,0));
         id++;
     }
 
-    glm::dvec3 snowColor = glm::dvec3(1,0.98,0.98);
-    glm::dvec3 snowSpecColor = glm::dvec3(1,1,1);
-    double snowSpecCoeff = 0.035;
-    double snowdiffCoeff = 0.065;
+    // glm::dvec3 snowColor = glm::dvec3(1,0.98,0.98);
+    // glm::dvec3 snowSpecColor = glm::dvec3(1,1,1);
+    // double snowSpecCoeff = 0.035;
+    // double snowdiffCoeff = 0.065;
+
+    // double snowShininess = 0;
+    
+    // double snowKtrans = 0.01;
+    // double snowKreflec = 0.09;
+
+    glm::dvec3 snowColor = glm::dvec3(0,0,0);
+    glm::dvec3 snowSpecColor = glm::dvec3(0,0,0);
+    double snowSpecCoeff = 0.;
+    double snowdiffCoeff = 0.;
 
     double snowShininess = 0;
     
-    double snowKtrans = 0.01;
-    double snowKreflec = 0.09;
+    double snowKtrans = 1;
+    double snowKreflec = 0;
 
-
+    
+    double snowRefractiveIndex = 1;
 
     double radius1 = R;
     glm::dvec3 location1 = glm::dvec3(2*R,R,-2*R);
-    Sphere* sphere1 = new Sphere(id,location1,snowColor,radius1,1.1,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec);
+    Sphere* sphere1 = new Sphere(id,location1,snowColor,radius1,snowRefractiveIndex,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec,0);
     id++;
 
 
     glm::dvec3 location2 = glm::dvec3(2*R,2.25*R,-2*R);
     double radius2 = R/2;
-    Sphere* sphere2 = new Sphere(id,location2,snowColor,radius2,1.1,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec);
+    Sphere* sphere2 = new Sphere(id,location2,snowColor,radius2,snowRefractiveIndex,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec,0);
     id++;
 
     
     glm::dvec3 location3 = glm::dvec3(2*R,2.7*R,-2*R);
     double radius3 = R/4;
-    Sphere* sphere3 = new Sphere(id,location3,snowColor,radius3,1.1,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec);
+    Sphere* sphere3 = new Sphere(id,location3,snowColor,radius3,snowRefractiveIndex,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec,0);
     id++;
 
 
@@ -163,11 +174,11 @@ int main(){
     double sideWallShininess = 0;
 
     glm::dvec4 sideWallParam1 = glm::dvec4(1,0,0,0);
-    Wall* leftWall = new Wall(id,glm::dvec3(0,0,-4*R),glm::dvec3(0,4*R,0),glm::dvec3(0,0,0),sideWallColor,sideWallParam1,1.1,sideWallSpecColor,sideWallSpecCoeff,sideWallDiffuseCoeff,sideWallShininess,sideWallKtrans,sideWallKreflec);
+    Wall* leftWall = new Wall(id,glm::dvec3(0,0,-4*R),glm::dvec3(0,4*R,0),glm::dvec3(0,0,0),sideWallColor,sideWallParam1,1.1,sideWallSpecColor,sideWallSpecCoeff,sideWallDiffuseCoeff,sideWallShininess,sideWallKtrans,sideWallKreflec,1);
     id++;
 
     glm::dvec4 sideWallParam2 = glm::dvec4(1,0,0,4*R);
-    Wall* rightWall = new Wall(id,glm::dvec3(0,0,-4*R),glm::dvec3(0,4*R,0),glm::dvec3(4*R,0,0),sideWallColor,sideWallParam2,1.1,sideWallSpecColor,sideWallSpecCoeff,sideWallDiffuseCoeff,sideWallShininess,sideWallKtrans,sideWallKreflec);
+    Wall* rightWall = new Wall(id,glm::dvec3(0,0,-4*R),glm::dvec3(0,4*R,0),glm::dvec3(4*R,0,0),sideWallColor,sideWallParam2,1.1,sideWallSpecColor,sideWallSpecCoeff,sideWallDiffuseCoeff,sideWallShininess,sideWallKtrans,sideWallKreflec,1);
     id++;
 
 
@@ -180,7 +191,7 @@ int main(){
     double ceilWallShininess = 0;
 
     glm::dvec4 ceilWallParam1 = glm::dvec4(0,1,0,4*R);
-    Wall* ceilWall = new Wall(id,glm::dvec3(0,4*R,-4*R),glm::dvec3(4*R,4*R,0),glm::dvec3(0,2*R,0),ceilWallColor,ceilWallParam1,1.1,ceilWallSpecColor,ceilWallSpecCoeff,ceilWallDiffuseCoeff,ceilWallShininess,ceilWallKtrans,ceilWallKreflec);
+    Wall* ceilWall = new Wall(id,glm::dvec3(0,4*R,-4*R),glm::dvec3(4*R,4*R,0),glm::dvec3(0,2*R,0),ceilWallColor,ceilWallParam1,1.1,ceilWallSpecColor,ceilWallSpecCoeff,ceilWallDiffuseCoeff,ceilWallShininess,ceilWallKtrans,ceilWallKreflec,1);
     id++;
 
     glm::dvec3 bottomWallColor = glm::dvec3(1,1,1);
@@ -192,7 +203,7 @@ int main(){
     double bottomWallShininess = 0;
 
     glm::dvec4 bottomWallParam1 = glm::dvec4(0,1,0,0);
-    Wall* bottomWall = new Wall(id,glm::dvec3(0,4*R,-4*R),glm::dvec3(4*R,4*R,0),glm::dvec3(0,0,0),bottomWallColor,bottomWallParam1,1.1,bottomWallSpecColor,bottomWallSpecCoeff,bottomWallDiffuseCoeff,bottomWallShininess,bottomWallKtrans,bottomWallKreflec);
+    Wall* bottomWall = new Wall(id,glm::dvec3(0,4*R,-4*R),glm::dvec3(4*R,4*R,0),glm::dvec3(0,0,0),bottomWallColor,bottomWallParam1,1.1,bottomWallSpecColor,bottomWallSpecCoeff,bottomWallDiffuseCoeff,bottomWallShininess,bottomWallKtrans,bottomWallKreflec,1);
     id++;
 
     glm::dvec3 farWallColor = glm::dvec3(0,0,0);
@@ -204,21 +215,21 @@ int main(){
     double farWallShininess = 0.5;
 
     glm::dvec4 farWallParam1 = glm::dvec4(0,0,1,-4*R);
-    Wall* farWall = new Wall(id,glm::dvec3(0,0,-4*R),glm::dvec3(4*R,4*R,-4*R),glm::dvec3(0,0,-R*4),farWallColor,farWallParam1,1.1,farWallSpecColor,farWallSpecCoeff,farWallDiffuseCoeff,farWallShininess,farWallKtrans,farWallKreflec);
+    Wall* farWall = new Wall(id,glm::dvec3(0,0,-4*R),glm::dvec3(4*R,4*R,-4*R),glm::dvec3(0,0,-R*4),farWallColor,farWallParam1,1.1,farWallSpecColor,farWallSpecCoeff,farWallDiffuseCoeff,farWallShininess,farWallKtrans,farWallKreflec,1);
     id++;
     std::vector<Object*> objects;
     std::vector<PointSource*> lightSources;
 
     objects.push_back(sphere1);
-    objects.push_back(sphere2);
-    objects.push_back(sphere3);
+    // objects.push_back(sphere2);
+    // objects.push_back(sphere3);
     objects.push_back(farWall);
     objects.push_back(leftWall);
     objects.push_back(rightWall);
     objects.push_back(ceilWall);
     objects.push_back(bottomWall);
 
-    for(int i =0;i<12;i++)objects.push_back(shinyBalls[i]);
+    // for(int i =0;i<12;i++)objects.push_back(shinyBalls[i]);
 
     lightSources.push_back(source1);
     lightSources.push_back(source2);

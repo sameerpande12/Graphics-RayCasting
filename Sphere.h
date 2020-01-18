@@ -10,7 +10,7 @@ class Sphere : public Object{
         int radius;
 
     public:
-        Sphere(int id,glm::dvec3 ref,glm::dvec3 color,int radius,double refrac,glm::dvec3 specColor,double specCoeff,double diffCoeff,double specExp,double k_trans,double k_reflec);
+        Sphere(int id,glm::dvec3 ref,glm::dvec3 color,int radius,double refrac,glm::dvec3 specColor,double specCoeff,double diffCoeff,double specExp,double k_trans,double k_reflec,int type);
         std::tuple<double,glm::dvec3,glm::dvec3> getClosestIntersection(Ray ray);
         int getRadius();
         void setRadius(int rad);

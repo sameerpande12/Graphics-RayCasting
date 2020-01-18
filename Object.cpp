@@ -1,7 +1,8 @@
 #include "Object.h"
 #include <cmath>
-Object::Object(int Id,glm::dvec3 ref,glm::dvec3 col,double refrac,glm::dvec3 specColor,double specCoeff,double diffCoeff,double specExp,double k_trans,double k_reflec){
+Object::Object(int Id,glm::dvec3 ref,glm::dvec3 col,double refrac,glm::dvec3 specColor,double specCoeff,double diffCoeff,double specExp,double k_trans,double k_reflec,int typ){
     id = Id;
+    type = typ;
     reference = ref;
     color = col;
     refractiveIndex = refrac;
@@ -12,7 +13,9 @@ Object::Object(int Id,glm::dvec3 ref,glm::dvec3 col,double refrac,glm::dvec3 spe
     k_transmission = k_trans;
     k_reflection = k_reflec;
 };
-
+int Object::getType(){
+    return type;
+}
 double Object::getK_Transmission(){
         return k_transmission;
 };
@@ -53,29 +56,9 @@ glm::dvec3 Object::getLocalIllumination(std::vector<PointSource*> &sources,glm::
         double distance = glm::length(contactPoint - sources[i]->position);
         cSpecEfffective = cSpecEfffective + ndoth_exp * specularColor * sources[i]->color*(1/(1+sources[i]->attenuation *distance*distance ));
     }
-    // if(id==1)
-    //      std::cout<<specularCoefficient<<" "<<cSpecEfffective[0]<<" "<<cSpecEfffective[0]*specularCoefficient<<"\n";
 
     cLocal = specularCoefficient* cSpecEfffective + diffusionCoefficient* cDifEffective + cAmbient;
     
-    // for(int i = 0;i<sources.size();i++){
-    //     glm::dvec3 l = glm::normalize(sources[i]->position-contactPoint);
-    //     glm::dvec3 h = glm::normalize(v + l);//assume normal is normalized
-
-
-        // glm::dvec3 cLight = sources[i]->color;//cLight definition could be modified to include the effect of distance from source
-
-        // double ldotn = glm::dot(l,normal);
-        // if(ldotn<0)ldotn=0;
-        // cDifEffective = cDifEffective + (diffusionCoefficient * cLight) * ldotn;
-
-        // double ndoth = glm::dot(normal,h);
-        // if(ndoth<0)ndoth = 0;
-        // glm::dvec3 specContribCoefficient = glm::dvec3(pow(ndoth,specularExponent[0]),pow(ndoth,specularExponent[1]),pow(ndoth,specularExponent[2]));
-        // cSpecEfffective = cSpecEfffective + (specularCoefficient * cLight)* specContribCoefficient;
-    // }
-
-    // cLocal = cSpecEfffective + cDifEffective + ambientCoefficient * cAmbient;
 
     for(int i =0 ;i<3;i++){
         if(cLocal[i]>1)cLocal[i]=1;

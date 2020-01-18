@@ -19,7 +19,7 @@ bool Box::isInside(glm::dvec3 point){
     return true;
 }
 
-Box::Box(int id, glm::dvec3 ref, glm::dvec3 color, glm::dvec3 minimum, glm::dvec3 maximum,double len,double refrac,glm::dvec3 specColor,double specCoeff,double diffCoeff,double specExp,double k_trans,double k_reflec):Object(id,ref,color,refrac,specColor,specCoeff,diffCoeff, specExp,k_trans,k_reflec){
+Box::Box(int id, glm::dvec3 ref, glm::dvec3 color, glm::dvec3 minimum, glm::dvec3 maximum,double len,double refrac,glm::dvec3 specColor,double specCoeff,double diffCoeff,double specExp,double k_trans,double k_reflec,int type):Object(id,ref,color,refrac,specColor,specCoeff,diffCoeff, specExp,k_trans,k_reflec,type){
     side = len;
     minBound = minimum;
     maxBound = maximum; 

@@ -9,5 +9,7 @@ class Axes{
         // x X y = z, y X z = x, z X x = y
         glm::dvec3 getAxis(int id);
         void setAxes(glm::dvec3 a, glm::dvec3 b, glm::dvec3 c);
+        Axes();
+        Axes(glm::dvec3 X,glm::dvec3 Y,glm::dvec3 Z);
         
 };

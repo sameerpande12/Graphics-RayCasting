@@ -12,3 +12,13 @@ void Axes::setAxes(glm::dvec3 a, glm::dvec3 b, glm::dvec3 c){
     y = b;
     z = c;
 };
+Axes::Axes(){
+    x = glm::dvec3(1,0,0);
+    y = glm::dvec3(0,1,0);
+    z = glm::dvec3(0,0,1);
+}
+Axes::Axes(glm::dvec3 X, glm::dvec3 Y, glm::dvec3 Z){
+    x = glm::normalize(X);
+    y = glm::normalize(Y);
+    z = glm::normalize(Z);
+}

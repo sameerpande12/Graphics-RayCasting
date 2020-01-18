@@ -15,7 +15,7 @@ class Camera{
         int width;
         int height;
         double fov = M_PI_2;// pi/2
-        Camera(glm::dvec3 location,Axes axes,int width,int height,double fov);
+        Camera(glm::dvec3 location=glm::dvec3(0,0,0),Axes axes= Axes(),int width=512,int height=512,double fov=M_PI_2);
 
         glm::dvec3 cameraToWorld(glm::dvec3 input);
         glm::dvec3 pixelToCamera(double i, double j);//i,j are pixel numbers. ought to be integers but we have kept it as double for the ease of computation

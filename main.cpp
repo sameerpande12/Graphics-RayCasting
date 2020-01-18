@@ -13,9 +13,15 @@
 #define cout std::cout
 #define endl std::endl
 
+void keyCallback(GLFWwindow* window,int key, int scancode,int action,int mods);
+
 #define QUIT(m,v)      { fprintf(stderr, "%s:%s\n", m, v); exit(1); }
-
-
+Camera camera;
+int toggleValue = 0;
+std::vector<Object*> shinyBalls;
+double R = 5;
+double circleRadius = 1.5*R;
+glm::dvec3 centreOfRoom = glm::dvec3(2*R,2*R,-2*R);
 static void error_callback(int error, const char* description)
 {
     fprintf(stderr, "Error: %s\n", description);
@@ -57,6 +63,7 @@ int main(int argc,char*argv[]){
     }
 
     glfwSwapInterval(1);
+    glfwSetKeyCallback(window,keyCallback);
 
     int width,height;
     glfwGetFramebufferSize(window, &width, &height);//save the alloted width and height
@@ -67,20 +74,21 @@ int main(int argc,char*argv[]){
 
     
     GLubyte image[height*width*3];
-    // for(int i=0;i<height;i++)image[i] = new GLubyte*[width];
-    // for(int i =0;i<height;i++){
-    //     for(int j=0;j<width;j++)
-    //         image[i][j]=new GLubyte[3];
-    // }
-    double R = 5;
+    
+    
     Axes xyz = Axes();
     
     int id = 1;
-    omp_set_num_threads(8);
+    // omp_set_num_threads(8);
     xyz.setAxes(glm::dvec3(1,0,0),glm::dvec3(0,1,0),glm::dvec3(0,0,1));
     
     glm::dvec3 cameraPosition = glm::dvec3(2*R,2*R,2*R);
-    Camera camera = Camera(cameraPosition,xyz,width,height,M_PI/2);
+    // camera = Camera(cameraPosition,xyz,width,height,M_PI/2);
+    camera.location = cameraPosition;
+    camera.axes = xyz;
+    camera.width = width;
+    camera.height = height;
+    camera.fov = M_PI_2;
 
 
     glm::dvec3 lightSourceLocation1 = glm::dvec3(0.01*R,3.99*R,-0.01*R);
@@ -112,8 +120,8 @@ int main(int argc,char*argv[]){
     double attenuation4 = 0.01;
     double ambientCoefficient4 = 0.1;
     PointSource* source4 = new PointSource(lightSourceLocation4,lightSourceIntensity4,attenuation4,ambientCoefficient4);
-    std::vector<Object*> shinyBalls;
-    double circleRadius = 1.5*R;
+    
+    
     double kt_1 = .6;
     double kr_1 = .3;
 
@@ -129,7 +137,7 @@ int main(int argc,char*argv[]){
     double shininess1 = 0.8;
     double shininess2 = 0.8;
 
-    for(int i =0 ;i<1;i++){
+    for(int i =0 ;i<6;i++){
         double angle1 = i * M_PI/3;
         double angle2 = angle1 + M_PI/6;
         
@@ -283,6 +291,7 @@ int main(int argc,char*argv[]){
     lightSources.push_back(source4);
     
     while(!glfwWindowShouldClose(window)){   
+        glfwPollEvents();//added to avoid glfw from thinking that window is not responding
         #pragma omp parallel for
         for(int iter = 0;iter<height*width;iter++){
                 int i,j;
@@ -312,6 +321,29 @@ int main(int argc,char*argv[]){
     
 }
 
+void keyCallback(GLFWwindow* window,int key, int scancode,int action,int mods){
 
+    if(key == GLFW_KEY_T && action == GLFW_PRESS){
+        toggleValue = (toggleValue+1)%3;
+        cout<<"Key t is pressed. t ="<<toggleValue<<endl;
+
+    }
+    else if( (key==GLFW_KEY_LEFT || key==GLFW_KEY_RIGHT) && action==GLFW_PRESS && toggleValue == 0 ){
+
+        
+        // (cos(a) + i sin(a))*(x + iz) = (cos(a)*x - sin(a)z)+i(cos(a)*z + sin(a)*x);
+        double angle =  M_PI_4/3;//15 degrees
+        if(key==GLFW_KEY_LEFT)angle = -angle; 
+        for(int i = 0;i<(int)shinyBalls.size();i++){
+            glm::dvec3 relativePosition = shinyBalls[i]->getReference() - centreOfRoom;
+            double newX = cos(angle)* relativePosition[0] - sin(angle)*relativePosition[2];
+            double newZ = cos(angle)* relativePosition[2] + sin(angle)*relativePosition[0];
+            
+            glm::dvec3 newPos = centreOfRoom + glm::dvec3(newX,0,newZ);
+            newPos[1] = shinyBalls[i]->getReference()[1];
+            shinyBalls[i]->setReference(  newPos );
+        }
+    }    
+}
 
 // }

@@ -132,21 +132,28 @@ glm::dvec3 rayTrace(Ray ray, std::vector<Object*> &objects, std::vector<PointSou
         // if(objects[closestIntersectionIndex]->getType()==0){
         //     std::cout<<Kr<<" <- Kr"<<std::endl;
         // }
-        Ray reflectedRay = getReflectedRay(normal,ray,closestIntersectionPoint);
-        reflectionContribution =  rayTrace(reflectedRay,objects,lightSources,depth+1,maxDepth,backgroundColor);
+        // Ray reflectedRay = getReflectedRay(normal,ray,closestIntersectionPoint);
+        // reflectionContribution =  rayTrace(reflectedRay,objects,lightSources,depth+1,maxDepth,backgroundColor);
     }
 
     double Kt = objects[closestIntersectionIndex]->getK_Transmission();
     glm::dvec3 refractionRayContribution = glm::dvec3(0,0,0);
     
     std::cout<<"Object number: "<<objects[closestIntersectionIndex]->getID()<<" Kt:"<<Kt<<std::endl;
+    
+    bool tmp = objects[closestIntersectionIndex]->isInside(closestIntersectionPoint);
+    std::cout<<"Intersection Point -> ("<<closestIntersectionPoint[0]<<","<<closestIntersectionPoint[1]<<","<<closestIntersectionPoint[2]<<") isInside "<<tmp<<"\n";
     if(Kt!=0){
         // if(objects[closestIntersectionIndex]->getType()==0){
         //     std::cout<<Kt<<" <- Kt"<<std::endl;
         // }
         closest_Tval = closest_Tval + 2* 0.001;
         closestIntersectionPoint = ray.scale(closest_Tval);
+        tmp = objects[closestIntersectionIndex]->isInside(closestIntersectionPoint);
+        std::cout<<"Refracted Intersection Point -> ("<<closestIntersectionPoint[0]<<","<<closestIntersectionPoint[1]<<","<<closestIntersectionPoint[2]<<") isInside "<<tmp<<"\n";
         bool isInsideObject = (ray.getMediumRefractiveIndex()==objects[closestIntersectionIndex]->getRefractiveIndex()); 
+        std::cout<<"Incoming ray direction: "<<ray.getDirection()[0]<<" "<<ray.getDirection()[1]<<" "<<ray.getDirection()[2]<<"\n";
+        
         if(objects[closestIntersectionIndex]->getType()==0){
             normal = glm::normalize(closestIntersectionPoint - objects[closestIntersectionIndex]->getReference());
             if(isInsideObject)normal = -normal;
@@ -154,14 +161,16 @@ glm::dvec3 rayTrace(Ray ray, std::vector<Object*> &objects, std::vector<PointSou
 
         if(!isInsideObject){
             Ray refractedRay = getRefractedRay(normal,ray,closestIntersectionPoint,ray.getMediumRefractiveIndex(),objects[closestIntersectionIndex]->getRefractiveIndex());
+            std::cout<<"Outgooing refraction ray direction: "<<refractedRay.getDirection()[0]<<" "<<refractedRay.getDirection()[1]<<" "<<refractedRay.getDirection()[2]<<"\n\n";
             refractionRayContribution =  rayTrace(refractedRay,objects,lightSources,depth+1,maxDepth,backgroundColor);
         }
         else{ 
             Ray refractedRay = getRefractedRay(normal,ray,closestIntersectionPoint,ray.getMediumRefractiveIndex(),1);
+            std::cout<<"Outgooing refraction ray direction: "<<refractedRay.getDirection()[0]<<" "<<refractedRay.getDirection()[1]<<" "<<refractedRay.getDirection()[2]<<"\n\n";
             refractionRayContribution =  rayTrace(refractedRay,objects,lightSources,depth+1,maxDepth,backgroundColor);
             
         }
-        std::cout<<refractionRayContribution[0]<<" "<<refractionRayContribution[1]<<" "<<refractionRayContribution[2]<<"\n";
+        // std::cout<<refractionRayContribution[0]<<" "<<refractionRayContribution[1]<<" "<<refractionRayContribution[2]<<"\n";
     }
     
     return localIllumination + refractionRayContribution * Kt + reflectionContribution * Kr;

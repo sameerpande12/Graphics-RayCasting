@@ -16,7 +16,7 @@ Sphere::Sphere(int id,glm::dvec3 ref,glm::dvec3 color,int radius,double refrac,g
 
 
 bool Sphere::isInside(glm::dvec3 point){
-    return (glm::length(point - getReference())< radius);
+    return (glm::length(point - getReference())<= radius);
 };
 std::tuple<double,glm::dvec3,glm::dvec3>Sphere::getClosestIntersection(Ray ray){
     // std::vector<glm::dvec3> intersections;

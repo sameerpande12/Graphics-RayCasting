@@ -13,9 +13,16 @@
 #define endl std::endl
 #define WIDTH 512
 #define HEIGHT 512
-int image[HEIGHT][WIDTH][3];
+
 int main(){
 
+
+    int*** image = new int**[HEIGHT];
+    for(int i=0;i<HEIGHT;i++)image[i] = new int*[WIDTH];
+    for(int i =0;i<HEIGHT;i++){
+        for(int j=0;j<WIDTH;j++)
+            image[i][j]=new int[3];
+    }
     double R = 5;
     Axes xyz = Axes();
     int width = WIDTH;

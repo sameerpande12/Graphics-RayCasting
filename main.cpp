@@ -107,7 +107,7 @@ int main(int argc,char*argv[]){
     camera->fov = M_PI_2;
     createScene(lightSources,pointSources,tubeLights,shinyBalls,snowSpheres,walls,objects,R,width,height);
     
-    int aliasingValue = 4;
+    int aliasingValue = 1;
     std::vector<double>deltaX;
     std::vector<double> deltaY;
 

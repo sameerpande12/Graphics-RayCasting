@@ -204,7 +204,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
     cornersBottom.push_back(glm::dvec3(4*R,0,-4*R));
     cornersBottom.push_back(glm::dvec3(0,0,-4*R));
 
-    Wall* bottomWall = new Wall(id,cornersBottom,cornersBottom[0],bottomWallColor,1.1,bottomWallSpecColor,bottomWallSpecCoeff,bottomWallDiffuseCoeff,bottomWallShininess,bottomWallKtrans,bottomWallKreflec,1,true);
+    Wall* bottomWall = new Wall(id,cornersBottom,cornersBottom[0],bottomWallColor,1.1,bottomWallSpecColor,bottomWallSpecCoeff,bottomWallDiffuseCoeff,bottomWallShininess,bottomWallKtrans,bottomWallKreflec,1,seeWalls);
     id++;
 
     glm::dvec3 farWallColor = glm::dvec3(0,0,0);

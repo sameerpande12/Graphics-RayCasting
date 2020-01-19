@@ -1,5 +1,5 @@
 OS := $(shell uname)
-CFLAGS = -lglut -lglfw -Wall -lGL -ldl -lGLEW -fopenmp
+CFLAGS = -lglut -lglfw -Wall -lGL -ldl -lGLEW -fopenmp -O3
 
 exe: main.o 
 	g++ main.o scene.o OpenGLdraw.o Camera.o Box.o Wall.o Cylinder.o Sphere.o Object.o helper.o Axes.o Ray.o PointSource.o  $(CFLAGS) -o exe

@@ -204,7 +204,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
     cornersBottom.push_back(glm::dvec3(4*R,0,-4*R));
     cornersBottom.push_back(glm::dvec3(0,0,-4*R));
 
-    Wall* bottomWall = new Wall(id,cornersBottom,cornersBottom[0],bottomWallColor,1.1,bottomWallSpecColor,bottomWallSpecCoeff,bottomWallDiffuseCoeff,bottomWallShininess,bottomWallKtrans,bottomWallKreflec,1,seeWalls);
+    Wall* bottomWall = new Wall(id,cornersBottom,cornersBottom[0],bottomWallColor,1.1,bottomWallSpecColor,bottomWallSpecCoeff,bottomWallDiffuseCoeff,bottomWallShininess,bottomWallKtrans,bottomWallKreflec,1,true);
     id++;
 
     glm::dvec3 farWallColor = glm::dvec3(0,0,0);
@@ -238,7 +238,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
     bool cylinderVisibility = true;
 
     
-    glm::dvec3 tubeLightColor = glm::dvec3(1,1,1);
+    glm::dvec3 tubeLightColor = glm::dvec3(0.5,0.5,0.5);
     double tubeLightAttenuation = 0.001;
     double tubeLightAmbientCoefficient = 0.1;
     

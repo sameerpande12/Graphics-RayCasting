@@ -13,7 +13,7 @@
 #include "scene.h"
 #include "GLFW/glfw3.h"
 #include "GL/glew.h"
-
+#include <cmath>
 #define cout std::cout
 #define endl std::endl
 
@@ -106,19 +106,28 @@ int main(int argc,char*argv[]){
     camera->fov = M_PI_2;
     createScene(lightSources,pointSources,tubeLights,shinyBalls,snowSpheres,walls,objects,R,width,height);
     
+    int aliasingValue = 4;
+
     while(!glfwWindowShouldClose(window)){   
-        glfwPollEvents();//added to avoid glfw from thinking that window is not responding
+        glfwPollEvents();
         
         #pragma omp parallel for
         for(int iter = 0;iter<height*width;iter++){
                 int i,j;
                 i = iter/width;
                 j = iter%width;
+                glm::dvec3 colorObtained=glm::dvec3(0,0,0);
+                for(int iter = 0;iter<aliasingValue;iter++){
+                    double deltaX = drand48()*0.5;
+                    double deltaY = drand48()*0.5;
                 
-                glm::dvec3 rayDir = glm::normalize(camera->pixelToWorld( (double)j,(double)i) - camera->location);
+                    glm::dvec3 rayDir = glm::normalize(camera->pixelToWorld( (double)j+deltaX,(double)i+deltaY) - camera->location);
                 
-                Ray ray = Ray(camera->location,rayDir,1);
-                glm::dvec3 colorObtained = rayTrace(ray,objects,lightSources,1,2,glm::dvec3(0,0,0));
+                    Ray ray = Ray(camera->location,rayDir,1);
+                    colorObtained += rayTrace(ray,objects,lightSources,1,2,glm::dvec3(0,0,0));
+                }
+                colorObtained = colorObtained * (1/ (double)aliasingValue);
+                
                 for(int i = 0;i<3;i++)if(colorObtained[i]>1)colorObtained[i]=0.9999;
                 image[iter*3]=(GLubyte) (colorObtained[0]*255);
                 image[iter*3+1]=(GLubyte) (colorObtained[1]*255);

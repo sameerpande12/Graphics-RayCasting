@@ -14,6 +14,7 @@
 #include "GLFW/glfw3.h"
 #include "GL/glew.h"
 #include <cmath>
+
 #define cout std::cout
 #define endl std::endl
 

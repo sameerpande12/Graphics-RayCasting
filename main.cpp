@@ -117,7 +117,7 @@ int main(int argc,char*argv[]){
     }
     while(!glfwWindowShouldClose(window)){   
         glfwPollEvents();
-        
+        double start = omp_get_wtime();
         #pragma omp parallel for
         for(int iter = 0;iter<height*width;iter++){
                 int i,j;
@@ -130,7 +130,7 @@ int main(int argc,char*argv[]){
                     glm::dvec3 rayDir = glm::normalize(camera->pixelToWorld( (double)j+deltaX[aliasNumber],(double)i+deltaY[aliasNumber]) - camera->location);
                 
                     Ray ray = Ray(camera->location,rayDir,1);
-                    colorObtained += rayTrace(ray,objects,lightSources,1,2,glm::dvec3(0,0,0));
+                    colorObtained += rayTrace(ray,objects,lightSources,1,4,glm::dvec3(0,0,0));
                 }
                 colorObtained = colorObtained * (1/ (double)aliasingValue);
                 
@@ -141,6 +141,8 @@ int main(int argc,char*argv[]){
                 
         
         }
+        double end = omp_get_wtime();
+        cout<<end-start<<endl;
         glClearColor(0,0,0,0);
         glClear(GL_COLOR_BUFFER_BIT);
         opengl.draw(image,width,height,0,0);

@@ -138,7 +138,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<Sphere*>&shi
     Sphere* sphere3 = new Sphere(id,location3,snowColor,radius3,snowRefractiveIndex,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec,0,true);
     id++;
 
-
+    bool seeWalls = true;
     glm::dvec3 sideWallColor = glm::dvec3(1,0,0);
     glm::dvec3 sideWallSpecColor = glm::dvec3(1,0,0);
     double sideWallSpecCoeff = 0;
@@ -152,8 +152,9 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<Sphere*>&shi
     cornersLeft.push_back(glm::dvec3(0,4*R,0));
     cornersLeft.push_back(glm::dvec3(0,4*R,-4*R));
     cornersLeft.push_back(glm::dvec3(0,0,-4*R));
+    
 
-    Wall* leftWall = new Wall(id,cornersLeft,cornersLeft[0],sideWallColor,1.1,sideWallSpecColor,sideWallSpecCoeff,sideWallDiffuseCoeff,sideWallShininess,sideWallKtrans,sideWallKreflec,1,true);
+    Wall* leftWall = new Wall(id,cornersLeft,cornersLeft[0],sideWallColor,1.1,sideWallSpecColor,sideWallSpecCoeff,sideWallDiffuseCoeff,sideWallShininess,sideWallKtrans,sideWallKreflec,1,seeWalls);
     id++;
 
 
@@ -164,7 +165,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<Sphere*>&shi
     cornersRight.push_back(glm::dvec3(4*R,4*R,-4*R));
     cornersRight.push_back(glm::dvec3(4*R,0,-4*R));
     
-    Wall* rightWall = new Wall(id,cornersRight,cornersRight[0],sideWallColor,1.1,sideWallSpecColor,sideWallSpecCoeff,sideWallDiffuseCoeff,sideWallShininess,sideWallKtrans,sideWallKreflec,1,true);
+    Wall* rightWall = new Wall(id,cornersRight,cornersRight[0],sideWallColor,1.1,sideWallSpecColor,sideWallSpecCoeff,sideWallDiffuseCoeff,sideWallShininess,sideWallKtrans,sideWallKreflec,1,seeWalls);
     id++;
 
     
@@ -184,7 +185,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<Sphere*>&shi
     cornersCeil.push_back(glm::dvec3(4*R,4*R,-4*R));
     cornersCeil.push_back(glm::dvec3(0,4*R,-4*R));
     
-    Wall* ceilWall = new Wall(id,cornersCeil,cornersCeil[0],ceilWallColor,1.1,ceilWallSpecColor,ceilWallSpecCoeff,ceilWallDiffuseCoeff,ceilWallShininess,ceilWallKtrans,ceilWallKreflec,1,true);
+    Wall* ceilWall = new Wall(id,cornersCeil,cornersCeil[0],ceilWallColor,1.1,ceilWallSpecColor,ceilWallSpecCoeff,ceilWallDiffuseCoeff,ceilWallShininess,ceilWallKtrans,ceilWallKreflec,1,seeWalls);
     id++;
 
     glm::dvec3 bottomWallColor = glm::dvec3(1,1,1);
@@ -203,7 +204,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<Sphere*>&shi
     cornersBottom.push_back(glm::dvec3(4*R,0,-4*R));
     cornersBottom.push_back(glm::dvec3(0,0,-4*R));
 
-    Wall* bottomWall = new Wall(id,cornersBottom,cornersBottom[0],bottomWallColor,1.1,bottomWallSpecColor,bottomWallSpecCoeff,bottomWallDiffuseCoeff,bottomWallShininess,bottomWallKtrans,bottomWallKreflec,1,true);
+    Wall* bottomWall = new Wall(id,cornersBottom,cornersBottom[0],bottomWallColor,1.1,bottomWallSpecColor,bottomWallSpecCoeff,bottomWallDiffuseCoeff,bottomWallShininess,bottomWallKtrans,bottomWallKreflec,1,seeWalls);
     id++;
 
     glm::dvec3 farWallColor = glm::dvec3(0,0,0);
@@ -221,22 +222,26 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<Sphere*>&shi
     cornersFar.push_back(glm::dvec3(4*R,4*R,-4*R));
     cornersFar.push_back(glm::dvec3(0,4*R,-4*R));
     
-    Wall* farWall = new Wall(id,cornersFar,cornersFar[0],farWallColor,1.1,farWallSpecColor,farWallSpecCoeff,farWallDiffuseCoeff,farWallShininess,farWallKtrans,farWallKreflec,1,true);
+    Wall* farWall = new Wall(id,cornersFar,cornersFar[0],farWallColor,1.1,farWallSpecColor,farWallSpecCoeff,farWallDiffuseCoeff,farWallShininess,farWallKtrans,farWallKreflec,1,seeWalls);
     id++;
-    
 
-    snowSpheres.push_back(sphere1);
-    snowSpheres.push_back(sphere2);
-    snowSpheres.push_back(sphere3);
+    Cylinder * cylinder = new Cylinder(id,xyz,glm::dvec3(2*R,2*R,-R),R,glm::dvec3(1,1,1),R,1.1,glm::dvec3(1,1,1),1,1,1,0.3,0.1,0,true);
+    id++;
+                            
+    // snowSpheres.push_back(sphere1);
+    // snowSpheres.push_back(sphere2);
+    // snowSpheres.push_back(sphere3);
     walls.push_back(farWall);
     walls.push_back(leftWall);
     walls.push_back(rightWall);
     walls.push_back(ceilWall);
     walls.push_back(bottomWall);
 
-    for(int i =0;i<(int)(shinyBalls.size());i++)objects.push_back(shinyBalls[i]);
+    objects.push_back(cylinder);
+    // for(int i =0;i<(int)(shinyBalls.size());i++)objects.push_back(shinyBalls[i]);
     for(int i = 0;i<(int)(walls.size());i++)objects.push_back(walls[i]);
     for(int i =0;i<(int)snowSpheres.size();i++)objects.push_back(snowSpheres[i]);
+    
     lightSources.push_back(source1);
     lightSources.push_back(source2);
     lightSources.push_back(source3);

@@ -7,6 +7,7 @@ class Cylinder: public Object{
         
         double height;
         double radius;
+        Axes axes;
     public:
         
         void setHeight(double height);
@@ -15,7 +16,10 @@ class Cylinder: public Object{
         void setRadius(double radius);
         double getRadius();
 
-        Cylinder(int id,glm::dvec3 reference,glm::dvec3 color,double height,double refrac,glm::dvec3 specColor,double specCoeff,double diffCoeff,double specExp,double k_trans,double k_reflec,int type,bool visible);
+        void setAxes(Axes ax);
+        Axes getAxes();//the y axis is along the length
+
+        Cylinder(int id,Axes axis,glm::dvec3 reference,double radius,glm::dvec3 color,double height,double refrac,glm::dvec3 specColor,double specCoeff,double diffCoeff,double specExp,double k_trans,double k_reflec,int type,bool visible);
         
 
 

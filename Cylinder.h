@@ -21,7 +21,7 @@ class Cylinder: public Object{
         void setAxes(Axes ax);
         Axes getAxes();//the y axis is along the length
 
-        Cylinder(int id,glm::dvec3 lightColour, double lightAttenuation,double lightAmbientCoeff,Axes axis,glm::dvec3 reference,double radius,glm::dvec3 color,double height,double refrac,glm::dvec3 specColor,double specCoeff,double diffCoeff,double specExp,double k_trans,double k_reflec,int type,bool visible);
+        Cylinder(int id,glm::dvec3 lightColour, double lightAttenuation,double lightAmbientCoeff,Axes axis,glm::dvec3 reference,double radius,glm::dvec3 color,double height,double refrac,double scale,double diffCoeff,double roughness,double k_trans,double k_reflec,double d,int type,bool visible);
         std::vector<PointSource*> getPointSources();
 
 

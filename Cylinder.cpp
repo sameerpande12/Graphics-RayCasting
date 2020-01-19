@@ -25,7 +25,7 @@ void Cylinder::setAxes(Axes ax){
 Axes Cylinder::getAxes(){
     return axes;
 }
-Cylinder::Cylinder(int id,glm::dvec3 lightColour, double lightAttenuation,double lightAmbientCoeff,Axes ax,glm::dvec3 refer,double radius,glm::dvec3 col,double h,double refrac,glm::dvec3 specColor,double specCoeff,double diffCoeff,double specExp,double k_trans,double k_reflec, int type,bool visible):Object(id,refer,color,refrac,specColor,specCoeff,diffCoeff, specExp,k_trans,k_reflec,type,visible){
+Cylinder::Cylinder(int id,glm::dvec3 lightColour, double lightAttenuation,double lightAmbientCoeff,Axes ax,glm::dvec3 refer,double radius,glm::dvec3 col,double h,double refrac,double scale,double diffCoeff,double roughness,double k_trans,double k_reflec, double d,int type,bool visible):Object(id,refer,color,refrac,scale,diffCoeff, roughness,k_trans,k_reflec,d,type,visible){
     setHeight(h);
     setAxes(ax);
     setRadius(radius);

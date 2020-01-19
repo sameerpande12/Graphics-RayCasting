@@ -15,17 +15,22 @@ class Object{
         glm::dvec3 reference;
         glm::dvec3 color;
         double refractiveIndex;
-        double specularCoefficient;
-        double shininess;
+        double scalingFactor;
+        double roughness;
         double diffusionCoefficient;
-        glm::dvec3 specularColor;
+        // glm::dvec3 specularColor;
         double k_transmission;
         double k_reflection;
         int type;//0 for sphere, 1 for wall,2 for cylinder
         bool visible;
+        double dVal;
+        double sVal;
+
+        double fresnelConstant;//not fresnalFactor
+
     public:
         bool isVisible();
-        Object(int id,glm::dvec3 reference,glm::dvec3 color,double refrac,glm::dvec3 specColor,double specCoeff,double diffCoeff,double specExp,double k_trans,double k_reflec,int typ,bool isVisible);
+        Object(int id,glm::dvec3 reference,glm::dvec3 color,double refrac,double scale,double diffCoeff,double roughVal,double k_trans,double k_reflec,double d,int typ,bool isVisible);
         void setId(int id);
         void setReference(glm::dvec3 ref);
         void setColor(glm::dvec3 col);
@@ -41,9 +46,14 @@ class Object{
         double getK_Transmission();
         double getK_Reflection();
 
-        double getSpecularCoefficient();
+        double getS();
+        double getD();
+        double getFresnelConstant();
+        double getRoughness();
+
+
+        double getScalingFactor();
         double getDiffusionCoefficient();
-        double getShininess();
 
         virtual glm::dvec3 getLocalIllumination(std::vector<PointSource*> &sources,glm::dvec3 normal,glm::dvec3 eye,glm::dvec3 contactPoint);
 

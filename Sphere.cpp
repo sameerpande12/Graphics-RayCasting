@@ -10,7 +10,7 @@ void Sphere::setRadius(int rad){
     radius =rad;
 }
 
-Sphere::Sphere(int id,glm::dvec3 ref,glm::dvec3 color,int radius,double refrac,glm::dvec3 specColor,double specCoeff,double diffCoeff,double specExp,double k_trans,double k_reflec,int type,bool visible):Object(id,ref,color,refrac,specColor,specCoeff,diffCoeff, specExp,k_trans,k_reflec,type,visible){
+Sphere::Sphere(int id,glm::dvec3 ref,glm::dvec3 color,int radius,double refrac,double scale,double diffCoeff,double roughness,double k_trans,double k_reflec,double d,int type,bool visible):Object(id,ref,color,refrac,scale,diffCoeff, roughness,k_trans,k_reflec,d,type,visible){
     setRadius(radius);
 }
 

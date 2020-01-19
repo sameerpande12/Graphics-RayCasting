@@ -4,7 +4,7 @@
 #define INF std::numeric_limits<double>::infinity();
 
 
-Wall::Wall(int id,std::vector<glm::dvec3>cornerPoints,glm::dvec3 ref,glm::dvec3 color,double refrac,glm::dvec3 specColor,double specCoeff,double diffCoeff,double specExp,double k_trans,double k_reflec,int type,bool visible):Object(id,ref,color,refrac,specColor,specCoeff,diffCoeff,specExp,k_trans,k_reflec,type,visible){
+Wall::Wall(int id,std::vector<glm::dvec3>cornerPoints,glm::dvec3 ref,glm::dvec3 color,double refrac,double scale,double diffCoeff,double roughness,double k_trans,double k_reflec,double d,int type,bool visible):Object(id,ref,color,refrac,scale,diffCoeff,roughness,k_trans,k_reflec,d,type,visible){
     updatePoints(cornerPoints);
 }
 

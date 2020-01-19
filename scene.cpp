@@ -144,7 +144,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<Sphere*>&shi
     double sideWallSpecCoeff = 0;
     double sideWallDiffuseCoeff = 0.1;
     double sideWallKtrans = 0;
-    double sideWallKreflec = 0;
+    double sideWallKreflec = 0.1;
     double sideWallShininess = 0;
 
     std::vector<glm::dvec3> cornersLeft;
@@ -175,7 +175,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<Sphere*>&shi
     double ceilWallSpecCoeff = 0;
     double ceilWallDiffuseCoeff = 0.1;
     double ceilWallKtrans = 0;
-    double ceilWallKreflec = 0;
+    double ceilWallKreflec = 0.1;
     double ceilWallShininess = 0;
 
 
@@ -193,7 +193,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<Sphere*>&shi
     double bottomWallSpecCoeff = 0;
     double bottomWallDiffuseCoeff = 0.1;
     double bottomWallKtrans = 0;
-    double bottomWallKreflec = 0;
+    double bottomWallKreflec = 0.1;
     double bottomWallShininess = 0;
 
 
@@ -273,6 +273,8 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<Sphere*>&shi
         lightSources.push_back(tubeLight1[i]);
     
     }
+
+    std::cout<<rightWall->getID()<<std::endl;
     // std::cout<<lightSources.size()<<"\n";
     
 }

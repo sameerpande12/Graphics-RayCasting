@@ -147,7 +147,10 @@ glm::dvec3 rayTrace(Ray ray, std::vector<Object*> &objects, std::vector<PointSou
         return localIllumination;
     }
 
+
     double Kr = objects[closestIntersectionIndex]->getK_Reflection();
+    
+    
     glm::dvec3 reflectionContribution = glm::dvec3(0,0,0);
     if(Kr!=0){
         

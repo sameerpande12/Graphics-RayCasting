@@ -116,8 +116,8 @@ int main(int argc,char*argv[]){
                 glm::dvec3 rayDir = glm::normalize(camera->pixelToWorld( (double)j,(double)i) - camera->location);
                 
                 Ray ray = Ray(camera->location,rayDir,1);
-                glm::dvec3 colorObtained = rayTrace(ray,objects,lightSources,1,4,glm::dvec3(0,0,0));
-        
+                glm::dvec3 colorObtained = rayTrace(ray,objects,lightSources,1,2,glm::dvec3(0,0,0));
+                for(int i = 0;i<3;i++)if(colorObtained[i]>1)colorObtained[i]=0.9999;
                 image[iter*3]=(GLubyte) (colorObtained[0]*255);
                 image[iter*3+1]=(GLubyte) (colorObtained[1]*255);
                 image[iter*3+2]=(GLubyte) (colorObtained[2]*255);

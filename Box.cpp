@@ -19,7 +19,7 @@ bool Box::isInside(glm::dvec3 point){
     return true;
 }
 
-Box::Box(int id, glm::dvec3 ref, glm::dvec3 color, glm::dvec3 minimum, glm::dvec3 maximum,double len,double refrac,glm::dvec3 specColor,double specCoeff,double diffCoeff,double specExp,double k_trans,double k_reflec,int type,bool visible):Object(id,ref,color,refrac,specColor,specCoeff,diffCoeff, specExp,k_trans,k_reflec,type,visible){
+Box::Box(int id, glm::dvec3 ref, glm::dvec3 color, glm::dvec3 minimum, glm::dvec3 maximum,double len,double refrac,double scale,double diffCoeff,double roughness,double k_trans,double k_reflec,double d,int type,bool visible):Object(id,ref,color,refrac,scale,diffCoeff, roughness,k_trans,k_reflec,d,type,visible){
     side = len;
     minBound = minimum;
     maxBound = maximum; 
@@ -35,7 +35,7 @@ std::tuple<double,glm::dvec3,glm::dvec3> Box::getClosestIntersection(Ray ray){
     double t;
 
     int indexVal;
-    bool fromMinBound;
+    bool fromMinBound=false;
     for(int i = 0;i<3;i++){
         if(dir[i]!=0.0){
 

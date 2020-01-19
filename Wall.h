@@ -10,7 +10,7 @@ class Wall:public Object{
         double yLength;
     public:
         
-        Wall(int id,std::vector<glm::dvec3>cornerPoints,glm::dvec3 ref,glm::dvec3 color,double refrac,glm::dvec3 specColor,double specCoeff,double diffCoeff,double specExp,double k_trans,double k_reflec,int type,bool visible=false);
+        Wall(int id,std::vector<glm::dvec3>cornerPoints,glm::dvec3 ref,glm::dvec3 color,double refrac,double scale,double diffCoeff,double roughness,double k_trans,double k_reflec,double d,int type,bool visible=false);
         //cornerPoints are given in antiClockWise/clockWise Direction
         //Walls are assumed to be rectangular
         std::tuple<double,glm::dvec3,glm::dvec3>getClosestIntersection(Ray ray);

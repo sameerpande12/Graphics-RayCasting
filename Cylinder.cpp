@@ -30,9 +30,7 @@ Cylinder::Cylinder(int id,glm::dvec3 lightColour, double lightAttenuation,double
     setAxes(ax);
     setRadius(radius);
     std::vector<PointSource*> pointSrc;
-    printVector(ax.getAxis(1));
-    std::cout<<height<<std::endl;
-    printVector(refer);
+    
     for(int i= 1;i<=4;i++){
         glm::dvec3 loc = refer - (  height/2 -  i*0.2*height)*ax.getAxis(1);
         
@@ -40,6 +38,16 @@ Cylinder::Cylinder(int id,glm::dvec3 lightColour, double lightAttenuation,double
     }
     pointSources = pointSrc;
 };
+
+void Cylinder::updatePosition(glm::dvec3 newRef, Axes newAxes){
+    setReference(newRef);
+    setAxes(newAxes);
+    for(int i =1 ;i<=4;i++){//updating the position of new point sources
+        glm::dvec3 loc = newRef - (height/2 - i*0.2*height)*newAxes.getAxis(1);
+        pointSources[i-1]->position = loc;
+    }
+
+}
 
 glm::dvec3 Cylinder::getLocalIllumination(std::vector<PointSource*> &sources,glm::dvec3 normal,glm::dvec3 eye,glm::dvec3 contactPoint){
     glm::dvec3 localIllumination=glm::dvec3(0,0,0);

@@ -1,7 +1,7 @@
 #include "scene.h"
 #include <glm/glm.hpp>
 
-void createScene(std::vector<PointSource*>&lightSources,std::vector<Sphere*>&shinyBalls,std::vector<Sphere*>&snowSpheres,std::vector<Wall*>&walls,std::vector<Object*>&objects,double R,int width,int height){
+void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*>&pointSources,std::vector<Cylinder*>&tubeLights,std::vector<Sphere*>&shinyBalls,std::vector<Sphere*>&snowSpheres,std::vector<Wall*>&walls,std::vector<Object*>&objects,double R,int width,int height){
     Axes xyz = Axes();
     double circleRadius = 1.5*R;
     int id = 1;
@@ -138,7 +138,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<Sphere*>&shi
     Sphere* sphere3 = new Sphere(id,location3,snowColor,radius3,snowRefractiveIndex,snowSpecColor,snowSpecCoeff,snowdiffCoeff,snowShininess,snowKtrans,snowKreflec,0,true);
     id++;
 
-    bool seeWalls = true;
+    bool seeWalls = false;
     glm::dvec3 sideWallColor = glm::dvec3(1,0,0);
     glm::dvec3 sideWallSpecColor = glm::dvec3(1,0,0);
     double sideWallSpecCoeff = 0;
@@ -237,44 +237,67 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<Sphere*>&shi
     int cylinderType = 2;
     bool cylinderVisibility = true;
 
-    glm::dvec3 cylinderRef1 = glm::dvec3(R,R,-R);
+    
     glm::dvec3 tubeLightColor = glm::dvec3(1,1,1);
     double tubeLightAttenuation = 0.001;
     double tubeLightAmbientCoefficient = 0.1;
     
+    glm::dvec3 cylinderRef1 = glm::dvec3(0.01*R,R*0.5,0);
     Cylinder * cylinder1 = new Cylinder(id,tubeLightColor,tubeLightAttenuation,tubeLightAmbientCoefficient,xyz,cylinderRef1,cylinderRadius,cylinderColor,cylinderHeight,cylinderRefrac,cylinderSpecColour,cylinderSpecCoeff,cylinderDiffCoeff,cylinderShininess,cylinderK_trans,cylinderK_reflec,cylinderType,cylinderVisibility);
-                                        
     id++;
     
 
-    // Cylinder * cylinder1 = new Cylinder(id,xyz,glm::dvec3(2*R,2*R,-2*R),R/25,glm::dvec3(1,1,1),R,1.1,glm::dvec3(1,1,1),1,1,1,0,0,0,true);
-    // id++;
+    glm::dvec3 cylinderRef2 = glm::dvec3(3.99*R,R*0.5,0);
+    Cylinder * cylinder2 = new Cylinder(id,tubeLightColor,tubeLightAttenuation,tubeLightAmbientCoefficient,xyz,cylinderRef2,cylinderRadius,cylinderColor,cylinderHeight,cylinderRefrac,cylinderSpecColour,cylinderSpecCoeff,cylinderDiffCoeff,cylinderShininess,cylinderK_trans,cylinderK_reflec,cylinderType,cylinderVisibility);
+    id++;
+
+
+    glm::dvec3 cylinderRef3 = glm::dvec3(3.99*R,R*0.5,-3.99*R);
+    Cylinder * cylinder3 = new Cylinder(id,tubeLightColor,tubeLightAttenuation,tubeLightAmbientCoefficient,xyz,cylinderRef3,cylinderRadius,cylinderColor,cylinderHeight,cylinderRefrac,cylinderSpecColour,cylinderSpecCoeff,cylinderDiffCoeff,cylinderShininess,cylinderK_trans,cylinderK_reflec,cylinderType,cylinderVisibility);
+    id++;
+
+
+    glm::dvec3 cylinderRef4 = glm::dvec3(0,R*0.5,-3.99*R);
+    Cylinder * cylinder4 = new Cylinder(id,tubeLightColor,tubeLightAttenuation,tubeLightAmbientCoefficient,xyz,cylinderRef4,cylinderRadius,cylinderColor,cylinderHeight,cylinderRefrac,cylinderSpecColour,cylinderSpecCoeff,cylinderDiffCoeff,cylinderShininess,cylinderK_trans,cylinderK_reflec,cylinderType,cylinderVisibility);
+    id++;
                             
-    // snowSpheres.push_back(sphere1);
-    // snowSpheres.push_back(sphere2);
-    // snowSpheres.push_back(sphere3);
+    snowSpheres.push_back(sphere1);
+    snowSpheres.push_back(sphere2);
+    snowSpheres.push_back(sphere3);
     walls.push_back(farWall);
     walls.push_back(leftWall);
     walls.push_back(rightWall);
     walls.push_back(ceilWall);
     walls.push_back(bottomWall);
+    tubeLights.push_back(cylinder1);
+    tubeLights.push_back(cylinder2);
+    tubeLights.push_back(cylinder3);
+    tubeLights.push_back(cylinder4);
 
-    objects.push_back(cylinder1);
-    // for(int i =0;i<(int)(shinyBalls.size());i++)objects.push_back(shinyBalls[i]);
+
+    
+    for(int i =0;i<(int)(shinyBalls.size());i++)objects.push_back(shinyBalls[i]);
     for(int i = 0;i<(int)(walls.size());i++)objects.push_back(walls[i]);
     for(int i =0;i<(int)snowSpheres.size();i++)objects.push_back(snowSpheres[i]);
-    
-    // lightSources.push_back(source1);
-    lightSources.push_back(source2);
-    // lightSources.push_back(source3);
-    // lightSources.push_back(source4);
-    std::vector<PointSource*> tubeLight1 = cylinder1->getPointSources();
-    for(int i = 0;i<(int)tubeLight1.size();i++){
-        lightSources.push_back(tubeLight1[i]);
-    
-    }
+    for(int i = 0;i<(int)tubeLights.size();i++)objects.push_back(tubeLights[i]);
 
-    std::cout<<rightWall->getID()<<std::endl;
+    pointSources.push_back(source1);
+    pointSources.push_back(source2);
+    pointSources.push_back(source3);
+    pointSources.push_back(source4);
+
+
+    for(int i =0;i<(int) pointSources.size();i++){
+        lightSources.push_back(pointSources[i]);
+    }
+    for(int i = 0;i<(int)tubeLights.size();i++){
+        std::vector<PointSource*> points = tubeLights[i]->getPointSources();
+        for(int j = 0;j<(int)points.size();j++){
+            lightSources.push_back(points[j]);
+        }
+    }    
+
+    
     // std::cout<<lightSources.size()<<"\n";
     
 }

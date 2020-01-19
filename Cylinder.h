@@ -30,4 +30,5 @@ class Cylinder: public Object{
          bool isInside(glm::dvec3 point);
 
          glm::dvec3 getLocalIllumination(std::vector<PointSource*> &sources,glm::dvec3 normal,glm::dvec3 eye,glm::dvec3 contactPoint);
+         void updatePosition(glm::dvec3 newRef, Axes newAxes);
 };

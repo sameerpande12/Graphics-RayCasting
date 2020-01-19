@@ -65,10 +65,6 @@ glm::dvec3 Object::getLocalIllumination(std::vector<PointSource*> &sources,glm::
     cLocal = specularCoefficient* cSpecEfffective + diffusionCoefficient* cDifEffective + cAmbient;
     
 
-    for(int i =0 ;i<3;i++){
-        if(cLocal[i]>1)cLocal[i]=1;
-    }
-
     return cLocal;
 
 }

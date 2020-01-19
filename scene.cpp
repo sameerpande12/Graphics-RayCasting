@@ -144,7 +144,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<Sphere*>&shi
     double sideWallSpecCoeff = 0;
     double sideWallDiffuseCoeff = 0.1;
     double sideWallKtrans = 0;
-    double sideWallKreflec = 0.1;
+    double sideWallKreflec = 0;
     double sideWallShininess = 0;
 
     std::vector<glm::dvec3> cornersLeft;
@@ -175,7 +175,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<Sphere*>&shi
     double ceilWallSpecCoeff = 0;
     double ceilWallDiffuseCoeff = 0.1;
     double ceilWallKtrans = 0;
-    double ceilWallKreflec = 0.1;
+    double ceilWallKreflec = 0;
     double ceilWallShininess = 0;
 
 
@@ -193,7 +193,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<Sphere*>&shi
     double bottomWallSpecCoeff = 0;
     double bottomWallDiffuseCoeff = 0.1;
     double bottomWallKtrans = 0;
-    double bottomWallKreflec = 0.1;
+    double bottomWallKreflec = 0;
     double bottomWallShininess = 0;
 
 
@@ -224,7 +224,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<Sphere*>&shi
     
     Wall* farWall = new Wall(id,cornersFar,cornersFar[0],farWallColor,1.1,farWallSpecColor,farWallSpecCoeff,farWallDiffuseCoeff,farWallShininess,farWallKtrans,farWallKreflec,1,seeWalls);
     id++;
-    double cylinderRadius = R;
+    double cylinderRadius = R/25;
     double cylinderHeight = R;
     glm::dvec3 cylinderColor = glm::dvec3(1,1,1);
     double cylinderRefrac = 1.1;
@@ -237,7 +237,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<Sphere*>&shi
     int cylinderType = 2;
     bool cylinderVisibility = true;
 
-    glm::dvec3 cylinderRef1 = glm::dvec3(2*R,2*R,-2*R);
+    glm::dvec3 cylinderRef1 = glm::dvec3(R,R,-R);
     glm::dvec3 tubeLightColor = glm::dvec3(1,1,1);
     double tubeLightAttenuation = 0.001;
     double tubeLightAmbientCoefficient = 0.1;
@@ -265,7 +265,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<Sphere*>&shi
     for(int i =0;i<(int)snowSpheres.size();i++)objects.push_back(snowSpheres[i]);
     
     // lightSources.push_back(source1);
-    // lightSources.push_back(source2);
+    lightSources.push_back(source2);
     // lightSources.push_back(source3);
     // lightSources.push_back(source4);
     std::vector<PointSource*> tubeLight1 = cylinder1->getPointSources();

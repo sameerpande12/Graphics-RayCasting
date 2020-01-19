@@ -93,7 +93,7 @@ int main(int argc,char*argv[]){
     GLubyte image[height*width*3];
     
 
-    glm::dvec3 cameraPosition = glm::dvec3(2*R,2*R,R);
+    glm::dvec3 cameraPosition = glm::dvec3(2*R,2*R,1.5*R);
     Axes xyz = Axes();
     xyz.setAxes(glm::dvec3(1,0,0),glm::dvec3(0,1,0),glm::dvec3(0,0,1));
     camera = new Camera();

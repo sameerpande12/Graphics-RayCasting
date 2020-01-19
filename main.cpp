@@ -93,7 +93,7 @@ int main(int argc,char*argv[]){
     GLubyte image[height*width*3];
     
 
-    glm::dvec3 cameraPosition = glm::dvec3(2*R,2*R,4*R);
+    glm::dvec3 cameraPosition = glm::dvec3(2*R,2*R,R);
     Axes xyz = Axes();
     xyz.setAxes(glm::dvec3(1,0,0),glm::dvec3(0,1,0),glm::dvec3(0,0,1));
     camera = new Camera();
@@ -124,7 +124,7 @@ int main(int argc,char*argv[]){
                 
         
         }
-        glClearColor(0.5,1,1,0);
+        glClearColor(0,0,0,0);
         glClear(GL_COLOR_BUFFER_BIT);
         opengl.draw(image,width,height,0,0);
         glfwSwapBuffers(window);

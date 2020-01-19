@@ -224,20 +224,38 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<Sphere*>&shi
     
     Wall* farWall = new Wall(id,cornersFar,cornersFar[0],farWallColor,1.1,farWallSpecColor,farWallSpecCoeff,farWallDiffuseCoeff,farWallShininess,farWallKtrans,farWallKreflec,1,seeWalls);
     id++;
+    double cylinderRadius = R;
+    double cylinderHeight = R;
+    glm::dvec3 cylinderColor = glm::dvec3(1,1,1);
+    double cylinderRefrac = 1.1;
+    glm::dvec3 cylinderSpecColour = glm::dvec3(1,1,1);
+    double cylinderSpecCoeff=1;
+    double cylinderDiffCoeff=1;
+    double cylinderShininess=1;
+    double cylinderK_trans=0;
+    double cylinderK_reflec=0;
+    int cylinderType = 2;
+    bool cylinderVisibility = true;
 
-    Cylinder * cylinder = new Cylinder(id,xyz,glm::dvec3(2*R,2*R,-R),R,glm::dvec3(1,1,1),R,1.1,glm::dvec3(1,1,1),1,1,1,0.3,0.1,0,true);
+    glm::dvec3 cylinderRef1 = glm::dvec3(2*R,2*R,-2*R);
+    Cylinder * cylinder1 = new Cylinder(id,xyz,cylinderRef1,cylinderRadius,cylinderColor,cylinderHeight,cylinderRefrac,cylinderSpecColour,cylinderSpecCoeff,cylinderDiffCoeff,cylinderShininess,cylinderK_trans,cylinderK_reflec,cylinderType,cylinderVisibility);
+                                        
     id++;
+    
+
+    // Cylinder * cylinder1 = new Cylinder(id,xyz,glm::dvec3(2*R,2*R,-2*R),R/25,glm::dvec3(1,1,1),R,1.1,glm::dvec3(1,1,1),1,1,1,0,0,0,true);
+    // id++;
                             
     // snowSpheres.push_back(sphere1);
     // snowSpheres.push_back(sphere2);
     // snowSpheres.push_back(sphere3);
-    walls.push_back(farWall);
-    walls.push_back(leftWall);
-    walls.push_back(rightWall);
-    walls.push_back(ceilWall);
-    walls.push_back(bottomWall);
+    // walls.push_back(farWall);
+    // walls.push_back(leftWall);
+    // walls.push_back(rightWall);
+    // walls.push_back(ceilWall);
+    // walls.push_back(bottomWall);
 
-    objects.push_back(cylinder);
+    objects.push_back(cylinder1);
     // for(int i =0;i<(int)(shinyBalls.size());i++)objects.push_back(shinyBalls[i]);
     for(int i = 0;i<(int)(walls.size());i++)objects.push_back(walls[i]);
     for(int i =0;i<(int)snowSpheres.size();i++)objects.push_back(snowSpheres[i]);

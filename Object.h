@@ -45,7 +45,7 @@ class Object{
         double getDiffusionCoefficient();
         double getShininess();
 
-        glm::dvec3 getLocalIllumination(std::vector<PointSource*> &sources,glm::dvec3 normal,glm::dvec3 eye,glm::dvec3 contactPoint);
+        virtual glm::dvec3 getLocalIllumination(std::vector<PointSource*> &sources,glm::dvec3 normal,glm::dvec3 eye,glm::dvec3 contactPoint);
 
         virtual std::tuple<double,glm::dvec3,glm::dvec3> getClosestIntersection(Ray ray)=0;//returns t_val, intersection_point, normal_vector at that point
         virtual bool isInside(glm::dvec3 point)=0;//make sure not to use for points which are doubtful to be on the surface

@@ -92,6 +92,7 @@ std::vector<bool> isShadow(glm::dvec3 point, std::vector<PointSource*> &sources,
 
         double tMIN = INF;
         for(int i = 0;i<(int)(objects.size());i++){
+            if(objects[i]->getType()==2)continue;//ignore the cylinders while consider shadow
                 std::tuple <double,glm::dvec3,glm::dvec3> intersection = objects[i]->getClosestIntersection(shadowRay);
                 if(std::get<0>(intersection) >= 0 && std::get<0>(intersection) < tMIN){
                 tMIN = std::get<0>(intersection);            
@@ -142,7 +143,9 @@ glm::dvec3 rayTrace(Ray ray, std::vector<Object*> &objects, std::vector<PointSou
     glm::dvec3 localIllumination = glm::dvec3(0,0,0);
     
     localIllumination = localIllumination + objects[closestIntersectionIndex]->getLocalIllumination(accessibleSources,normal,ray.getOrigin(),closestIntersectionPoint);
-    
+    if(objects[closestIntersectionIndex]->getType()==2){//
+        return localIllumination;
+    }
 
     double Kr = objects[closestIntersectionIndex]->getK_Reflection();
     glm::dvec3 reflectionContribution = glm::dvec3(0,0,0);
@@ -176,6 +179,7 @@ glm::dvec3 rayTrace(Ray ray, std::vector<Object*> &objects, std::vector<PointSou
         }
         
     }
+    // printVector(refractionRayContribution);
     
     return localIllumination + refractionRayContribution * Kt + reflectionContribution * Kr;
 

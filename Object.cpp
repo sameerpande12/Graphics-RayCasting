@@ -32,6 +32,7 @@ double Object::getDiffusionCoefficient(){return diffusionCoefficient;};
 double Object::getShininess(){return shininess;};
 
 glm::dvec3 Object::getLocalIllumination(std::vector<PointSource*> &sources,glm::dvec3 normal,glm::dvec3 eye,glm::dvec3 contactPoint){
+    // if(type==1)std::cout<<sources.size()<<"\n";
     glm::dvec3 cLocal = glm::dvec3(0,0,0);
     glm::dvec3 cAmbient = glm::dvec3(0,0,0);
     glm::dvec3 cDifEffective = glm::dvec3(0,0,0);

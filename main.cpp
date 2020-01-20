@@ -179,6 +179,9 @@ void keyCallback(GLFWwindow* window,int key, int scancode,int action,int mods){
     // }
     else if(toggleValue == 0){//rotate entire scene
         if( (key==GLFW_KEY_UP || key==GLFW_KEY_DOWN) && action==0 ){
+            if(key==GLFW_KEY_UP)cout<<"Key UP"<<endl;
+            if(key==GLFW_KEY_DOWN)cout<<"Key DOWN"<<endl;
+
             double angle = M_PI_4/3;//15 degrees
             if(key==GLFW_KEY_DOWN)angle = -angle;
             // printVector(centreOfRoom);
@@ -197,6 +200,9 @@ void keyCallback(GLFWwindow* window,int key, int scancode,int action,int mods){
             camera->axes = Axes( glm::dvec3(1,0,0), newY , newZ );
         }
         else if((key==GLFW_KEY_LEFT || key==GLFW_KEY_RIGHT) && action==0){
+            if(key==GLFW_KEY_LEFT)cout<<"Key LEFT"<<endl;
+            if(key==GLFW_KEY_RIGHT)cout<<"Key RIGHT"<<endl;
+            
             double angle = M_PI_4/3;
             if(key==GLFW_KEY_RIGHT)angle = -angle;
             for(int i = 0;i<(int)shinyBalls.size();i++){
@@ -263,7 +269,8 @@ void keyCallback(GLFWwindow* window,int key, int scancode,int action,int mods){
     else if(toggleValue == 1){//rotate only shiny balls
       if( (key==GLFW_KEY_LEFT || key==GLFW_KEY_RIGHT) && action==0){//rotate the shiny balls
 
-        
+        if(key==GLFW_KEY_LEFT)cout<<"Key LEFT"<<endl;
+        if(key==GLFW_KEY_RIGHT)cout<<"Key RIGHT"<<endl;
         // (cos(a) + i sin(a))*(x + iz) = (cos(a)*x - sin(a)z)+i(cos(a)*z + sin(a)*x);
         double angle =  M_PI_4/3;//15 degrees
         if(key==GLFW_KEY_RIGHT)angle = -angle; 
@@ -280,6 +287,8 @@ void keyCallback(GLFWwindow* window,int key, int scancode,int action,int mods){
     }
     else if(toggleValue==2){
         if( (key==GLFW_KEY_LEFT || key==GLFW_KEY_RIGHT) && action==0){
+            if(key==GLFW_KEY_LEFT)cout<<"Key LEFT"<<endl;
+            if(key==GLFW_KEY_RIGHT)cout<<"Key RIGHT"<<endl;
             double angle = M_PI_4/3;
             if(key==GLFW_KEY_RIGHT)angle = -angle;
             for(int i = 0;i<(int)tubeLights.size();i++){//rotate only point sources (not included in tubelight)

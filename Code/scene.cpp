@@ -41,8 +41,8 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
     // PointSource* source4 = new PointSource(lightSourceLocation4,lightSourceIntensity4,attenuation4,ambientCoefficient4);
     
     
-    double kt_1 = .6;
-    double kr_1 = .3;
+    double kt_1 = .0;
+    double kr_1 = .9;
 
     double kt_2 = 0.6;
     double kr_2 = 0.3;

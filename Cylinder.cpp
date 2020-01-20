@@ -32,7 +32,7 @@ Cylinder::Cylinder(int id,glm::dvec3 lightColour, double lightAttenuation,double
     std::vector<PointSource*> pointSrc;
     
     for(int i= 1;i<=4;i++){
-        glm::dvec3 loc = refer - (  height/2 -  i*0.2*height)*ax.getAxis(1);
+        glm::dvec3 loc = refer - (  0.625 * height-  i*0.25*height)*ax.getAxis(1);
         
         pointSrc.push_back(new PointSource(loc,lightColour,lightAttenuation,lightAmbientCoeff   ));
     }

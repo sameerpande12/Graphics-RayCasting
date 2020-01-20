@@ -51,7 +51,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
     double scale1 = 20;//20 is good value
 
     double diffCoeff2 = 1;
-    double scale2 = 0;
+    double scale2 = 20;
 
     double roughness1 = 0.1;
     double roughness2 = 0.1;

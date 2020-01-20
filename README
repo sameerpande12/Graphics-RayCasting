@@ -1,0 +1,8 @@
+					README
+
+2017CS10371 Sameer Vivek Pande
+
+To run the code
+1. Go inside the directory 'Code'
+2. bash run.sh <WIDTH> <HEIGHT> <ALIASING_VALUE> 
+(if you just execute 'bash run.sh', WIDTH=512, HEIGHT=512 and ALIASING_VALUE=1 will be set)

@@ -89,6 +89,8 @@ glm::dvec3 Object::getLocalIllumination(std::vector<PointSource*> &sources,glm::
         double D = secSquareAlpha*secSquareAlpha * exp(  (1-secSquareAlpha)/mSquare  ) /(  mSquare *M_PI  );
         
         double rs = D*G*F/(4/**ldotn*/*ndotv);//delibarately removing ndotl since we won't multiply it here then
+        if(rs<0)rs=0;    
+        // if(getType()==0)    std::cout<<rs<<" "<< ldotn*diffusionCoefficient <<std::endl;
         cSpecEfffective = cSpecEfffective + rs*effColor;
 
         /*
@@ -104,8 +106,9 @@ glm::dvec3 Object::getLocalIllumination(std::vector<PointSource*> &sources,glm::
     }
 
     // cLocal = scalingFactor* cSpecEfffective + dVal* diffusionCoefficient* cDifEffective + cAmbient;
-    cLocal = sVal* cSpecEfffective *scalingFactor + (dVal* diffusionCoefficient* cDifEffective)*scalingFactor + cAmbient;
+    cLocal = sVal* cSpecEfffective *scalingFactor + (dVal* diffusionCoefficient* cDifEffective) + cAmbient;
                                         // d * kd * (n.l) *
+    // cLocal = (dVal* diffusionCoefficient* cDifEffective);
     return cLocal;
 
 }

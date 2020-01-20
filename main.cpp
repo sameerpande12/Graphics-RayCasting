@@ -107,7 +107,7 @@ int main(int argc,char*argv[]){
     camera->fov = M_PI_2;
     createScene(lightSources,pointSources,tubeLights,shinyBalls,snowSpheres,walls,objects,R,width,height);
     
-    int aliasingValue = 1;
+    int aliasingValue = 8;
     std::vector<double>deltaX;
     std::vector<double> deltaY;
 
@@ -142,7 +142,7 @@ int main(int argc,char*argv[]){
         
         }
         double end = omp_get_wtime();
-        cout<<end-start<<endl;
+        // cout<<end-start<<endl;
         glClearColor(0,0,0,0);
         glClear(GL_COLOR_BUFFER_BIT);
         opengl.draw(image,width,height,0,0);
@@ -168,73 +168,73 @@ void keyCallback(GLFWwindow* window,int key, int scancode,int action,int mods){
             double angle = M_PI_4/3;//15 degrees
             if(key==GLFW_KEY_UP)angle = -angle;
             
-            camera->axes = rotateAxes(camera->axes,angle,0);
-            cout<<"New camera axes are-> ";
-            printAxes(camera->axes);
-            cout<<'\n';
+            // camera->axes = rotateAxes(camera->axes,angle,0);
+            // cout<<"New camera axes are-> ";
+            // printAxes(camera->axes);
+            // cout<<'\n';
 
-            // for(int i = 0;i<(int)shinyBalls.size();i++){//rotate about x axis
-            //     glm::dvec3 relativePosition = shinyBalls[i]->getReference() - centreOfRoom;
-            //     double newY = cos(angle)* relativePosition[1] - sin(angle)*relativePosition[2];
-            //     double newZ = cos(angle)* relativePosition[2] + sin(angle)*relativePosition[1];
+            for(int i = 0;i<(int)shinyBalls.size();i++){//rotate about x axis
+                glm::dvec3 relativePosition = shinyBalls[i]->getReference() - centreOfRoom;
+                double newY = cos(angle)* relativePosition[1] - sin(angle)*relativePosition[2];
+                double newZ = cos(angle)* relativePosition[2] + sin(angle)*relativePosition[1];
                 
-            //     glm::dvec3 newPos = centreOfRoom + glm::dvec3(0,newY,newZ);
-            //     newPos[0] = shinyBalls[i]->getReference()[0];
-            //     shinyBalls[i]->setReference(  newPos );
-            // }
+                glm::dvec3 newPos = centreOfRoom + glm::dvec3(0,newY,newZ);
+                newPos[0] = shinyBalls[i]->getReference()[0];
+                shinyBalls[i]->setReference(  newPos );
+            }
 
 
-            // for(int i = 0;i<(int)walls.size();i++){
-            //     std::vector<glm::dvec3>cornerPoints = walls[i]->getPoints();
+            for(int i = 0;i<(int)walls.size();i++){
+                std::vector<glm::dvec3>cornerPoints = walls[i]->getPoints();
 
-            //     for(int j = 0;j<(int)cornerPoints.size();j++){//rotate about x axis
-            //         glm::dvec3 relativePosition = cornerPoints[j] - centreOfRoom;
-            //         double newY = cos(angle)* relativePosition[1] - sin(angle)*relativePosition[2];
-            //         double newZ = cos(angle)* relativePosition[2] + sin(angle)*relativePosition[1];
-            //         glm::dvec3 newPos = centreOfRoom + glm::dvec3(0,newY,newZ);
-            //         newPos[0] = cornerPoints[j][0];
-            //         cornerPoints[j]=newPos;
-            //     }
-            //     walls[i]->updatePoints(cornerPoints);
+                for(int j = 0;j<(int)cornerPoints.size();j++){//rotate about x axis
+                    glm::dvec3 relativePosition = cornerPoints[j] - centreOfRoom;
+                    double newY = cos(angle)* relativePosition[1] - sin(angle)*relativePosition[2];
+                    double newZ = cos(angle)* relativePosition[2] + sin(angle)*relativePosition[1];
+                    glm::dvec3 newPos = centreOfRoom + glm::dvec3(0,newY,newZ);
+                    newPos[0] = cornerPoints[j][0];
+                    cornerPoints[j]=newPos;
+                }
+                walls[i]->updatePoints(cornerPoints);
 
-            // }
+            }
 
 
-            // for(int i = 0;i<(int)snowSpheres.size();i++){//rotate about x axis
-            //     glm::dvec3 relativePosition = snowSpheres[i]->getReference() - centreOfRoom;
-            //     double newY = cos(angle)* relativePosition[1] - sin(angle)*relativePosition[2];
-            //     double newZ = cos(angle)* relativePosition[2] + sin(angle)*relativePosition[1];
+            for(int i = 0;i<(int)snowSpheres.size();i++){//rotate about x axis
+                glm::dvec3 relativePosition = snowSpheres[i]->getReference() - centreOfRoom;
+                double newY = cos(angle)* relativePosition[1] - sin(angle)*relativePosition[2];
+                double newZ = cos(angle)* relativePosition[2] + sin(angle)*relativePosition[1];
                 
-            //     glm::dvec3 newPos = centreOfRoom + glm::dvec3(0,newY,newZ);
-            //     newPos[0] = snowSpheres[i]->getReference()[0];
-            //     snowSpheres[i]->setReference(  newPos );
-            // }
+                glm::dvec3 newPos = centreOfRoom + glm::dvec3(0,newY,newZ);
+                newPos[0] = snowSpheres[i]->getReference()[0];
+                snowSpheres[i]->setReference(  newPos );
+            }
 
-            // for(int i = 0;i<(int)pointSources.size();i++){
-            //     //rotate about x axis
-            //     glm::dvec3 relativePosition = pointSources[i]->position - centreOfRoom;
-            //     double newY = cos(angle)* relativePosition[1] - sin(angle)*relativePosition[2];
-            //     double newZ = cos(angle)* relativePosition[2] + sin(angle)*relativePosition[1];
+            for(int i = 0;i<(int)pointSources.size();i++){
+                //rotate about x axis
+                glm::dvec3 relativePosition = pointSources[i]->position - centreOfRoom;
+                double newY = cos(angle)* relativePosition[1] - sin(angle)*relativePosition[2];
+                double newZ = cos(angle)* relativePosition[2] + sin(angle)*relativePosition[1];
                 
-            //     glm::dvec3 newPos = centreOfRoom + glm::dvec3(0,newY,newZ);
-            //     newPos[0] = pointSources[i]->position[0];
-            //     pointSources[i]->position = newPos;
-            // }
+                glm::dvec3 newPos = centreOfRoom + glm::dvec3(0,newY,newZ);
+                newPos[0] = pointSources[i]->position[0];
+                pointSources[i]->position = newPos;
+            }
 
-            // for(int i =0 ;i<(int)tubeLights.size();i++){
+            for(int i =0 ;i<(int)tubeLights.size();i++){
 
-            //     glm::dvec3 relativePosition = tubeLights[i]->getReference() - centreOfRoom;
-            //     double newY = cos(angle)* relativePosition[1] - sin(angle)*relativePosition[2];
-            //     double newZ = cos(angle)* relativePosition[2] + sin(angle)*relativePosition[1];
+                glm::dvec3 relativePosition = tubeLights[i]->getReference() - centreOfRoom;
+                double newY = cos(angle)* relativePosition[1] - sin(angle)*relativePosition[2];
+                double newZ = cos(angle)* relativePosition[2] + sin(angle)*relativePosition[1];
                 
-            //     glm::dvec3 newPos = centreOfRoom + glm::dvec3(0,newY,newZ);
-            //     newPos[0] = tubeLights[i]->getReference()[0];
+                glm::dvec3 newPos = centreOfRoom + glm::dvec3(0,newY,newZ);
+                newPos[0] = tubeLights[i]->getReference()[0];
                 
 
-            //     Axes newAxes = rotateAxes(tubeLights[i]->getAxes(),angle,0);
-            //     tubeLights[i]->updatePosition(newPos,newAxes);
+                Axes newAxes = rotateAxes(tubeLights[i]->getAxes(),angle,0);
+                tubeLights[i]->updatePosition(newPos,newAxes);
                 
-            // }
+            }
 
 
 

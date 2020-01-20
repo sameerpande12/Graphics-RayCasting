@@ -48,10 +48,10 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
     double kr_2 = 0.9;
 
     double diffCoeff1 = 0.25;
-    double scale1 = 0.1;
+    double scale1 = 1;
 
     double diffCoeff2 = 0.25;
-    double scale2 = 0.1;
+    double scale2 = 1;
 
     double roughness1 = 0.2;
     double roughness2 = 0.2;
@@ -100,22 +100,22 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
         }
 
         double dVal = 0.25;
-        shinyBalls.push_back( new Sphere(id,loc1,color1,R/4,1.5,scale1,diffCoeff1,roughness1,kt_1,kr_1,dVal,0,true));
+        shinyBalls.push_back( new Sphere(id,loc1,color1,R/4,1.655,scale1,diffCoeff1,roughness1,kt_1,kr_1,dVal,0,true));
         id++;
 
-        shinyBalls.push_back( new Sphere(id,loc2,color2,R/4,1.5,scale2,diffCoeff2,roughness2,kt_2,kr_2,dVal,0,true));
+        shinyBalls.push_back( new Sphere(id,loc2,color2,R/4,1.655,scale2,diffCoeff2,roughness2,kt_2,kr_2,dVal,0,true));
         id++;
     }
 
-    glm::dvec3 snowColor = glm::dvec3(1,0.98,0.98);
+    glm::dvec3 snowColor = glm::dvec3(1,0.95,0.95);
     // glm::dvec3 snowSpecColor = glm::dvec3(1,1,1);
-    double snowScale = 0.1;
-    double snowdiffCoeff = 0.65;
+    double snowScale = 100;
+    double snowdiffCoeff = 0.8;
 
     double snowRoughness = 1;
     
     double snowKtrans = 0.0;
-    double snowKreflec = 0.09;
+    double snowKreflec = 0.1;
 
 
     
@@ -128,14 +128,20 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
     // cout<<"Sphere 1 id:"<<sphere1->getID()<<" kt:"<<sphere1->getK_Transmission()<<"\n\n";
 
 
-    glm::dvec3 location2 = glm::dvec3(2*R,2.25*R,-2*R);
     double radius2 = R/2;
+    double polarCoordinateAngle2 = M_PI/3;
+    // std::cout<<(radius2*sin(polarCoordinateAngle2) + sqrt(radius1*radius1 - radius2*radius2*cos(polarCoordinateAngle2)*cos(polarCoordinateAngle2)))/radius1<<"\n";
+    glm::dvec3 location2 = location1 + glm::dvec3(0, (radius2*sin(polarCoordinateAngle2) + sqrt(radius1*radius1 - radius2*radius2*cos(polarCoordinateAngle2)*cos(polarCoordinateAngle2))),0);
+    std::cout<<location2[1]/R<<"\n";
     Sphere* sphere2 = new Sphere(id,location2,snowColor,radius2,snowRefractiveIndex,snowScale,snowdiffCoeff,snowRoughness,snowKtrans,snowKreflec,snowDVal,0,true);
     id++;
 
+    double radius3 = R/3;
+    double polarCoordinateAngle3 = M_PI/3;
+    std::cout<<"HI "<<(radius2*sin(polarCoordinateAngle3)+sqrt(radius3*radius3 - radius2*radius2*cos(polarCoordinateAngle3)*cos(polarCoordinateAngle3)))/radius2<<"\n";
+    glm::dvec3 location3 = location2 + glm::dvec3(0,radius2*sin(polarCoordinateAngle3)+sqrt(radius3*radius3 - radius2*radius2*cos(polarCoordinateAngle3)*cos(polarCoordinateAngle3)),0);
+    std::cout<<location3[1]/R<<"\n";
     
-    glm::dvec3 location3 = glm::dvec3(2*R,2.7*R,-2*R);
-    double radius3 = R/4;
     Sphere* sphere3 = new Sphere(id,location3,snowColor,radius3,snowRefractiveIndex,snowScale,snowdiffCoeff,snowRoughness,snowKtrans,snowKreflec,snowDVal,0,true);
     id++;
 
@@ -243,7 +249,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
     
     glm::dvec3 tubeLightColor = glm::dvec3(0.5,0.5,0.5);
     double tubeLightAttenuation = 0.001;
-    double tubeLightAmbientCoefficient = 0.1;
+    double tubeLightAmbientCoefficient = 0.01;
     
     glm::dvec3 cylinderRef1 = glm::dvec3(0.01*R,R*0.5,0);
     Cylinder * cylinder1 = new Cylinder(id,tubeLightColor,tubeLightAttenuation,tubeLightAmbientCoefficient,xyz,cylinderRef1,cylinderRadius,cylinderColor,cylinderHeight,cylinderRefrac,cylinderScale,cylinderDiffCoeff,cylinderRoughness,cylinderK_trans,cylinderK_reflec,cylinderDVal,cylinderType,cylinderVisibility);
@@ -279,15 +285,15 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
 
 
     
-    // for(int i =0;i<(int)(shinyBalls.size());i++)objects.push_back(shinyBalls[i]);
+    for(int i =0;i<(int)(shinyBalls.size());i++)objects.push_back(shinyBalls[i]);
     for(int i = 0;i<(int)(walls.size());i++)objects.push_back(walls[i]);
     for(int i =0;i<(int)snowSpheres.size();i++)objects.push_back(snowSpheres[i]);
     for(int i = 0;i<(int)tubeLights.size();i++)objects.push_back(tubeLights[i]);
 
-    pointSources.push_back(source1);
-    pointSources.push_back(source2);
-    pointSources.push_back(source3);
-    pointSources.push_back(source4);
+    // pointSources.push_back(source1);
+    // pointSources.push_back(source2);
+    // pointSources.push_back(source3);
+    // pointSources.push_back(source4);
 
 
     for(int i =0;i<(int) pointSources.size();i++){

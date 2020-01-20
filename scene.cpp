@@ -48,10 +48,10 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
     double kr_2 = 0.9;
 
     double diffCoeff1 = 0.25;
-    double scale1 = 1;
+    double scale1 = 20;
 
     double diffCoeff2 = 0.25;
-    double scale2 = 1;
+    double scale2 = 20;
 
     double roughness1 = 0.2;
     double roughness2 = 0.2;
@@ -145,11 +145,11 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
     Sphere* sphere3 = new Sphere(id,location3,snowColor,radius3,snowRefractiveIndex,snowScale,snowdiffCoeff,snowRoughness,snowKtrans,snowKreflec,snowDVal,0,true);
     id++;
 
-    bool seeWalls = true;
+    bool seeWalls = false;
     glm::dvec3 sideWallColor = glm::dvec3(1,0,0);
     // glm::dvec3 sideWallSpecColor = glm::dvec3(1,0,0);
     double sideWallScale = 0;
-    double sideWallDiffuseCoeff = 0.1;
+    double sideWallDiffuseCoeff = 0.3;
     double sideWallKtrans = 0;
     double sideWallKreflec = 0.1;
     double sideWallRoughness = 0.8;
@@ -180,7 +180,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
     glm::dvec3 ceilWallColor = glm::dvec3(0,1,0);
     // glm::dvec3 ceilWallSpecColor = glm::dvec3(0,1,0);
     double ceilWallScale = 0;
-    double ceilWallDiffuseCoeff = 0.1;
+    double ceilWallDiffuseCoeff = 0.3;
     double ceilWallKtrans = 0;
     double ceilWallKreflec = 0.1;
     double ceilWallRoughness = 0.8;
@@ -198,7 +198,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
     glm::dvec3 bottomWallColor = glm::dvec3(1,1,1);
     // glm::dvec3 bottomWallSpecColor = glm::dvec3(1,1,1);
     double bottomWallScale = 0;
-    double bottomWallDiffuseCoeff = 0.1;
+    double bottomWallDiffuseCoeff = 0.3;
     double bottomWallKtrans = 0;
     double bottomWallKreflec = 0.1;
     double bottomWallRoughness = 0.8;
@@ -216,7 +216,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
 
     glm::dvec3 farWallColor = glm::dvec3(0,0,0);
     // glm::dvec3 farWallSpecColor = glm::dvec3(1,0,0);
-    double farWallScale = 0.1;
+    double farWallScale = 1;
     double farWallDiffuseCoeff = 0;
     double farWallKtrans = 0;
     double farWallKreflec = 0.1;
@@ -286,7 +286,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
 
     
     for(int i =0;i<(int)(shinyBalls.size());i++)objects.push_back(shinyBalls[i]);
-    // for(int i = 0;i<(int)(walls.size());i++)objects.push_back(walls[i]);
+    for(int i = 0;i<(int)(walls.size());i++)objects.push_back(walls[i]);
     for(int i =0;i<(int)snowSpheres.size();i++)objects.push_back(snowSpheres[i]);
     for(int i = 0;i<(int)tubeLights.size();i++)objects.push_back(tubeLights[i]);
 

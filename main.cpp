@@ -34,7 +34,7 @@ std::vector<PointSource*> lightSources;
 double R = 5;
 double circleRadius = 1.5*R;
 glm::dvec3 centreOfRoom = glm::dvec3(2*R,2*R,-2*R);
-double distanceOfCamera = 4*R;
+double distanceOfCamera = 5*R;
 #define QUIT(m,v)      { fprintf(stderr, "%s:%s\n", m, v); exit(1); }
 static void error_callback(int error, const char* description)
 {
@@ -80,7 +80,8 @@ int main(int argc,char*argv[]){
 
     int WIDTH = std::stoi(argv[1]);//requested WIDTH
     int HEIGHT = std::stoi(argv[2]);//requested HEIGHT
-    
+    int aliasingValue =1;
+    if(argc >=4)aliasingValue = std::stoi(argv[3]);
 
     GLFWwindow * window;
     initializeGlfwGLEW(& window, WIDTH, HEIGHT);
@@ -107,7 +108,7 @@ int main(int argc,char*argv[]){
     camera->fov = M_PI_2;
     createScene(lightSources,pointSources,tubeLights,shinyBalls,snowSpheres,walls,objects,R,width,height);
     
-    int aliasingValue =1;
+    
     std::vector<double>deltaX;
     std::vector<double> deltaY;
 

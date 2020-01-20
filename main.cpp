@@ -112,7 +112,7 @@ int main(int argc,char*argv[]){
     camera->fov = M_PI_2;
     createScene(lightSources,pointSources,tubeLights,shinyBalls,snowSpheres,walls,objects,R,width,height);
     
-    cout<<"Current t value: t="<<toggleValue<<endl;
+    cout<<"Current t value: t="<<toggleValue<<" .You can now rotate the scene"<<endl;
     std::vector<double>deltaX;
     std::vector<double> deltaY;
 
@@ -165,14 +165,18 @@ void keyCallback(GLFWwindow* window,int key, int scancode,int action,int mods){
     }
     else if(key == GLFW_KEY_T && action == 0){
         toggleValue = (toggleValue+1)%3;
-        cout<<"Key t is pressed. t ="<<toggleValue<<endl;
+        cout<<"Key t is pressed. t ="<<toggleValue;
+        if(toggleValue==0)cout<<". You can now rotate the scene\n";
+        if(toggleValue==1)cout<<". You can now rotate the balls\n";
+        if(toggleValue==2)cout<<". You can now rotate the tubelights\n";
+
 
     }
-    else if(key==GLFW_KEY_S && action ==0){
-        for(int i = 0;i<(int)walls.size();i++){
-            walls[i]->setVisibility(!walls[i]->isVisible()) ;
-        }
-    }
+    // else if(key==GLFW_KEY_S && action ==0){
+    //     for(int i = 0;i<(int)walls.size();i++){
+    //         walls[i]->setVisibility(!walls[i]->isVisible()) ;
+    //     }
+    // }
     else if(toggleValue == 0){//rotate entire scene
         if( (key==GLFW_KEY_UP || key==GLFW_KEY_DOWN) && action==0 ){
             double angle = M_PI_4/3;//15 degrees

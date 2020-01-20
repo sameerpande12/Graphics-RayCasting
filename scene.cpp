@@ -145,7 +145,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
     Sphere* sphere3 = new Sphere(id,location3,snowColor,radius3,snowRefractiveIndex,snowScale,snowdiffCoeff,snowRoughness,snowKtrans,snowKreflec,snowDVal,0,true);
     id++;
 
-    bool seeWalls = false;
+    bool seeWalls = true;
     glm::dvec3 sideWallColor = glm::dvec3(1,0,0);
     // glm::dvec3 sideWallSpecColor = glm::dvec3(1,0,0);
     double sideWallScale = 0;
@@ -286,7 +286,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
 
     
     for(int i =0;i<(int)(shinyBalls.size());i++)objects.push_back(shinyBalls[i]);
-    for(int i = 0;i<(int)(walls.size());i++)objects.push_back(walls[i]);
+    // for(int i = 0;i<(int)(walls.size());i++)objects.push_back(walls[i]);
     for(int i =0;i<(int)snowSpheres.size();i++)objects.push_back(snowSpheres[i]);
     for(int i = 0;i<(int)tubeLights.size();i++)objects.push_back(tubeLights[i]);
 

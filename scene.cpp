@@ -44,17 +44,20 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
     double kt_1 = .6;
     double kr_1 = .3;
 
-    double kt_2 = 0;
-    double kr_2 = 0.9;
+    double kt_2 = 0.6;
+    double kr_2 = 0.3;
 
-    double diffCoeff1 = 0.25;
-    double scale1 = 20;
+    double diffCoeff1 = 1;
+    double scale1 = 20;//20 is good value
 
-    double diffCoeff2 = 0.25;
-    double scale2 = 20;
+    double diffCoeff2 = 1;
+    double scale2 = 0;
 
-    double roughness1 = 0.2;
-    double roughness2 = 0.2;
+    double roughness1 = 0.1;
+    double roughness2 = 0.1;
+    glm::dvec3 orange = glm::dvec3(1,165/255,0);
+    glm::dvec3 cyan = glm::dvec3(0,1,1);
+    glm::dvec3 magenta = glm::dvec3(1,0,1);
 
     for(int i =0 ;i<6;i++){
         double angle1 = i * M_PI/3;
@@ -73,29 +76,29 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
         // glm::dvec3 specColor2;
 
         if(id1%3==0){
-           color1 = glm::dvec3(0,1,1);
+           color1 = cyan;
         //    color1 = color1;
         }
         else if(id1%3==1){
-            color1 = glm::dvec3(1,165/255,0);
+            color1 = orange;
             // color1 = color1;
         }
         else{
-            color1 = glm::dvec3(1,0,1);
+            color1 = magenta;
             // color1 = color1;
         }
 
 
         if(id2%3==0){
-           color2 = glm::dvec3(0,1,1);
+           color2 = cyan;
         //    color2 = color2;
         }
         else if(id2%3==1){
-            color2 = glm::dvec3(1,165/255,0);
+            color2 = orange;
             // color2 = color2;
         }
         else{
-            color2 = glm::dvec3(1,0,1);
+            color2 = magenta;
             // color2 = color2;
         }
 
@@ -110,12 +113,12 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
     glm::dvec3 snowColor = glm::dvec3(1,0.95,0.95);
     // glm::dvec3 snowSpecColor = glm::dvec3(1,1,1);
     double snowScale = 100;
-    double snowdiffCoeff = 0.8;
+    double snowdiffCoeff = 0.65;
 
     double snowRoughness = 1;
     
     double snowKtrans = 0.0;
-    double snowKreflec = 0.1;
+    double snowKreflec = 0.9;
 
 
     
@@ -123,7 +126,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
     double snowDVal = 0.65;
     double radius1 = R;
     glm::dvec3 location1 = glm::dvec3(2*R,R,-2*R);
-    Sphere* sphere1 = new Sphere(id,location1,snowColor,radius1,snowRefractiveIndex,snowScale,snowdiffCoeff,snowRoughness,snowKtrans,snowKreflec,snowDVal,0,true);
+    Sphere* sphere1 = new Sphere(id,location1,snowColor,radius1,snowRefractiveIndex,snowScale,snowdiffCoeff,snowRoughness,snowKtrans,.1*snowKreflec,snowDVal,0,true);
     id++;
     // cout<<"Sphere 1 id:"<<sphere1->getID()<<" kt:"<<sphere1->getK_Transmission()<<"\n\n";
 
@@ -131,18 +134,18 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
     double radius2 = R/2;
     double polarCoordinateAngle2 = M_PI/3;
     // std::cout<<(radius2*sin(polarCoordinateAngle2) + sqrt(radius1*radius1 - radius2*radius2*cos(polarCoordinateAngle2)*cos(polarCoordinateAngle2)))/radius1<<"\n";
-    glm::dvec3 location2 = location1 + glm::dvec3(0, (radius2*sin(polarCoordinateAngle2) + sqrt(radius1*radius1 - radius2*radius2*cos(polarCoordinateAngle2)*cos(polarCoordinateAngle2))),0);
-    std::cout<<location2[1]/R<<"\n";
-    Sphere* sphere2 = new Sphere(id,location2,snowColor,radius2,snowRefractiveIndex,snowScale,snowdiffCoeff,snowRoughness,snowKtrans,snowKreflec,snowDVal,0,true);
+    glm::dvec3 location2 = location1 + glm::dvec3(0, -0.1*R+(radius2*sin(polarCoordinateAngle2) + sqrt(radius1*radius1 - radius2*radius2*cos(polarCoordinateAngle2)*cos(polarCoordinateAngle2))),0);
+    // std::cout<<location2[1]/R<<"\n";
+    Sphere* sphere2 = new Sphere(id,location2,snowColor,radius2,snowRefractiveIndex,snowScale,snowdiffCoeff,snowRoughness,snowKtrans,.1*snowKreflec,snowDVal,0,true);
     id++;
 
     double radius3 = R/3;
     double polarCoordinateAngle3 = M_PI/3;
-    std::cout<<"HI "<<(radius2*sin(polarCoordinateAngle3)+sqrt(radius3*radius3 - radius2*radius2*cos(polarCoordinateAngle3)*cos(polarCoordinateAngle3)))/radius2<<"\n";
-    glm::dvec3 location3 = location2 + glm::dvec3(0,radius2*sin(polarCoordinateAngle3)+sqrt(radius3*radius3 - radius2*radius2*cos(polarCoordinateAngle3)*cos(polarCoordinateAngle3)),0);
-    std::cout<<location3[1]/R<<"\n";
+    // std::cout<<"HI "<<(radius2*sin(polarCoordinateAngle3)+sqrt(radius3*radius3 - radius2*radius2*cos(polarCoordinateAngle3)*cos(polarCoordinateAngle3)))/radius2<<"\n";
+    glm::dvec3 location3 = location2 + glm::dvec3(0,-0.1*radius3+radius2*sin(polarCoordinateAngle3)+sqrt(radius3*radius3 - radius2*radius2*cos(polarCoordinateAngle3)*cos(polarCoordinateAngle3)),0);
+    // std::cout<<location3[1]/R<<"\n";
     
-    Sphere* sphere3 = new Sphere(id,location3,snowColor,radius3,snowRefractiveIndex,snowScale,snowdiffCoeff,snowRoughness,snowKtrans,snowKreflec,snowDVal,0,true);
+    Sphere* sphere3 = new Sphere(id,location3,snowColor,radius3,snowRefractiveIndex,snowScale,snowdiffCoeff,snowRoughness,snowKtrans,.1*snowKreflec,snowDVal,0,true);
     id++;
 
     bool seeWalls = false;

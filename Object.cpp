@@ -90,21 +90,11 @@ glm::dvec3 Object::getLocalIllumination(std::vector<PointSource*> &sources,glm::
         
         double rs = D*G*F/(4/**ldotn*/*ndotv);//delibarately removing ndotl since we won't multiply it here then
         if(rs<0)rs=0;    
-        // if(getType()==0)    std::cout<<rs<<" "<< ldotn*diffusionCoefficient <<std::endl;
+        
         cSpecEfffective = cSpecEfffective + rs*effColor;
 
-        /*
-        
-
-        
-        double ndoth = glm::dot(normal,h);
-        if(ndoth<0)ndoth = 0;
-        double ndoth_exp = pow(ndoth,shininess);
-        double distance = glm::length(contactPoint - sources[i]->position);
-        cSpecEfffective = cSpecEfffective + ndoth_exp * specularColor * sources[i]->color*(1/(1+sources[i]->attenuation *distance*distance ));
-        */
     }
-
+    
     // cLocal = scalingFactor* cSpecEfffective + dVal* diffusionCoefficient* cDifEffective + cAmbient;
     cLocal = sVal* cSpecEfffective *scalingFactor + (dVal* diffusionCoefficient* cDifEffective) + cAmbient;
                                         // d * kd * (n.l) *

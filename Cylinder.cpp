@@ -54,7 +54,7 @@ glm::dvec3 Cylinder::getLocalIllumination(std::vector<PointSource*> &sources,glm
     for(int i =0;i<(int)pointSources.size();i++){
         localIllumination += pointSources[i]->color;
     }
-    localIllumination = localIllumination * 0.5;
+    
     
     return localIllumination;
 

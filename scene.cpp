@@ -148,14 +148,14 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
     Sphere* sphere3 = new Sphere(id,location3,snowColor,radius3,snowRefractiveIndex,snowScale,snowdiffCoeff,snowRoughness,snowKtrans,.1*snowKreflec,snowDVal,0,true);
     id++;
 
-    bool seeWalls = true;
+    bool seeWalls = false;
     glm::dvec3 sideWallColor = glm::dvec3(1,0,0);
     // glm::dvec3 sideWallSpecColor = glm::dvec3(1,0,0);
     double sideWallScale = 0;
     double sideWallDiffuseCoeff = 0.3;
     double sideWallKtrans = 0;
-    double sideWallKreflec = 0.1;
-    double sideWallRoughness = 0.8;
+    double sideWallKreflec = 0.01;
+    double sideWallRoughness = 1;
     double sideWallDVal = 1;
     std::vector<glm::dvec3> cornersLeft;
     cornersLeft.push_back(glm::dvec3(0,0,0));
@@ -183,10 +183,10 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
     glm::dvec3 ceilWallColor = glm::dvec3(0,1,0);
     // glm::dvec3 ceilWallSpecColor = glm::dvec3(0,1,0);
     double ceilWallScale = 0;
-    double ceilWallDiffuseCoeff = 0.3;
+    double ceilWallDiffuseCoeff = 0.1;
     double ceilWallKtrans = 0;
-    double ceilWallKreflec = 0.1;
-    double ceilWallRoughness = 0.8;
+    double ceilWallKreflec = 0.01;
+    double ceilWallRoughness = 1;
     double ceilWallDVal = 1;
 
     std::vector<glm::dvec3> cornersCeil;
@@ -214,7 +214,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
     cornersBottom.push_back(glm::dvec3(4*R,0,-4*R));
     cornersBottom.push_back(glm::dvec3(0,0,-4*R));
 
-    Wall* bottomWall = new Wall(id,cornersBottom,cornersBottom[0],bottomWallColor,1.1,bottomWallScale,bottomWallDiffuseCoeff,bottomWallRoughness,bottomWallKtrans,bottomWallKreflec,bottomWallDVal,1,seeWalls);
+    Wall* bottomWall = new Wall(id,cornersBottom,cornersBottom[0],bottomWallColor,1.1,bottomWallScale,bottomWallDiffuseCoeff,bottomWallRoughness,bottomWallKtrans,bottomWallKreflec,bottomWallDVal,1,true);
     id++;
 
     glm::dvec3 farWallColor = glm::dvec3(0,0,0);
@@ -250,26 +250,26 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
     double cylinderDVal = 1;
 
     
-    glm::dvec3 tubeLightColor = glm::dvec3(0.5,0.5,0.5);
+    glm::dvec3 tubeLightColor = glm::dvec3(0.4,0.4,0.4);
     double tubeLightAttenuation = 0;
     double tubeLightAmbientCoefficient = 0.01;
     
-    glm::dvec3 cylinderRef1 = glm::dvec3(0.01*R,R*0.5,0);
+    glm::dvec3 cylinderRef1 = glm::dvec3(cylinderRadius+0.01*R,R*0.5,0);
     Cylinder * cylinder1 = new Cylinder(id,tubeLightColor,tubeLightAttenuation,tubeLightAmbientCoefficient,xyz,cylinderRef1,cylinderRadius,cylinderColor,cylinderHeight,cylinderRefrac,cylinderScale,cylinderDiffCoeff,cylinderRoughness,cylinderK_trans,cylinderK_reflec,cylinderDVal,cylinderType,cylinderVisibility);
     id++;
     
 
-    glm::dvec3 cylinderRef2 = glm::dvec3(3.99*R,R*0.5,0);
+    glm::dvec3 cylinderRef2 = glm::dvec3(3.99*R-cylinderRadius,R*0.5,0);
     Cylinder * cylinder2 = new Cylinder(id,tubeLightColor,tubeLightAttenuation,tubeLightAmbientCoefficient,xyz,cylinderRef2,cylinderRadius,cylinderColor,cylinderHeight,cylinderRefrac,cylinderScale,cylinderDiffCoeff,cylinderRoughness,cylinderK_trans,cylinderK_reflec,cylinderDVal,cylinderType,cylinderVisibility);
     id++;
 
 
-    glm::dvec3 cylinderRef3 = glm::dvec3(3.99*R,R*0.5,-3.99*R);
+    glm::dvec3 cylinderRef3 = glm::dvec3(3.99*R-cylinderRadius,R*0.5,-3.99*R+cylinderRadius);
     Cylinder * cylinder3 = new Cylinder(id,tubeLightColor,tubeLightAttenuation,tubeLightAmbientCoefficient,xyz,cylinderRef3,cylinderRadius,cylinderColor,cylinderHeight,cylinderRefrac,cylinderScale,cylinderDiffCoeff,cylinderRoughness,cylinderK_trans,cylinderK_reflec,cylinderDVal,cylinderType,cylinderVisibility);
     id++;
 
 
-    glm::dvec3 cylinderRef4 = glm::dvec3(0,R*0.5,-3.99*R);
+    glm::dvec3 cylinderRef4 = glm::dvec3(0+cylinderRadius,R*0.5,-3.99*R+cylinderRadius);
     Cylinder * cylinder4 = new Cylinder(id,tubeLightColor,tubeLightAttenuation,tubeLightAmbientCoefficient,xyz,cylinderRef4,cylinderRadius,cylinderColor,cylinderHeight,cylinderRefrac,cylinderScale,cylinderDiffCoeff,cylinderRoughness,cylinderK_trans,cylinderK_reflec,cylinderDVal,cylinderType,cylinderVisibility);
     id++;
                             

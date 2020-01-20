@@ -10,35 +10,35 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
     
 
 
-    glm::dvec3 lightSourceLocation1 = glm::dvec3(0.01*R,3.99*R,-0.01*R);
-    glm::dvec3 lightSourceIntensity1 = glm::dvec3(1,1,1);
-    double attenuation1 = 0.001;
-    double ambientCoefficient1 = 0.1;
-    PointSource* source1 = new PointSource(lightSourceLocation1,lightSourceIntensity1,attenuation1,ambientCoefficient1);
+    // glm::dvec3 lightSourceLocation1 = glm::dvec3(0.01*R,3.99*R,-0.01*R);
+    // glm::dvec3 lightSourceIntensity1 = glm::dvec3(1,1,1);
+    // double attenuation1 = 0.001;
+    // double ambientCoefficient1 = 0.1;
+    // PointSource* source1 = new PointSource(lightSourceLocation1,lightSourceIntensity1,attenuation1,ambientCoefficient1);
 
 
 
 
-    glm::dvec3 lightSourceLocation2 = glm::dvec3(0.01*R,3.99*R,-3.99*R);
-    glm::dvec3 lightSourceIntensity2 = glm::dvec3(1,1,1);
-    double attenuation2 = 0.01;
-    double ambientCoefficient2 = 0.1;
-    PointSource* source2 = new PointSource(lightSourceLocation2,lightSourceIntensity2,attenuation2,ambientCoefficient2);
+    // glm::dvec3 lightSourceLocation2 = glm::dvec3(0.01*R,3.99*R,-3.99*R);
+    // glm::dvec3 lightSourceIntensity2 = glm::dvec3(1,1,1);
+    // double attenuation2 = 0.01;
+    // double ambientCoefficient2 = 0.1;
+    // PointSource* source2 = new PointSource(lightSourceLocation2,lightSourceIntensity2,attenuation2,ambientCoefficient2);
     
     
 
-    glm::dvec3 lightSourceLocation3 = glm::dvec3(3.99*R,3.99*R,-0.01*R);
-    glm::dvec3 lightSourceIntensity3 = glm::dvec3(1,1,1);
-    double attenuation3 = 0.01;
-    double ambientCoefficient3 = 0.1;
-    PointSource* source3 = new PointSource(lightSourceLocation3,lightSourceIntensity3,attenuation3,ambientCoefficient3);
+    // glm::dvec3 lightSourceLocation3 = glm::dvec3(3.99*R,3.99*R,-0.01*R);
+    // glm::dvec3 lightSourceIntensity3 = glm::dvec3(1,1,1);
+    // double attenuation3 = 0.01;
+    // double ambientCoefficient3 = 0.1;
+    // PointSource* source3 = new PointSource(lightSourceLocation3,lightSourceIntensity3,attenuation3,ambientCoefficient3);
 
 
-    glm::dvec3 lightSourceLocation4 = glm::dvec3(3.99*R,3.99*R,-3.99*R);
-    glm::dvec3 lightSourceIntensity4 = glm::dvec3(1,1,1);
-    double attenuation4 = 0.01;
-    double ambientCoefficient4 = 0.1;
-    PointSource* source4 = new PointSource(lightSourceLocation4,lightSourceIntensity4,attenuation4,ambientCoefficient4);
+    // glm::dvec3 lightSourceLocation4 = glm::dvec3(3.99*R,3.99*R,-3.99*R);
+    // glm::dvec3 lightSourceIntensity4 = glm::dvec3(1,1,1);
+    // double attenuation4 = 0.01;
+    // double ambientCoefficient4 = 0.1;
+    // PointSource* source4 = new PointSource(lightSourceLocation4,lightSourceIntensity4,attenuation4,ambientCoefficient4);
     
     
     double kt_1 = .6;
@@ -148,7 +148,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
     Sphere* sphere3 = new Sphere(id,location3,snowColor,radius3,snowRefractiveIndex,snowScale,snowdiffCoeff,snowRoughness,snowKtrans,.1*snowKreflec,snowDVal,0,true);
     id++;
 
-    bool seeWalls = false;
+    bool seeWalls = true;
     glm::dvec3 sideWallColor = glm::dvec3(1,0,0);
     // glm::dvec3 sideWallSpecColor = glm::dvec3(1,0,0);
     double sideWallScale = 0;
@@ -251,7 +251,7 @@ void createScene(std::vector<PointSource*>&lightSources,std::vector<PointSource*
 
     
     glm::dvec3 tubeLightColor = glm::dvec3(0.5,0.5,0.5);
-    double tubeLightAttenuation = 0.001;
+    double tubeLightAttenuation = 0;
     double tubeLightAmbientCoefficient = 0.01;
     
     glm::dvec3 cylinderRef1 = glm::dvec3(0.01*R,R*0.5,0);

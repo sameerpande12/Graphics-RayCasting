@@ -77,10 +77,14 @@ void initializeGlfwGLEW(GLFWwindow ** window,int WIDTH,int HEIGHT){
 }
 
 int main(int argc,char*argv[]){
-
-    int WIDTH = std::stoi(argv[1]);//requested WIDTH
-    int HEIGHT = std::stoi(argv[2]);//requested HEIGHT
-    int aliasingValue =1;
+    int WIDTH,HEIGHT,aliasingValue;
+    WIDTH = 512;
+    HEIGHT = 512;
+    aliasingValue = 1;
+    if(argc>=3){
+     WIDTH = std::stoi(argv[1]);//requested WIDTH
+     HEIGHT = std::stoi(argv[2]);//requested HEIGHT
+    }
     if(argc >=4)aliasingValue = std::stoi(argv[3]);
 
     GLFWwindow * window;
@@ -118,7 +122,7 @@ int main(int argc,char*argv[]){
     }
     while(!glfwWindowShouldClose(window)){   
         glfwPollEvents();
-        double start = omp_get_wtime();
+        // double start = omp_get_wtime();
         #pragma omp parallel for
         for(int iter = 0;iter<height*width;iter++){
                 int i,j;
@@ -142,7 +146,7 @@ int main(int argc,char*argv[]){
                 
         
         }
-        double end = omp_get_wtime();
+        // double end = omp_get_wtime();
         // cout<<end-start<<endl;
         glClearColor(0,0,0,0);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -156,13 +160,18 @@ int main(int argc,char*argv[]){
 }
 
 void keyCallback(GLFWwindow* window,int key, int scancode,int action,int mods){
-    if(key==GLFW_KEY_ESCAPE && action == GLFW_PRESS){
+    if(key==GLFW_KEY_ESCAPE && action == 0){
         glfwSetWindowShouldClose(window,true);
     }
-    else if(key == GLFW_KEY_T && action == GLFW_PRESS){
+    else if(key == GLFW_KEY_T && action == 0){
         toggleValue = (toggleValue+1)%3;
         cout<<"Key t is pressed. t ="<<toggleValue<<endl;
 
+    }
+    else if(key==GLFW_KEY_S && action ==0){
+        for(int i = 0;i<(int)walls.size();i++){
+            walls[i]->setVisibility(!walls[i]->isVisible()) ;
+        }
     }
     else if(toggleValue == 0){//rotate entire scene
         if( (key==GLFW_KEY_UP || key==GLFW_KEY_DOWN) && action==0 ){

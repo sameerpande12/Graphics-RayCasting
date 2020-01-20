@@ -92,7 +92,7 @@ std::vector<bool> isShadow(glm::dvec3 point, std::vector<PointSource*> &sources,
 
         double tMIN = INF;
         for(int i = 0;i<(int)(objects.size());i++){
-            if(objects[i]->getType()==2)continue;//ignore the cylinders while consider shadow
+            if(objects[i]->getType()==2 || objects[i]->getType()==1)continue;//ignore the cylinders while consider shadow
                 std::tuple <double,glm::dvec3,glm::dvec3> intersection = objects[i]->getClosestIntersection(shadowRay);
                 if(std::get<0>(intersection) >= 0 && std::get<0>(intersection) < tMIN){
                 tMIN = std::get<0>(intersection);            

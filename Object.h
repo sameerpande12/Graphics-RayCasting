@@ -30,6 +30,7 @@ class Object{
 
     public:
         bool isVisible();
+        void setVisibility(bool visibility);
         Object(int id,glm::dvec3 reference,glm::dvec3 color,double refrac,double scale,double diffCoeff,double roughVal,double k_trans,double k_reflec,double d,int typ,bool isVisible);
         void setId(int id);
         void setReference(glm::dvec3 ref);

@@ -30,7 +30,9 @@ double Object::getK_Transmission(){
 double Object::getK_Reflection(){
         return k_reflection;
 };
-
+void Object::setVisibility(bool visi){
+    visible = visi;
+}
 double Object::getS(){return sVal;}
 double Object::getD(){return dVal;}
 double Object::getFresnelConstant(){return fresnelConstant;}
@@ -63,7 +65,9 @@ glm::dvec3 Object::getLocalIllumination(std::vector<PointSource*> &sources,glm::
     for(int i = 0;i<(int)sources.size();i++){
         cAmbient = cAmbient +  sources[i]->ambientCoefficient * color * (sources[i]->color);//sources[i]->color represents the intensity of light source
 
-        
+        if(dVal==0){
+            
+        }
         glm::dvec3 l = glm::normalize(sources[i]->position-contactPoint);
         glm::dvec3 h = glm::normalize(v + l);//assume normal is normalized
         double ldotn = glm::dot(l,normal);
@@ -72,12 +76,14 @@ glm::dvec3 Object::getLocalIllumination(std::vector<PointSource*> &sources,glm::
         double distance = glm::length(contactPoint - sources[i]->position);
         glm::dvec3 effColor = color *sources[i]->color/(1 + distance*distance*sources[i]->attenuation);
         cDifEffective = cDifEffective + ldotn *effColor;
+
+        if(sVal==0){
+           continue;
+        } 
         
         double ndotv = glm::dot(normal,v);
         double hdotv = glm::dot(v,h);
         double hdotn = glm::dot(normal,h);
-
-        
 
         double F = fresnelConstant + (1-fresnelConstant)*pow(1- hdotv,5);
         double G = getG(1, 2*hdotn*ndotv/hdotv,2*hdotn*ldotn/hdotv); 

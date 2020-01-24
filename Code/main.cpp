@@ -120,8 +120,9 @@ int main(int argc,char*argv[]){
         deltaX.push_back(drand48()*0.5);
         deltaY.push_back(drand48()*0.5);
     }
+    bool first = true;
     while(!glfwWindowShouldClose(window)){   
-        glfwPollEvents();
+        if(first){glfwPollEvents();first=false;}
         // double start = omp_get_wtime();
         #pragma omp parallel for
         for(int iter = 0;iter<height*width;iter++){
@@ -152,7 +153,7 @@ int main(int argc,char*argv[]){
         glClear(GL_COLOR_BUFFER_BIT);
         opengl.draw(image,width,height,0,0);
         glfwSwapBuffers(window);
-        glfwPollEvents();
+        glfwWaitEvents();
         
     }    
     

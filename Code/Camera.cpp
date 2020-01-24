@@ -1,5 +1,5 @@
 #include "Camera.h"
-
+/*Inspired after reading www.scratchapixel.com*/
 Camera::Camera(glm::dvec3 loc, Axes ax, int w, int h, double FOV){
     location = loc;
     axes = ax;
